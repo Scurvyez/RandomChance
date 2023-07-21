@@ -25,7 +25,7 @@ namespace RandomChance
         public static void Prefix(ref RecipeDef recipeDef, Pawn worker, IBillGiver billGiver)
         {
             int pawnsAvgSkillLevel = (int)worker.skills.AverageOfRelevantSkillsFor(billGiver.GetWorkgiver().workType);
-            float betterQualityMealChance = 0.05f; // 5%
+            float betterQualityMealChance = 0.5f; // 5%
 
             if (Rand.Chance(betterQualityMealChance))
             {

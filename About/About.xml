@@ -43,7 +43,7 @@ This mod gives random chances to all sorts of things including but not limited t
         - [DONE] cooking, pawns with high level can get a bonus meal or one of the next quality up
         - [DONE] cooking, pawns with low level can accidentally set the stove (and a surrounding tile or two) on fire
         - hauling, pawn lifted with their back, not their knees (hook into Verse.Pawn_CarryTracker.TryStartCarry)
-        - butchering, pawn with poor skill gets blood and filth everywhere
+        - [DONE] butchering, pawn with poor skill gets blood and filth everywhere
         - cleaning, pawn accidentally spreads the filth instead
         - "horse shoe pins could probably be a bit more dangerous too"
             - dart boards too

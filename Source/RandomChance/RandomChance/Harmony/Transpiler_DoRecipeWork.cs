@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -49,9 +50,11 @@ namespace RandomChance
             bool startFire = false;
             bool giveInjury = false;
 
-            float failureChance = 0.05f; // 5%
-            float messChance = 0.5f; // 9%
+            float failureChance = 0.8f; // 5%
+            float messChance = 0.9f; // 9%
             int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(billGiver.GetWorkgiver().workType);
+
+            building = curJob.GetTarget(TargetIndex.A).Thing as Building_WorkTable;
 
             SimpleCurve chanceCurve = new()
             {
@@ -102,10 +105,7 @@ namespace RandomChance
                     {
                         if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
                         {
-                            IntVec3 buildingPos = building.Position;
-                            Map map = building.Map;
-                            IntVec3 adjacentCell = buildingPos + GenAdj.CardinalDirections.RandomElement();
-                            FilthMaker.TryMakeFilth(adjacentCell, map, ThingDefOf.Filth_Blood);
+                            CauseMessHandler(actor, curJob, building);
                         }
                     }
                 }
@@ -124,7 +124,7 @@ namespace RandomChance
                 ingredients.Destroy();
 
                 FireUtility.TryStartFireIn(buildingPos, map, 7.5f);
-                actor.stances.stunner.StunFor(240, actor, false, false);
+                actor.stances.stunner.StunFor(60, actor, false, false);
             }
         }
 
@@ -164,6 +164,37 @@ namespace RandomChance
 
                 IntVec3 adjacentCell = buildingPos + GenAdj.CardinalDirections.RandomElement();
                 FilthMaker.TryMakeFilth(adjacentCell, map, ThingDefOf.Filth_Blood);
+            }
+        }
+
+        private static void CauseMessHandler(Pawn actor, Job curJob, Building_WorkTable building)
+        {
+            if (curJob.GetTarget(TargetIndex.B).Thing is Corpse animalCorpse)
+            {
+                IntVec3 pawnPos = actor.Position;
+                Map map = building.Map;
+                int radius = 2;
+                IntVec3 centerCell = pawnPos + GenAdj.CardinalDirections.RandomElement();
+                Pawn animalPawn = animalCorpse.InnerPawn;
+                //Log.Message("[<color=#ff6666>Random Chance</color>] <color=#ff66b3>Corspse blood</color> " + animalPawn.def.race.BloodDef);
+
+                Region region = centerCell.GetRegion(map);
+                if (region != null)
+                {
+                    foreach (IntVec3 cell in GenRadial.RadialCellsAround(centerCell, radius, true))
+                    {
+                        if (cell.GetRegion(map) == region)
+                        {
+                            FilthMaker.TryMakeFilth(cell, map, animalPawn.def.race.BloodDef);
+                        }
+                    }
+                }
+                else
+                {
+                    FilthMaker.TryMakeFilth(centerCell, map, animalPawn.def.race.BloodDef);
+                }
+
+                Messages.Message("RC_HorriblyUncleanKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
             }
         }
     }

@@ -6,7 +6,8 @@
     <RC_RandomStoneCuttingProduct>Due to {0_possessive} unwavering determination, relentless pursuit of perfection, and an uncanny stroke of luck, {0} has unearthed a hidden treasure while chiseling away at a {3}. The discovery? {1} precious {2}.</RC_RandomStoneCuttingProduct>
     <RC_BonusMealProduct>Harnessing {0_possessive} culinary prowess, a fiery passion for the trade, and a sprinkle of serendipity, {0} has skillfully transformed every last morsel of sustenance into a grand total of {1} {2}.</RC_BonusMealProduct>
     <RC_FireInKitchen>Oh no! {0}'s otherworldly poor cooking skills have led to a fire in the kitchen! More practice at {0_possessive} job may lead to less injury in the future.</RC_FireInKitchen>
-    <RC_InjuryInKitchen>Ouch! {0} has injured themselves in the kitchen!</RC_InjuryInKitchen>
+    <RC_InjuryInKitchen>Ouch! {0} has injured themselves in the kitchen! Practice makes perfect though. Right?</RC_InjuryInKitchen>
     <RC_BetterMealProduced>Woah! {0}'s passion for her job in the kitchen has led to a glorious culinary upgrade!</RC_BetterMealProduced>
+    <RC_HorriblyUncleanKitchen>Sharpen your knife already! {0_possessive} has made an absolute mess while butchering an animal. Perhaps more time practicing the craft will prevent future hiccups of the sort.</RC_HorriblyUncleanKitchen>
 
 </LanguageData>
