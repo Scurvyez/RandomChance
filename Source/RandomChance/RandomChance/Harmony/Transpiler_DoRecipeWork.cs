@@ -49,6 +49,7 @@ namespace RandomChance
         {
             bool startFire = false;
             bool giveInjury = false;
+            bool causeMess = false;
 
             float failureChance = 0.8f; // 5%
             float messChance = 0.9f; // 9%
@@ -103,7 +104,8 @@ namespace RandomChance
                 {
                     if (Rand.Chance(messChance))
                     {
-                        if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                        causeMess = true;
+                        if (causeMess == true && Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
                         {
                             CauseMessHandler(actor, curJob, building);
                         }
