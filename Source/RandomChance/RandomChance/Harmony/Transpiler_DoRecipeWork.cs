@@ -52,7 +52,7 @@ namespace RandomChance
             bool causeMess = false;
 
             float failureChance = 0.8f; // 5%
-            float messChance = 0.9f; // 9%
+            float messChance = 0.8f; // 9%
             int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(billGiver.GetWorkgiver().workType);
 
             building = curJob.GetTarget(TargetIndex.A).Thing as Building_WorkTable;
@@ -105,7 +105,7 @@ namespace RandomChance
                     if (Rand.Chance(messChance))
                     {
                         causeMess = true;
-                        if (causeMess == true && Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                        if (causeMess && Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
                         {
                             CauseMessHandler(actor, curJob, building);
                         }
@@ -126,7 +126,9 @@ namespace RandomChance
                 ingredients.Destroy();
 
                 FireUtility.TryStartFireIn(buildingPos, map, 7.5f);
-                actor.stances.stunner.StunFor(60, actor, false, false);
+                MoteMaker.MakeColonistActionOverlay(actor, ThingDefOf.Mote_ColonistFleeing);
+                Find.TickManager.slower.SignalForceNormalSpeedShort();
+                actor.stances.stunner.StunFor(120, actor, false, false);
             }
         }
 

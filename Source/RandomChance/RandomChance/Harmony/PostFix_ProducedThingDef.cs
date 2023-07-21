@@ -57,7 +57,7 @@ namespace RandomChance
                                                 { 8, Rand.RangeInclusive(0, 1) },
                                                 { 14, Rand.RangeInclusive(0, 2) },
                                                 { 18, Rand.RangeInclusive(0, 3) },
-                                                { 20, Rand.RangeInclusive(0, 5) }
+                                                { 20, Rand.RangeInclusive(0, 4) }
                                             };
 
                                             int bonusSpawnCount = (int)bonusSpawnCurve.Evaluate(pawnsAvgSkillLevel);
