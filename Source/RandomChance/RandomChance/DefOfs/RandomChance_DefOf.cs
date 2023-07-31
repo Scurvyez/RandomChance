@@ -24,6 +24,7 @@ namespace RandomChance
         public static RecipeDef CookMealLavishBulk_Veg;
         public static RecipeDef CookMealLavishBulk_Meat;
         public static RecipeDef ButcherCorpseFlesh;
+        public static RecipeDef CremateCorpse;
 
         static RandomChance_DefOf()
         {

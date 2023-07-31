@@ -10,7 +10,6 @@ namespace RandomChance
     {
         static Main()
         {
-            //Harmony.DEBUG = true;
             var harmony = new Harmony("com.randomchance");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }

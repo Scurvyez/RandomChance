@@ -7,7 +7,27 @@
     <RC_BonusMealProduct>Harnessing {0_possessive} culinary prowess, a fiery passion for the trade, and a sprinkle of serendipity, {0} has skillfully transformed every last morsel of sustenance into a grand total of {1} {2}.</RC_BonusMealProduct>
     <RC_FireInKitchen>Oh no! {0}'s otherworldly poor cooking skills have led to a fire in the kitchen! More practice at {0_possessive} job may lead to less injury in the future.</RC_FireInKitchen>
     <RC_InjuryInKitchen>Ouch! {0} has injured {0_possessive}self in the kitchen! Practice makes perfect though. Right?</RC_InjuryInKitchen>
+    <RC_InjuryWhileCremating>Ouch! {0} has burned {0_possessive}self while attempting to shove a body into the crematorium. Perhaps, {0} should be more careful?</RC_InjuryWhileCremating>
     <RC_BetterMealProduced>Woah! {0}'s passion for her job in the kitchen has led to a glorious culinary upgrade!</RC_BetterMealProduced>
     <RC_HorriblyUncleanKitchen>Sharpen your knife already! {0} has made an absolute mess while butchering an animal. Perhaps more time practicing the craft will prevent future hiccups of the sort.</RC_HorriblyUncleanKitchen>
+
+    <!--==================== Settings ====================-->
+
+    <!-- Cooking -->
+    <RC_ModName>Random Chance</RC_ModName>
+    <RC_CookingFailureChance>Failure chance: {0}</RC_CookingFailureChance>
+    <RC_CookingFailureChanceDesc>Adjusting this slider alters the chance of a pawn utterly failing to cook a meal at a stove. (Percentage chance before pawns' average relevant skills are accounted for.)</RC_CookingFailureChanceDesc>
+    <RC_FailedCookingFireSize>Failure fire size: {0}</RC_FailedCookingFireSize>
+    <RC_FailedCookingFireSizeDesc>Adjusting this slider alters the size of a fire if a pawn fails while cooking and sets the kitchen ablaze.</RC_FailedCookingFireSizeDesc>
+    <RC_CookingBetterMealChance>Better meal chance: {0}</RC_CookingBetterMealChance>
+    <RC_CookingBetterMealChanceDesc>Adjusting this slider alters the chance for a pawn to cook a meal of a higher quality. (Percentage chance before pawns' average relevant skills are accounted for.)</RC_CookingBetterMealChanceDesc>
+
+    <!-- Butchering -->
+    <RC_ButcheringFailureChance>Failure chance: {0}</RC_ButcheringFailureChance>
+    <RC_ButcheringFailureChanceDesc>Adjusting this slider alters the chance of a pawn causing an absolute mess while butchering a carcass. (Percentage chance before pawns' average relevant skills are accounted for.)</RC_ButcheringFailureChanceDesc>
+
+    <!-- Cremating -->
+    <RC_CrematingInjuryChance>Injury chance: {0}</RC_CrematingInjuryChance>
+    <RC_CrematingInjuryChanceDesc>Adjusting this slider alters the chance of a pawn injuring themselves while using a crematorium. (Percentage chance before pawns' average relevant skills are accounted for.)</RC_CrematingInjuryChanceDesc>
 
 </LanguageData>

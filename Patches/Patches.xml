@@ -8,7 +8,7 @@
             <xpath>Defs/RecipeDef[defName="Make_StoneBlocksAny" or defName="Make_StoneBlocksSandstone" or defName="Make_StoneBlocksGranite" or defName="Make_StoneBlocksLimestone" or defName="Make_StoneBlocksSlate" or defName="Make_StoneBlocksMarble"]</xpath>
             <value>
                 <li Class="RandomChance.RandomProductExtension">
-                    <randomProductChance>0.80</randomProductChance> <!-- 4% chance -->
+                    <randomProductChance>0.05</randomProductChance> <!-- 5% chance -->
                     <randomProducts>
                         <!-- Vanilla + DLCs -->
                         <!-- [that item's weight / the sum of weights] -->
@@ -118,7 +118,7 @@
             <xpath>Defs/RecipeDef[defName="ButcherCorpseMechanoid"]</xpath>
             <value>
                 <li Class="RandomChance.RandomProductExtension">
-                    <randomProductChance>0.80</randomProductChance> <!-- 4% chance -->
+                    <randomProductChance>0.05</randomProductChance> <!-- 5% chance -->
                     <randomProducts>
                         <!-- Vanilla + DLCs -->
                         <!-- [that item's weight / the sum of weights] -->
@@ -145,7 +145,7 @@
             <xpath>Defs/RecipeDef[defName="SmashCorpseMechanoid"]</xpath>
             <value>
                 <li Class="RandomChance.RandomProductExtension">
-                    <randomProductChance>0.80</randomProductChance> <!-- 4% chance -->
+                    <randomProductChance>0.05</randomProductChance> <!-- 5% chance -->
                     <randomProducts>
                         <!-- Vanilla + DLCs -->
                         <!-- [that item's weight / the sum of weights] -->
@@ -170,7 +170,7 @@
             <xpath>Defs/RecipeDef[defName="CookMealSimple" or defName="CookMealFine" or defName="CookMealFine_Veg" or defName="CookMealFine_Meat" or defName="CookMealLavish" or defName="CookMealLavish_Veg" or defName="CookMealLavish_Meat" or defName="CookMealSurvival" or defName="CookMealSimpleBulk" or defName="CookMealFineBulk" or defName="CookMealFineBulk_Veg" or defName="CookMealFineBulk_Meat" or defName="CookMealLavishBulk" or defName="CookMealLavishBulk_Veg" or defName="CookMealLavishBulk_Meat" or defName="CookMealSurvivalBulk" or defName="Make_BabyFood" or defName="Make_BabyFoodBulk"]</xpath>
             <value>
                 <li Class="RandomChance.RandomProductExtension">
-                    <randomProductChance>0.80</randomProductChance> <!-- 3% chance -->
+                    <randomProductChance>0.05</randomProductChance> <!-- 5% chance -->
                     <randomProducts>
                         <!-- Vanilla + DLCs -->
                         <MealSimple Weight="1">1~1</MealSimple>
