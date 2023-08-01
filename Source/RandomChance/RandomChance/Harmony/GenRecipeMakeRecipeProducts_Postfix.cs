@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace RandomChance
 {
@@ -24,7 +25,7 @@ namespace RandomChance
 
                 foreach (Thing product in __result)
                 {
-                    if (rpEx != null && rpEx.randomProducts != null && rpEx.randomProductChance.HasValue && rpEx.randomProductChance.Value > 0f && Rand.Value < rpEx.randomProductChance.Value)
+                    if (rpEx != null && rpEx.randomProducts != null && rpEx.randomProductChance.HasValue && rpEx.randomProductChance.Value > 0f && Rand.Chance(rpEx.randomProductChance.Value))
                     {
                         float totalWeight = 0f;
                         foreach (RandomProductData productData in rpEx.randomProducts)
@@ -53,14 +54,14 @@ namespace RandomChance
                                                 product.def = rpEx.randomProducts[i].randomProduct;
 
                                                 SimpleCurve bonusSpawnCurve = new()
-                                            {
-                                                { 0, 0 },
-                                                { 5, 0 },
-                                                { 8, Rand.RangeInclusive(0, 1) },
-                                                { 14, Rand.RangeInclusive(0, 2) },
-                                                { 18, Rand.RangeInclusive(0, 3) },
-                                                { 20, Rand.RangeInclusive(0, 4) }
-                                            };
+                                                {
+                                                    { 0, 0 },
+                                                    { 5, 0 },
+                                                    { 8, Rand.RangeInclusive(0, 1) },
+                                                    { 14, Rand.RangeInclusive(0, 2) },
+                                                    { 18, Rand.RangeInclusive(0, 3) },
+                                                    { 20, Rand.RangeInclusive(0, 4) }
+                                                };
 
                                                 int bonusSpawnCount = (int)bonusSpawnCurve.Evaluate(pawnsAvgSkillLevel);
                                                 int finalSpawnCount = product.stackCount + bonusSpawnCount;
@@ -97,10 +98,48 @@ namespace RandomChance
                             }
                         }
                     }
+
+                    if (recipeDef == RandomChance_DefOf.ButcherCorpseFlesh && Rand.Chance(RandomChanceSettings.BonusButcherProductChance))
+                    {
+                        SimpleCurve chanceCurve = new ()
+                        {
+                            { 0, 0.025f },
+                            { 3, 0.05f },
+                            { 6, 0.09f },
+                            { 8, 0.2f },
+                            { 14, 0.3f },
+                            { 18, 0.4f },
+                            { 20, 0.5f }
+                        };
+
+                        if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                        {
+                            int additionalMeatStackCount = Rand.RangeInclusive(1, 20);
+
+                            ThingDef meatDef = GetRandomMeatFromOtherPawn();
+                            Thing additionalMeat = ThingMaker.MakeThing(meatDef);
+                            additionalMeat.stackCount = additionalMeatStackCount;
+
+                            Messages.Message("RC_ButcheryBonusProduct".Translate(worker.Named("PAWN"), additionalMeat.stackCount, additionalMeat.def.label, dominantIngredient.def.label), worker, MessageTypeDefOf.PositiveEvent);
+                            modifiedProducts.Add(additionalMeat);
+                        }
+                    }
                     modifiedProducts.Add(product);
                 }
                 __result = modifiedProducts;
             }
+        }
+        
+        private static ThingDef GetRandomMeatFromOtherPawn()
+        {
+            List<ThingDef> meatDefs = DefDatabase<ThingDef>.AllDefsListForReading
+                    .Where(def => def.IsWithinCategory(ThingCategoryDefOf.MeatRaw))
+                    .ToList();
+
+            if (meatDefs.Count > 0)
+                return meatDefs.RandomElement();
+            else
+                return ThingDefOf.Meat_Human;
         }
     }
 }

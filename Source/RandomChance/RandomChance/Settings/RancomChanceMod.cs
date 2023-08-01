@@ -27,6 +27,7 @@ namespace RandomChance
             Rect viewRect = new(inRect.x, inRect.y, inRect.width, inRect.height);
             list.Begin(viewRect);
 
+            // Cooking
             list.Label("<color=#ff6666>Cooking</color>");
             list.Gap(3.00f);
 
@@ -45,6 +46,7 @@ namespace RandomChance
             list.Label(label: "RC_CookingBetterMealChance".Translate(cookingBetterMealChanceSliderText), tooltip: "RC_CookingBetterMealChanceDesc".Translate());
             settings._cookingBetterMealChance = list.Slider(settings._cookingBetterMealChance, 0.0f, 1.0f);
 
+            // Butchering
             list.Label("<color=#ff6666>Butchering</color>");
             list.Gap(3.00f);
 
@@ -53,6 +55,17 @@ namespace RandomChance
             list.Label(label: "RC_ButcheringFailureChance".Translate(butcheringFailureChanceSliderText), tooltip: "RC_ButcheringFailureChanceDesc".Translate());
             settings._butcheringFailureChance = list.Slider(settings._butcheringFailureChance, 0.0f, 1.0f);
 
+            float butcherMessRadiusSlider = settings._butcherMessRadius;
+            string butcherMessRadiusSliderText = butcherMessRadiusSlider.ToString("F0");
+            list.Label(label: "RC_ButcherMessRadius".Translate(butcherMessRadiusSliderText), tooltip: "RC_ButcherMessRadiusDesc".Translate());
+            settings._butcherMessRadius = (int)list.Slider(settings._butcherMessRadius, 1, 5);
+
+            float bonusButcherProductChanceSlider = settings._bonusButcherProductChance;
+            string bonusButcherProductChanceSliderText = bonusButcherProductChanceSlider.ToString("F2");
+            list.Label(label: "RC_BonusButcherProductChance".Translate(bonusButcherProductChanceSliderText), tooltip: "RC_BonusButcherProductChanceDesc".Translate());
+            settings._bonusButcherProductChance = list.Slider(settings._bonusButcherProductChance, 0.0f, 1.0f);
+
+            // Cremating
             list.Label("<color=#ff6666>Cremating</color>");
             list.Gap(3.00f);
 

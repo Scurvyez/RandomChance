@@ -139,7 +139,10 @@ namespace RandomChance
 
             if (ingredients != null)
             {
-                ingredients.Destroy();
+                if (!ingredients.Destroyed)
+                {
+                    ingredients.Destroy();
+                }
 
                 FireUtility.TryStartFireIn(buildingPos, map, RandomChanceSettings.FailedCookingFireSize);
                 MoteMaker.MakeColonistActionOverlay(actor, ThingDefOf.Mote_ColonistFleeing);
@@ -168,35 +171,40 @@ namespace RandomChance
 
             if (curJob.RecipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
-
                 BodyPartRecord fingersPart = actor.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbDigit).RandomElement();
 
-                if (Rand.Bool)
+                if (fingersPart != null) 
                 {
-                    Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, fingersPart);
-                    hediff.Severity = severity;
-                    actor.health.AddHediff(hediff);
-                }
-                else
-                {
-                    Hediff hediff = HediffMaker.MakeHediff(cutHediffDef, actor, fingersPart);
-                    hediff.Severity = severity;
-                    actor.health.AddHediff(hediff);
+                    if (Rand.Bool)
+                    {
+                        Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, fingersPart);
+                        hediff.Severity = severity;
+                        actor.health.AddHediff(hediff);
+                        Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
+                    }
+                    else
+                    {
+                        Hediff hediff = HediffMaker.MakeHediff(cutHediffDef, actor, fingersPart);
+                        hediff.Severity = severity;
+                        actor.health.AddHediff(hediff);
+                        Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
 
-                    IntVec3 adjacentCell = buildingPos + GenAdj.CardinalDirections.RandomElement();
-                    FilthMaker.TryMakeFilth(adjacentCell, map, ThingDefOf.Filth_Blood);
+                        IntVec3 adjacentCell = buildingPos + GenAdj.CardinalDirections.RandomElement();
+                        FilthMaker.TryMakeFilth(adjacentCell, map, ThingDefOf.Filth_Blood);
+                    }
                 }
             }
             else if (curJob.RecipeDef == RandomChance_DefOf.CremateCorpse)
             {
-                Messages.Message("RC_InjuryWhileCremating".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
-
                 BodyPartRecord bodyPart = actor.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbSegment).RandomElement();
 
-                Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, bodyPart);
-                hediff.Severity = severity;
-                actor.health.AddHediff(hediff);
+                if (bodyPart != null)
+                {
+                    Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, bodyPart);
+                    hediff.Severity = severity;
+                    actor.health.AddHediff(hediff);
+                    Messages.Message("RC_InjuryWhileCremating".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
+                }
             }
         }
 
@@ -206,7 +214,7 @@ namespace RandomChance
             {
                 IntVec3 pawnPos = actor.Position;
                 Map map = building.Map;
-                int radius = 2; // make a mod setting
+                int radius = RandomChanceSettings.ButcherMessRadius; // make a mod setting
                 IntVec3 centerCell = pawnPos + GenAdj.CardinalDirections.RandomElement();
                 Pawn animalPawn = animalCorpse.InnerPawn;
 
