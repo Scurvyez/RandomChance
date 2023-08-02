@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefOfs\RandomChance_DefOf.cs" />
-    <Compile Include="Harmony\JobDriverFixBrokenDownBuildingMakeNewToils_Transpiler.cs" />
+    <Compile Include="Harmony\JobDriverFixBrokenDownBuildingMakeNewToils_Postfix.cs" />
     <Compile Include="Harmony\GenRecipeMakeRecipeProducts_Prefix.cs" />
     <Compile Include="Harmony\ToilsRecipeDoRecipeWork_Transpiler.cs" />
     <Compile Include="Settings\RancomChanceMod.cs" />

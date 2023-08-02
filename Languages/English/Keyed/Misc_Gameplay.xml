@@ -10,7 +10,7 @@
     <RC_InjuryWhileCremating>Ouch! {0} has burned {0_possessive}self while attempting to shove a body into the crematorium. Perhaps, {0} should be more careful?</RC_InjuryWhileCremating>
     <RC_BetterMealProduced>Woah! {0}'s passion for her job in the kitchen has led to a glorious culinary upgrade!</RC_BetterMealProduced>
     <RC_HorriblyUncleanKitchen>Sharpen your knife already! {0} has made an absolute mess while butchering an animal. Perhaps more time practicing the craft will prevent future hiccups of this sort.</RC_HorriblyUncleanKitchen>
-    <RC_ButcheryBonusProduct>In a slightly fortunate yet ominous juncture in time, {0} has discovered {1} {2} while carefully butchering a {3}.</RC_ButcheryBonusProduct>
+    <RC_PredatorButcheryBonusProduct>In a slightly fortunate yet ominous juncture in time, {0} has discovered {1} {2} while carefully butchering a {3}. The Rim is a cruel and dark place. Be wary.</RC_PredatorButcheryBonusProduct>
 
     <!--==================== Settings ====================-->
 

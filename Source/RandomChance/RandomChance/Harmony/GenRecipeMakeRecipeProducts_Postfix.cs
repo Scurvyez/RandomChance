@@ -101,7 +101,9 @@ namespace RandomChance
 
                     if (recipeDef == RandomChance_DefOf.ButcherCorpseFlesh && Rand.Chance(RandomChanceSettings.BonusButcherProductChance))
                     {
-                        SimpleCurve chanceCurve = new ()
+                        Thing butcheredCorpse = worker.CurJob.GetTarget(TargetIndex.B).Thing;
+
+                        SimpleCurve chanceCurve = new()
                         {
                             { 0, 0.025f },
                             { 3, 0.05f },
@@ -112,16 +114,24 @@ namespace RandomChance
                             { 20, 0.5f }
                         };
 
-                        if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                        if (butcheredCorpse is Corpse corpse)
                         {
-                            int additionalMeatStackCount = Rand.RangeInclusive(1, 20);
+                            if (corpse.InnerPawn.RaceProps.predator)
+                            {
+                                if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                                {
+                                    int additionalMeatStackCount = Rand.RangeInclusive(1, 15);
+                                    float butcheredCorpseBodySizeFactor = (corpse.InnerPawn.RaceProps.baseBodySize / 1.15f);
+                                    butcheredCorpseBodySizeFactor = Mathf.Max(butcheredCorpseBodySizeFactor, 1f);
 
-                            ThingDef meatDef = GetRandomMeatFromOtherPawn();
-                            Thing additionalMeat = ThingMaker.MakeThing(meatDef);
-                            additionalMeat.stackCount = additionalMeatStackCount;
+                                    ThingDef meatDef = GetRandomMeatFromOtherPawn();
+                                    Thing additionalMeat = ThingMaker.MakeThing(meatDef);
+                                    additionalMeat.stackCount = additionalMeatStackCount * Mathf.RoundToInt(butcheredCorpseBodySizeFactor);
 
-                            Messages.Message("RC_ButcheryBonusProduct".Translate(worker.Named("PAWN"), additionalMeat.stackCount, additionalMeat.def.label, dominantIngredient.def.label), worker, MessageTypeDefOf.PositiveEvent);
-                            modifiedProducts.Add(additionalMeat);
+                                    Messages.Message("RC_PredatorButcheryBonusProduct".Translate(worker.Named("PAWN"), additionalMeat.stackCount, additionalMeat.def.label, dominantIngredient.def.label), worker, MessageTypeDefOf.PositiveEvent);
+                                    modifiedProducts.Add(additionalMeat);
+                                }
+                            }
                         }
                     }
                     modifiedProducts.Add(product);
