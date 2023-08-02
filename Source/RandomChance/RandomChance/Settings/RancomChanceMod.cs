@@ -74,6 +74,15 @@ namespace RandomChance
             list.Label(label: "RC_CrematingInjuryChance".Translate(crematingInjuryChanceSliderText), tooltip: "RC_CrematingInjuryChanceDesc".Translate());
             settings._crematingInjuryChance = list.Slider(settings._crematingInjuryChance, 0.0f, 1.0f);
 
+            // Repairing
+            list.Label("<color=#ff6666>Repairing</color>");
+            list.Gap(3.00f);
+
+            float electricalRepairFailureChanceSlider = settings._electricalRepairFailureChance;
+            string electricalRepairFailureChanceSliderText = electricalRepairFailureChanceSlider.ToString("F2");
+            list.Label(label: "RC_ElectricalRepairFailureChance".Translate(electricalRepairFailureChanceSliderText), tooltip: "RC_ElectricalRepairFailureChanceDesc".Translate());
+            settings._electricalRepairFailureChance = list.Slider(settings._electricalRepairFailureChance, 0.0f, 1.0f);
+
             list.End();
         }
 

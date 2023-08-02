@@ -35,4 +35,8 @@
     <RC_CrematingInjuryChance>Injury chance: {0}</RC_CrematingInjuryChance>
     <RC_CrematingInjuryChanceDesc>Adjusting this slider alters the chance of a pawn injuring themselves while using a crematorium. (Percent chance before pawns' average relevant skills are accounted for.)</RC_CrematingInjuryChanceDesc>
 
+    <!-- Repairing -->
+    <RC_ElectricalRepairFailureChance>Failure chance: {0}</RC_ElectricalRepairFailureChance>
+    <RC_ElectricalRepairFailureChanceDesc>Adjusting this slider alters the chance for a pawn to get electrocuted while repairing electrical equipment with components. There... may even be a secondary explosion is fate demands it so. (Percent chance before pawns' average relevant skills are accounted for.)</RC_ElectricalRepairFailureChanceDesc>
+
 </LanguageData>

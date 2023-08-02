@@ -33,7 +33,7 @@ namespace RandomChance
                     {
                         if (!__instance.pawn.IsColonyMech)
                         {
-                            float failureChance = 0.85f; // 5% by default
+                            float failureChance = RandomChanceSettings.ElectricalRepairFailureChance; // 5% by default
                             if (Rand.Chance(failureChance))
                             {
                                 IBillGiverWithTickAction billGiver = __instance.job.GetTarget(TargetIndex.A).Thing as IBillGiverWithTickAction;
@@ -51,7 +51,7 @@ namespace RandomChance
                                     { 20, 0.02f }
                                 };
 
-                                if (Rand.Chance(0.85f)) // change back to evaluate the curve
+                                if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel))) // change back to evaluate the curve
                                 {
                                     if (building != null)
                                     {
@@ -60,8 +60,11 @@ namespace RandomChance
                                         int explosionRadius = Rand.RangeInclusive(2, 5); // Adjust the explosion radius as needed
 
                                         // make some filth too, go all out
-                                        GenExplosion.DoExplosion(explosionCenter, explosionMap, explosionRadius, DamageDefOf.Bomb, null, Rand.RangeInclusive(3, 15));
-                                        GenExplosion.DoExplosion(explosionCenter, explosionMap, explosionRadius, DamageDefOf.EMP, null, Rand.RangeInclusive(1, 12));
+                                        GenExplosion.DoExplosion(explosionCenter, explosionMap, explosionRadius, DamageDefOf.EMP, null, Rand.RangeInclusive(1, 9));
+                                        if (Rand.Value < 0.25f)
+                                        {
+                                            GenExplosion.DoExplosion(explosionCenter, explosionMap, explosionRadius, DamageDefOf.Bomb, null, Rand.RangeInclusive(3, 12));
+                                        }
                                     }
 
                                     BodyPartRecord bodyPart = __instance.pawn.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbCore).RandomElement();
@@ -86,6 +89,7 @@ namespace RandomChance
                             }
                         }
                     };
+
                 }
                 newToils[i] = toil;
             }
