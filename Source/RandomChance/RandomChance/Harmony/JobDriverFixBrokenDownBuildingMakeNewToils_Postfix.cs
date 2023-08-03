@@ -29,7 +29,7 @@ namespace RandomChance
 
                 if (i == numToils - 1) // Check if this is the last toil
                 {
-                    toil.initAction = delegate
+                    toil.tickAction = delegate
                     {
                         if (!__instance.pawn.IsColonyMech)
                         {
@@ -51,7 +51,7 @@ namespace RandomChance
                                     { 20, 0.02f }
                                 };
 
-                                if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel))) // change back to evaluate the curve
+                                if (Rand.Chance(0.5f)) // change back to evaluate the curve
                                 {
                                     if (building != null)
                                     {
