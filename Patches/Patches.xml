@@ -12,9 +12,9 @@
                     <randomProducts>
                         <!-- Vanilla + DLCs -->
                         <!-- [that item's weight / the sum of weights] -->
-                        <Jade Weight="0.15">2~15</Jade>
-                        <Gold Weight="0.30">2~20</Gold>
-                        <Silver Weight="0.75">10~250</Silver>
+                        <Jade Weight="0.15">2~10</Jade>
+                        <Gold Weight="0.30">2~15</Gold>
+                        <Silver Weight="0.75">10~75</Silver>
                         <Plasteel Weight="0.15">2~30</Plasteel>
                         <Uranium Weight="0.10">2~15</Uranium>
                         <!-- A Rim Reborn - Core -->

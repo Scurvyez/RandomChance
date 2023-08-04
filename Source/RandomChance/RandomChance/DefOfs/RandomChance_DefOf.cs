@@ -10,6 +10,14 @@ namespace RandomChance
         public static ThingDef FueledStove;
         public static ThingDef MealLavish;
 
+        public static EffecterDef RC_ElectricShockBonesEffect;
+
+        public static DamageDef RC_ElectricShockDamage;
+
+        public static HediffDef RC_ElectricShockHediff;
+
+        public static ShaderTypeDef TransparentPostLight;
+
         public static RecipeDef CookMealSimpleBulk;
         public static RecipeDef CookMealFine;
         public static RecipeDef CookMealFine_Veg;

@@ -3,15 +3,15 @@
 
     <!--==================== Messages.Message() ====================-->
 
-    <RC_RandomStoneCuttingProduct>Due to {0_possessive} unwavering determination, relentless pursuit of perfection, and an uncanny stroke of luck, {0} has unearthed a hidden treasure while chiseling away at a {3}. The discovery? {1} precious {2}.</RC_RandomStoneCuttingProduct>
-    <RC_BonusMealProduct>Harnessing {0_possessive} culinary prowess, a fiery passion for the trade, and a sprinkle of serendipity, {0} has skillfully transformed every last morsel of sustenance into a grand total of {1} {2}.</RC_BonusMealProduct>
-    <RC_FireInKitchen>Oh no! {0}'s otherworldly poor cooking skills have led to a fire in the kitchen! More practice at {0_possessive} job may lead to less injury in the future.</RC_FireInKitchen>
-    <RC_InjuryInKitchen>Ouch! {0} has injured {0_possessive}self in the kitchen! Practice makes perfect though. Right?</RC_InjuryInKitchen>
-    <RC_InjuryWhileCremating>Ouch! {0} has burned {0_possessive}self while attempting to shove a body into the crematorium. Perhaps, {0} should be more careful?</RC_InjuryWhileCremating>
+    <RC_RandomStoneCuttingProduct>Thanks to a splash of luck, {0} has unearthed a hidden treasure while chiseling away at a {3}.\nThe discovery? {1} precious {2}.</RC_RandomStoneCuttingProduct>
+    <RC_BonusMealProduct>Through a sprinkle of serendipity, {0} has skillfully transformed every last morsel of sustenance into a grand total of {1} {2}.</RC_BonusMealProduct>
+    <RC_FireInKitchen>Oh no! {0}'s otherworldly poor cooking skills have led to a fire in the kitchen!\nMore practice at {0_possessive} job may lead to less injury in the future.</RC_FireInKitchen>
+    <RC_InjuryInKitchen>Ouch! {0} has injured {0_possessive}self in the kitchen!\nPractice makes perfect though. Right?</RC_InjuryInKitchen>
+    <RC_InjuryWhileCremating>Oww! {0} has burned {0_possessive}self while attempting to shove a body into the crematorium.\nPerhaps, {0} should be more careful?</RC_InjuryWhileCremating>
     <RC_BetterMealProduced>Woah! {0}'s passion for her job in the kitchen has led to a glorious culinary upgrade!</RC_BetterMealProduced>
-    <RC_HorriblyUncleanKitchen>Sharpen your knife already! {0} has made an absolute mess while butchering an animal. Perhaps more time practicing the craft will prevent future hiccups of this sort.</RC_HorriblyUncleanKitchen>
-    <RC_PredatorButcheryBonusProduct>In a slightly fortunate yet ominous juncture in time, {0} has discovered {1} {2} while carefully butchering a {3}. The Rim is a cruel and dark place. Be wary.</RC_PredatorButcheryBonusProduct>
-    <RC_ElectricalRepairFailure>There's been an accident! {0} has tremendously botched some electrical repairs! Tend to any injuries or other cascading failures quickly!</RC_ElectricalRepairFailure>
+    <RC_HorriblyUncleanKitchen>Sharpen your knife already! {0} has made an absolute mess while butchering an animal.\nPerhaps more time practicing the craft will prevent future hiccups of this sort.</RC_HorriblyUncleanKitchen>
+    <RC_PredatorButcheryBonusProduct>{0} has discovered {1} {2} while carefully butchering a {3}.\nThe Rim is a cruel and dark place. Be wary.</RC_PredatorButcheryBonusProduct>
+    <RC_ElectricalRepairFailure>There's been an accident! {0} has tremendously botched some electrical repairs!\nTend to any injuries or other cascading failures quickly!</RC_ElectricalRepairFailure>
 
     <!--==================== Settings ====================-->
 
