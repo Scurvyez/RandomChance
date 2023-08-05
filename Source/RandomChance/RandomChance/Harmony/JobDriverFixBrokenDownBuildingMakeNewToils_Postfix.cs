@@ -25,6 +25,7 @@ namespace RandomChance
                 {
                     if (!__instance.pawn.IsColonyMech)
                     {
+                        float averageSkills = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
                         float failureChance = RandomChanceSettings.ElectricalRepairFailureChance; // 5% by default
                         if (Rand.Chance(failureChance))
                         {
@@ -41,7 +42,7 @@ namespace RandomChance
                                 { 20, 0.02f }
                             };
 
-                            if (Rand.Chance(damageChanceCurve.Evaluate(__instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType))))
+                            if (Rand.Chance(damageChanceCurve.Evaluate(averageSkills)))
                             {
                                 if (building != null)
                                 {
