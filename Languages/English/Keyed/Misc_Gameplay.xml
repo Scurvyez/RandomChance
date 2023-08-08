@@ -3,15 +3,17 @@
 
     <!--==================== Messages.Message() ====================-->
 
-    <RC_RandomStoneCuttingProduct>Thanks to a splash of luck, {0} has unearthed a hidden treasure while chiseling away at a {3}.\nThe discovery? {1} precious {2}.</RC_RandomStoneCuttingProduct>
-    <RC_BonusMealProduct>Through a sprinkle of serendipity, {0} has skillfully transformed every last morsel of sustenance into a grand total of {1} {2}.</RC_BonusMealProduct>
+    <RC_RandomStoneCuttingProduct>Thanks to a splash of luck, {0} has unearthed a hidden treasure while chiseling away at a {1}.\nThe discovery? precious {2}.</RC_RandomStoneCuttingProduct>
+    <RC_BonusMealProduct>Through a sprinkle of serendipity, {0} has skillfully transformed every last morsel of sustenance into {1}.</RC_BonusMealProduct>
     <RC_FireInKitchen>Oh no! {0}'s otherworldly poor cooking skills have led to a fire in the kitchen!\nMore practice at {0_possessive} job may lead to less injury in the future.</RC_FireInKitchen>
     <RC_InjuryInKitchen>Ouch! {0} has injured {0_possessive}self in the kitchen!\nPractice makes perfect though. Right?</RC_InjuryInKitchen>
     <RC_InjuryWhileCremating>Oww! {0} has burned {0_possessive}self while attempting to shove a body into the crematorium.\nPerhaps, {0} should be more careful?</RC_InjuryWhileCremating>
     <RC_BetterMealProduced>Woah! {0}'s passion for her job in the kitchen has led to a glorious culinary upgrade!</RC_BetterMealProduced>
     <RC_HorriblyUncleanKitchen>Sharpen your knife already! {0} has made an absolute mess while butchering an animal.\nPerhaps more time practicing the craft will prevent future hiccups of this sort.</RC_HorriblyUncleanKitchen>
-    <RC_PredatorButcheryBonusProduct>{0} has discovered {1} {2} while carefully butchering a {3}.\nThe Rim is a cruel and dark place. Be wary.</RC_PredatorButcheryBonusProduct>
-    <RC_ElectricalRepairFailure>There's been an accident! {0} has tremendously botched some electrical repairs!\nTend to any injuries or other cascading failures quickly!</RC_ElectricalRepairFailure>
+    <RC_PredatorButcheryBonusProduct>{0} has discovered {1} while carefully butchering a {2}.\nThe Rim is a cruel and dark place. Be wary.</RC_PredatorButcheryBonusProduct>
+    <RC_ElectricalRepairFailure>There's been an accident! {0} has botched some electrical repairs!\nTend to any injuries or other cascading failures quickly!</RC_ElectricalRepairFailure>
+    <RC_PlantHarvestingFoundEggs>While foraging for resources, {0} found {1}.</RC_PlantHarvestingFoundEggs>
+    <RC_HurtByFarmAnimal>{0} was injured while working on the farm.\nMaybe next time, don't make {1} angry.</RC_HurtByFarmAnimal>
 
     <!--==================== Settings ====================-->
 
@@ -39,5 +41,13 @@
     <!-- Repairing -->
     <RC_ElectricalRepairFailureChance>Failure chance: {0}</RC_ElectricalRepairFailureChance>
     <RC_ElectricalRepairFailureChanceDesc>Adjusting this slider alters the chance for a pawn to get electrocuted while repairing electrical equipment with components. There... may even be a secondary explosion is fate demands it so. (Percent chance before pawns' average relevant skills are accounted for.)</RC_ElectricalRepairFailureChanceDesc>
+
+    <!-- Plant work -->
+    <RC_PlantHarvestingFindEggsChance>Bonus egg chance: {0}</RC_PlantHarvestingFindEggsChance>
+    <RC_PlantHarvestingFindEggsChanceDesc>Adjusting this slider alters the chance for a pawn to get lucky and find animal eggs while foraging for raw plant resources. Only eggs from animals allowed to spawn in the current biome can be found. (Percent chance before pawns' average relevant skills are accounted for.)</RC_PlantHarvestingFindEggsChanceDesc>
+
+    <!-- Animal work -->
+    <RC_HurtByFarmAnimalChance>Injury chance: {0}</RC_HurtByFarmAnimalChance>
+    <RC_HurtByFarmAnimalChanceDesc>Adjusting this slider alters the chance for a pawn to get injured by farm animals while collecting resources. (Percent chance before pawns' average relevant skills are accounted for.)</RC_HurtByFarmAnimalChanceDesc>
 
 </LanguageData>

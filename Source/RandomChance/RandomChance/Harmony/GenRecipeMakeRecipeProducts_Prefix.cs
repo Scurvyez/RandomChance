@@ -37,18 +37,19 @@ namespace RandomChance
                         SimpleCurve higherQualityCurve = new()
                         {
                             { 0, 0 },
-                            { 3, 0 },
-                            { 6, 0.02f },
-                            { 8, 0.04f },
-                            { 14, 0.09f },
-                            { 18, 0.99f },
-                            { 20, 0.99f }
+                            { 3, 0.02f },
+                            { 6, 0.08f },
+                            { 8, 0.1f },
+                            { 14, 0.175f },
+                            { 18, 0.455f },
+                            { 20, 0.575f }
                         };
 
                         if (Rand.Chance(higherQualityCurve.Evaluate(pawnsAvgSkillLevel)))
                         {
                             recipeDef = newRecipeDef;
-                            Messages.Message("RC_BetterMealProduced".Translate(worker.Named("PAWN")), MessageTypeDefOf.PositiveEvent);
+                            Messages.Message("RC_BetterMealProduced".Translate(worker.Named("PAWN")), 
+                                MessageTypeDefOf.PositiveEvent);
                         }
                     }
                 }

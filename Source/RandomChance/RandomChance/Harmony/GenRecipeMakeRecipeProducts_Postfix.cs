@@ -13,19 +13,20 @@ namespace RandomChance
     public static class GenRecipeMakeRecipeProducts_Postfix
     {
         [HarmonyPostfix]
-        public static void Postfix(ref IEnumerable<Thing> __result, RecipeDef recipeDef, Pawn worker, Thing dominantIngredient, IBillGiver billGiver)
+        public static void Postfix(ref IEnumerable<Thing> __result, RecipeDef recipeDef, Pawn worker, Thing dominantIngredient)
         {
             if (!worker.IsColonyMech)
             {
                 RandomProductExtension rpEx = recipeDef.GetModExtension<RandomProductExtension>();
-                int pawnsAvgSkillLevel = (int)worker.skills.AverageOfRelevantSkillsFor(billGiver.GetWorkgiver().workType);
+                float pawnsAvgSkillLevel = worker.skills.AverageOfRelevantSkillsFor(worker.CurJob.workGiverDef.workType);
                 float skillsFactor = 0.20f;
 
                 List<Thing> modifiedProducts = new();
 
                 foreach (Thing product in __result)
                 {
-                    if (rpEx != null && rpEx.randomProducts != null && rpEx.randomProductChance.HasValue && rpEx.randomProductChance.Value > 0f && Rand.Chance(rpEx.randomProductChance.Value))
+                    if (rpEx != null && rpEx.randomProducts != null && rpEx.randomProductChance.HasValue && rpEx.randomProductChance.Value > 0f 
+                        && Rand.Chance(rpEx.randomProductChance.Value))
                     {
                         float totalWeight = 0f;
                         foreach (RandomProductData productData in rpEx.randomProducts)
@@ -69,7 +70,8 @@ namespace RandomChance
 
                                                 if (bonusSpawnCount > 0)
                                                 {
-                                                    Messages.Message("RC_BonusMealProduct".Translate(worker.Named("PAWN"), finalSpawnCount, Find.ActiveLanguageWorker.Pluralize(product.def.label, finalSpawnCount)), worker, MessageTypeDefOf.PositiveEvent);
+                                                    Messages.Message("RC_BonusMealProduct".Translate(worker.Named("PAWN"), 
+                                                        product.Label), worker, MessageTypeDefOf.PositiveEvent);
                                                 }
                                             }
                                         }
@@ -91,7 +93,8 @@ namespace RandomChance
                                         int newMaxSpawnCount = Rand.RangeInclusive((int)newMaxSpawnCountRange.min, (int)newMaxSpawnCountRange.max);
 
                                         product.stackCount = Rand.RangeInclusive(newMinSpawnCount, newMaxSpawnCount);
-                                        Messages.Message("RC_RandomStoneCuttingProduct".Translate(worker.Named("PAWN"), product.stackCount, Find.ActiveLanguageWorker.Pluralize(product.def.label, product.stackCount), dominantIngredient.def.label), worker, MessageTypeDefOf.PositiveEvent);
+                                        Messages.Message("RC_RandomStoneCuttingProduct".Translate(worker.Named("PAWN"), 
+                                            dominantIngredient.Label, product.Label), worker, MessageTypeDefOf.PositiveEvent);
                                     }
                                 }
                                 break;
@@ -128,7 +131,8 @@ namespace RandomChance
                                     Thing additionalMeat = ThingMaker.MakeThing(meatDef);
                                     additionalMeat.stackCount = additionalMeatStackCount * Mathf.RoundToInt(butcheredCorpseBodySizeFactor);
 
-                                    Messages.Message("RC_PredatorButcheryBonusProduct".Translate(worker.Named("PAWN"), additionalMeat.stackCount, additionalMeat.def.label, dominantIngredient.def.label), worker, MessageTypeDefOf.PositiveEvent);
+                                    Messages.Message("RC_PredatorButcheryBonusProduct".Translate(worker.Named("PAWN"), 
+                                        additionalMeat.Label, dominantIngredient.Label), worker, MessageTypeDefOf.PositiveEvent);
                                     modifiedProducts.Add(additionalMeat);
                                 }
                             }

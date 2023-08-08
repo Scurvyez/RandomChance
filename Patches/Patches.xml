@@ -2,6 +2,8 @@
 
 <Patch>
 
+    <!-- FIX ALL OF THESE, CONDITIONALS NOT NEEDED -->
+
     <Operation Class="PatchOperationConditional">
         <xpath>Defs/RecipeDef[defName="Make_StoneBlocksAny" or defName="Make_StoneBlocksSandstone" or defName="Make_StoneBlocksGranite" or defName="Make_StoneBlocksLimestone" or defName="Make_StoneBlocksSlate" or defName="Make_StoneBlocksMarble"]/modExtensions</xpath>
         <nomatch Class="PatchOperationAddModExtension">
@@ -12,11 +14,11 @@
                     <randomProducts>
                         <!-- Vanilla + DLCs -->
                         <!-- [that item's weight / the sum of weights] -->
-                        <Jade Weight="0.15">2~10</Jade>
-                        <Gold Weight="0.30">2~15</Gold>
-                        <Silver Weight="0.75">10~75</Silver>
-                        <Plasteel Weight="0.15">2~30</Plasteel>
-                        <Uranium Weight="0.10">2~15</Uranium>
+                        <Jade Weight="0.15">1~5</Jade>
+                        <Gold Weight="0.30">1~7</Gold>
+                        <Silver Weight="0.75">10~25</Silver>
+                        <Plasteel Weight="0.15">1~15</Plasteel>
+                        <Uranium Weight="0.10">1~7</Uranium>
                         <!-- A Rim Reborn - Core -->
                         <ARR_EarthCrystal Weight="0.03" MayRequire="aelanna.arimreborn.core">3~5</ARR_EarthCrystal>
                         <ARR_FireCrystal Weight="0.03" MayRequire="aelanna.arimreborn.core">3~5</ARR_FireCrystal>
@@ -170,7 +172,7 @@
             <xpath>Defs/RecipeDef[defName="CookMealSimple" or defName="CookMealFine" or defName="CookMealFine_Veg" or defName="CookMealFine_Meat" or defName="CookMealLavish" or defName="CookMealLavish_Veg" or defName="CookMealLavish_Meat" or defName="CookMealSurvival" or defName="CookMealSimpleBulk" or defName="CookMealFineBulk" or defName="CookMealFineBulk_Veg" or defName="CookMealFineBulk_Meat" or defName="CookMealLavishBulk" or defName="CookMealLavishBulk_Veg" or defName="CookMealLavishBulk_Meat" or defName="CookMealSurvivalBulk" or defName="Make_BabyFood" or defName="Make_BabyFoodBulk"]</xpath>
             <value>
                 <li Class="RandomChance.RandomProductExtension">
-                    <randomProductChance>0.05</randomProductChance> <!-- 5% chance -->
+                    <randomProductChance>0.75</randomProductChance> <!-- 5% chance -->
                     <randomProducts>
                         <!-- Vanilla + DLCs -->
                         <MealSimple Weight="1">1~1</MealSimple>

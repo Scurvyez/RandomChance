@@ -75,6 +75,22 @@ namespace RandomChance
             }
         }
 
+        public static float PlantHarvestingFindEggsChance
+        {
+            get
+            {
+                return _instance._plantHarvestingFindEggsChance;
+            }
+        }
+
+        public static float HurtByFarmAnimalChance
+        {
+            get
+            {
+                return _instance._hurtByFarmAnimalChance;
+            }
+        }
+
         public float _cookingFailureChance = 0.05f;
         public float _failedCookingFireSize = 7.5f;
         public float _cookingBetterMealChance = 0.05f;
@@ -83,6 +99,8 @@ namespace RandomChance
         public float _bonusButcherProductChance = 0.08f;
         public float _crematingInjuryChance = 0.05f;
         public float _electricalRepairFailureChance = 0.05f;
+        public float _plantHarvestingFindEggsChance = 0.05f;
+        public float _hurtByFarmAnimalChance = 0.05f;
 
         public RandomChanceSettings()
         {
@@ -100,6 +118,8 @@ namespace RandomChance
             Scribe_Values.Look(ref _bonusButcherProductChance, "bonusButcherProductChance", 0.08f);
             Scribe_Values.Look(ref _crematingInjuryChance, "crematingInjuryChance", 0.05f);
             Scribe_Values.Look(ref _electricalRepairFailureChance, "electricalRepairFailureChance", 0.05f);
+            Scribe_Values.Look(ref _plantHarvestingFindEggsChance, "plantHarvestingFindEggsChance", 0.05f);
+            Scribe_Values.Look(ref _hurtByFarmAnimalChance, "hurtByFarmAnimalChance", 0.05f);
         }
     }
 }

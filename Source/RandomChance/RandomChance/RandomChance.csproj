@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefOfs\RandomChance_DefOf.cs" />
+    <Compile Include="Harmony\JobDriverGatherAnimalBodyResourcesMakeNewToils_Postfix.cs" />
     <Compile Include="Harmony\JobDriverPlantWorkMakeNewToils_Postfix.cs" />
     <Compile Include="Harmony\JobDriverFixBrokenDownBuildingMakeNewToils_Postfix.cs" />
     <Compile Include="Harmony\GenRecipeMakeRecipeProducts_Prefix.cs" />

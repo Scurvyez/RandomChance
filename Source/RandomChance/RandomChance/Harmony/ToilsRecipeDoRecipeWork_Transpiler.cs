@@ -180,14 +180,16 @@ namespace RandomChance
                         Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, fingersPart);
                         hediff.Severity = severity;
                         actor.health.AddHediff(hediff);
-                        Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
+                        Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")), 
+                            actor, MessageTypeDefOf.NegativeEvent);
                     }
                     else
                     {
                         Hediff hediff = HediffMaker.MakeHediff(cutHediffDef, actor, fingersPart);
                         hediff.Severity = severity;
                         actor.health.AddHediff(hediff);
-                        Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
+                        Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")), 
+                            actor, MessageTypeDefOf.NegativeEvent);
 
                         IntVec3 adjacentCell = buildingPos + GenAdj.CardinalDirections.RandomElement();
                         FilthMaker.TryMakeFilth(adjacentCell, map, ThingDefOf.Filth_Blood);
@@ -203,7 +205,8 @@ namespace RandomChance
                     Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, bodyPart);
                     hediff.Severity = severity;
                     actor.health.AddHediff(hediff);
-                    Messages.Message("RC_InjuryWhileCremating".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
+                    Messages.Message("RC_InjuryWhileCremating".Translate(actor.Named("PAWN")), 
+                        actor, MessageTypeDefOf.NegativeEvent);
                 }
             }
         }
@@ -234,7 +237,8 @@ namespace RandomChance
                     FilthMaker.TryMakeFilth(centerCell, map, animalPawn.def.race.BloodDef);
                 }
 
-                Messages.Message("RC_HorriblyUncleanKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
+                Messages.Message("RC_HorriblyUncleanKitchen".Translate(actor.Named("PAWN")), 
+                    actor, MessageTypeDefOf.NegativeEvent);
             }
         }
     }
