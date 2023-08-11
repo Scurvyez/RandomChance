@@ -33,7 +33,6 @@ This mod gives random chances to all sorts of things including but not limited t
 
         CHECK RANDOM CHANCE VALUES BEFORE RELEASE
 
-        Random side-effects...
         - equipping and unequipping power armors could come with a risk of pawns getting stuck in an inconvenient way
         - low level pawns with no passion in skill for required task
             - X cancels job: got bored, having a beer
@@ -47,7 +46,7 @@ This mod gives random chances to all sorts of things including but not limited t
         - cleaning, pawn accidentally spreads the filth instead
         - "horse shoe pins could probably be a bit more dangerous too"
             - dart boards too
-        - animals, pawns can get rammed or kicked, or worse by animals while milking, sheering, or anything else
+        - [DONE] animals, pawns can get rammed or kicked, or worse by animals while milking, sheering, or anything else
 
     -->
 

@@ -37,7 +37,6 @@ namespace RandomChance
                     yield return new CodeInstruction(OpCodes.Ldloc_0); // Load 'actor' onto the stack
                     yield return new CodeInstruction(OpCodes.Ldloc_1); // Load 'curJob' onto the stack
                     yield return new CodeInstruction(OpCodes.Ldloc_2); // Load 'jobDriver' onto the stack
-                    yield return new CodeInstruction(OpCodes.Ldloc_S, 4); // Load 'billGiver' onto the stack
                     yield return new CodeInstruction(OpCodes.Ldloc_S, 7); // Load 'building' onto the stack
                     yield return new CodeInstruction(OpCodes.Call, addition); // Call the TryGiveRandomFailure method
                     continue;
@@ -45,7 +44,7 @@ namespace RandomChance
             }
         }
 
-        public static void TryGiveRandomFailure(Pawn actor, Job curJob, JobDriver_DoBill jobDriver, IBillGiverWithTickAction billGiver, Building_WorkTable building)
+        public static void TryGiveRandomFailure(Pawn actor, Job curJob, JobDriver_DoBill jobDriver, Building_WorkTable building)
         {
             if (!actor.IsColonyMech)
             {
@@ -55,7 +54,7 @@ namespace RandomChance
                 float cookingFailureChance = RandomChanceSettings.CookingFailureChance; // 5% by default
                 float butcheringMessChance = RandomChanceSettings.ButcheringFailureChance; // 9% by default
                 float crematingInjuryChance = RandomChanceSettings.CrematingInjuryChance; // 5% by default
-                int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(billGiver.GetWorkgiver().workType);
+                int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
 
                 building = curJob.GetTarget(TargetIndex.A).Thing as Building_WorkTable;
 
@@ -96,7 +95,7 @@ namespace RandomChance
                     }
                     if (giveInjury)
                     {
-                        GiveInjuryHandler(actor, curJob, billGiver, building);
+                        GiveInjuryHandler(actor, curJob, building);
                     }
                 }
 
@@ -122,7 +121,7 @@ namespace RandomChance
                         {
                             if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
                             {
-                                GiveInjuryHandler(actor, curJob, billGiver, building);
+                                GiveInjuryHandler(actor, curJob, building);
                             }
                         }
                     }
@@ -132,7 +131,11 @@ namespace RandomChance
 
         private static void StartFireHandler(Pawn actor, Job curJob, Building_WorkTable building)
         {
-            Messages.Message("RC_FireInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
+            if (RandomChanceSettings.AllowMessages)
+            {
+                Messages.Message("RC_FireInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
+            }
+
             Thing ingredients = curJob.GetTarget(TargetIndex.B).Thing;
             IntVec3 buildingPos = building.Position;
             Map map = building.Map;
@@ -151,9 +154,9 @@ namespace RandomChance
             }
         }
 
-        private static void GiveInjuryHandler(Pawn actor, Job curJob, IBillGiverWithTickAction billGiver, Building_WorkTable building)
+        private static void GiveInjuryHandler(Pawn actor, Job curJob, Building_WorkTable building)
         {
-            int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(billGiver.GetWorkgiver().workType);
+            int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
             IntVec3 buildingPos = building.Position;
             Map map = building.Map;
             HediffDef burnHediffDef = HediffDefOf.Burn;
@@ -180,16 +183,24 @@ namespace RandomChance
                         Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, fingersPart);
                         hediff.Severity = severity;
                         actor.health.AddHediff(hediff);
-                        Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")), 
-                            actor, MessageTypeDefOf.NegativeEvent);
+
+                        if (RandomChanceSettings.AllowMessages)
+                        {
+                            Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")),
+                                actor, MessageTypeDefOf.NegativeEvent);
+                        }
                     }
                     else
                     {
                         Hediff hediff = HediffMaker.MakeHediff(cutHediffDef, actor, fingersPart);
                         hediff.Severity = severity;
                         actor.health.AddHediff(hediff);
-                        Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")), 
-                            actor, MessageTypeDefOf.NegativeEvent);
+
+                        if (RandomChanceSettings.AllowMessages)
+                        {
+                            Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")),
+                                actor, MessageTypeDefOf.NegativeEvent);
+                        }
 
                         IntVec3 adjacentCell = buildingPos + GenAdj.CardinalDirections.RandomElement();
                         FilthMaker.TryMakeFilth(adjacentCell, map, ThingDefOf.Filth_Blood);
@@ -205,8 +216,12 @@ namespace RandomChance
                     Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, bodyPart);
                     hediff.Severity = severity;
                     actor.health.AddHediff(hediff);
-                    Messages.Message("RC_InjuryWhileCremating".Translate(actor.Named("PAWN")), 
-                        actor, MessageTypeDefOf.NegativeEvent);
+
+                    if (RandomChanceSettings.AllowMessages)
+                    {
+                        Messages.Message("RC_InjuryWhileCremating".Translate(actor.Named("PAWN")),
+                            actor, MessageTypeDefOf.NegativeEvent);
+                    }
                 }
             }
         }
@@ -237,8 +252,11 @@ namespace RandomChance
                     FilthMaker.TryMakeFilth(centerCell, map, animalPawn.def.race.BloodDef);
                 }
 
-                Messages.Message("RC_HorriblyUncleanKitchen".Translate(actor.Named("PAWN")), 
-                    actor, MessageTypeDefOf.NegativeEvent);
+                if (RandomChanceSettings.AllowMessages)
+                {
+                    Messages.Message("RC_HorriblyUncleanKitchen".Translate(actor.Named("PAWN")),
+                        actor, MessageTypeDefOf.NegativeEvent);
+                }
             }
         }
     }

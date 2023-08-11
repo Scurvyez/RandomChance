@@ -68,7 +68,7 @@ namespace RandomChance
                                                 int finalSpawnCount = product.stackCount + bonusSpawnCount;
                                                 product.stackCount = finalSpawnCount;
 
-                                                if (bonusSpawnCount > 0)
+                                                if (bonusSpawnCount > 0 && RandomChanceSettings.AllowMessages)
                                                 {
                                                     Messages.Message("RC_BonusMealProduct".Translate(worker.Named("PAWN"), 
                                                         product.Label), worker, MessageTypeDefOf.PositiveEvent);
@@ -93,8 +93,12 @@ namespace RandomChance
                                         int newMaxSpawnCount = Rand.RangeInclusive((int)newMaxSpawnCountRange.min, (int)newMaxSpawnCountRange.max);
 
                                         product.stackCount = Rand.RangeInclusive(newMinSpawnCount, newMaxSpawnCount);
-                                        Messages.Message("RC_RandomStoneCuttingProduct".Translate(worker.Named("PAWN"), 
+
+                                        if (RandomChanceSettings.AllowMessages)
+                                        {
+                                            Messages.Message("RC_RandomStoneCuttingProduct".Translate(worker.Named("PAWN"),
                                             dominantIngredient.Label, product.Label), worker, MessageTypeDefOf.PositiveEvent);
+                                        }
                                     }
                                 }
                                 break;
@@ -131,8 +135,12 @@ namespace RandomChance
                                     Thing additionalMeat = ThingMaker.MakeThing(meatDef);
                                     additionalMeat.stackCount = additionalMeatStackCount * Mathf.RoundToInt(butcheredCorpseBodySizeFactor);
 
-                                    Messages.Message("RC_PredatorButcheryBonusProduct".Translate(worker.Named("PAWN"), 
+                                    if (RandomChanceSettings.AllowMessages)
+                                    {
+                                        Messages.Message("RC_PredatorButcheryBonusProduct".Translate(worker.Named("PAWN"),
                                         additionalMeat.Label, dominantIngredient.Label), worker, MessageTypeDefOf.PositiveEvent);
+                                    }
+
                                     modifiedProducts.Add(additionalMeat);
                                 }
                             }

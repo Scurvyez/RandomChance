@@ -85,8 +85,11 @@ namespace RandomChance
                                     eggs.stackCount = Rand.RangeInclusive(1, 3);
                                     GenPlace.TryPlaceThing(eggs, __instance.pawn.Position, map, ThingPlaceMode.Near);
 
-                                    Messages.Message("RC_PlantHarvestingFoundEggs".Translate(__instance.pawn.Named("PAWN"), 
-                                        eggs.Label), __instance.pawn, MessageTypeDefOf.PositiveEvent);
+                                    if (RandomChanceSettings.AllowMessages)
+                                    {
+                                        Messages.Message("RC_PlantHarvestingFoundEggs".Translate(__instance.pawn.Named("PAWN"),
+                                            eggs.Label), __instance.pawn, MessageTypeDefOf.PositiveEvent);
+                                    }
 
                                     SimpleCurve agitatedAnimalChanceCurve = new()
                                     {

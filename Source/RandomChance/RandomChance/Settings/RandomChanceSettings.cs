@@ -91,6 +91,14 @@ namespace RandomChance
             }
         }
 
+        public static bool AllowMessages
+        {
+            get
+            {
+                return _instance._allowMessages;
+            }
+        }
+
         public float _cookingFailureChance = 0.05f;
         public float _failedCookingFireSize = 7.5f;
         public float _cookingBetterMealChance = 0.05f;
@@ -101,7 +109,8 @@ namespace RandomChance
         public float _electricalRepairFailureChance = 0.05f;
         public float _plantHarvestingFindEggsChance = 0.05f;
         public float _hurtByFarmAnimalChance = 0.05f;
-
+        public bool _allowMessages = true;
+        
         public RandomChanceSettings()
         {
             _instance = this;
@@ -120,6 +129,7 @@ namespace RandomChance
             Scribe_Values.Look(ref _electricalRepairFailureChance, "electricalRepairFailureChance", 0.05f);
             Scribe_Values.Look(ref _plantHarvestingFindEggsChance, "plantHarvestingFindEggsChance", 0.05f);
             Scribe_Values.Look(ref _hurtByFarmAnimalChance, "hurtByFarmAnimalChance", 0.05f);
+            Scribe_Values.Look(ref _allowMessages, "allowMessages", true);
         }
     }
 }

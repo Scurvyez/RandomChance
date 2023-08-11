@@ -55,7 +55,7 @@ namespace RandomChance
                                     DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f);
                                     __instance.pawn.TakeDamage(damageInfo);
 
-                                    if (damageAmount > 0f)
+                                    if (damageAmount > 0f && RandomChanceSettings.AllowMessages)
                                     {
                                         Messages.Message("RC_HurtByFarmAnimal".Translate(__instance.pawn.Named("PAWN"),
                                             animal.NameShortColored), __instance.pawn, MessageTypeDefOf.NegativeEvent);

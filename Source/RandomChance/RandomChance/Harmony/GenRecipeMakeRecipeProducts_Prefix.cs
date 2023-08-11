@@ -48,8 +48,12 @@ namespace RandomChance
                         if (Rand.Chance(higherQualityCurve.Evaluate(pawnsAvgSkillLevel)))
                         {
                             recipeDef = newRecipeDef;
-                            Messages.Message("RC_BetterMealProduced".Translate(worker.Named("PAWN")), 
+
+                            if (RandomChanceSettings.AllowMessages)
+                            {
+                                Messages.Message("RC_BetterMealProduced".Translate(worker.Named("PAWN")),
                                 MessageTypeDefOf.PositiveEvent);
+                            }
                         }
                     }
                 }

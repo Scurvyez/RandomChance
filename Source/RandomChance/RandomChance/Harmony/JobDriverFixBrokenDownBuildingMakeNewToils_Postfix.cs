@@ -57,8 +57,12 @@ namespace RandomChance
                                         FireUtility.TryStartFireIn(building.Position, building.Map, RandomChanceSettings.FailedCookingFireSize);
                                         MoteMaker.MakeColonistActionOverlay(__instance.pawn, ThingDefOf.Mote_ColonistFleeing);
                                     }
-                                    Messages.Message("RC_ElectricalRepairFailure".Translate(__instance.pawn.Named("PAWN")), 
+
+                                    if (RandomChanceSettings.AllowMessages)
+                                    {
+                                        Messages.Message("RC_ElectricalRepairFailure".Translate(__instance.pawn.Named("PAWN")),
                                         __instance.pawn, MessageTypeDefOf.NegativeEvent);
+                                    }
 
                                     if (Rand.Value < 0.20f)
                                     {

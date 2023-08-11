@@ -7,7 +7,7 @@
     <RC_BonusMealProduct>Through a sprinkle of serendipity, {0} has skillfully transformed every last morsel of sustenance into {1}.</RC_BonusMealProduct>
     <RC_FireInKitchen>Oh no! {0}'s otherworldly poor cooking skills have led to a fire in the kitchen!\nMore practice at {0_possessive} job may lead to less injury in the future.</RC_FireInKitchen>
     <RC_InjuryInKitchen>Ouch! {0} has injured {0_possessive}self in the kitchen!\nPractice makes perfect though. Right?</RC_InjuryInKitchen>
-    <RC_InjuryWhileCremating>Oww! {0} has burned {0_possessive}self while attempting to shove a body into the crematorium.\nPerhaps, {0} should be more careful?</RC_InjuryWhileCremating>
+    <RC_InjuryWhileCremating>Oww! {0} was burned while attempting to operate the crematorium.\nPerhaps, {0} should be more careful?</RC_InjuryWhileCremating>
     <RC_BetterMealProduced>Woah! {0}'s passion for her job in the kitchen has led to a glorious culinary upgrade!</RC_BetterMealProduced>
     <RC_HorriblyUncleanKitchen>Sharpen your knife already! {0} has made an absolute mess while butchering an animal.\nPerhaps more time practicing the craft will prevent future hiccups of this sort.</RC_HorriblyUncleanKitchen>
     <RC_PredatorButcheryBonusProduct>{0} has discovered {1} while carefully butchering a {2}.\nThe Rim is a cruel and dark place. Be wary.</RC_PredatorButcheryBonusProduct>
@@ -16,6 +16,10 @@
     <RC_HurtByFarmAnimal>{0} was injured while working on the farm.\nMaybe next time, don't make {1} angry.</RC_HurtByFarmAnimal>
 
     <!--==================== Settings ====================-->
+
+    <!-- UI -->
+    <RC_AllowMessages>Allow messages.</RC_AllowMessages>
+    <RC_AllowMessagesDesc>Enable / disable alert messages in the top left of the screen.</RC_AllowMessagesDesc>
 
     <!-- Cooking -->
     <RC_ModName>Random Chance</RC_ModName>
