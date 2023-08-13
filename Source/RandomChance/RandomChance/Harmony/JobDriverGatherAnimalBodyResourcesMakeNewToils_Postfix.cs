@@ -24,46 +24,49 @@ namespace RandomChance
             {
                 initAction = delegate
                 {
-                    float workerInjuryChance = RandomChanceSettings.HurtByFarmAnimalChance; // 5% by default
-
-                    if (Rand.Chance(workerInjuryChance))
+                    if (!__instance.pawn.IsColonyMech)
                     {
-                        SimpleCurve chanceCurve = new()
-                        {
-                            { 0, 0.55f }, // pawn skill lvl, chance %
-                            { 3, 0.45f },
-                            { 6, 0.35f },
-                            { 8, 0.20f },
-                            { 14, 0.10f },
-                            { 18, 0.05f },
-                            { 20, 0.02f }
-                        };
+                        float workerInjuryChance = RandomChanceSettings.HurtByFarmAnimalChance; // 5% by default
 
-                        float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
-
-                        if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                        if (Rand.Chance(workerInjuryChance))
                         {
-                            Pawn animal = __instance.job.GetTarget(TargetIndex.A).Thing as Pawn;
-                            List<Tool> tools = animal.Tools;
-                            if (animal != null && tools != null && tools.Count > 0)
+                            SimpleCurve chanceCurve = new()
                             {
-                                Tool selectedTool = tools.RandomElement();
-                                if (Rand.Chance(selectedTool.chanceFactor) && selectedTool != null)
+                                { 0, 0.55f }, // pawn skill lvl, chance %
+                                { 3, 0.45f },
+                                { 6, 0.35f },
+                                { 8, 0.20f },
+                                { 14, 0.10f },
+                                { 18, 0.05f },
+                                { 20, 0.02f }
+                            };
+
+                            float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
+
+                            if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                            {
+                                Pawn animal = __instance.job.GetTarget(TargetIndex.A).Thing as Pawn;
+                                List<Tool> tools = animal.Tools;
+                                if (animal != null && tools != null && tools.Count > 0)
                                 {
-                                    float damageAmount = Rand.Range(selectedTool.power / 2f, selectedTool.power);
-                                    DamageDef damageInflicted = selectedTool.Maneuvers.RandomElement().verb.meleeDamageDef;
-                                    DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f);
-                                    __instance.pawn.TakeDamage(damageInfo);
-
-                                    if (damageAmount > 0f && RandomChanceSettings.AllowMessages)
+                                    Tool selectedTool = tools.RandomElement();
+                                    if (Rand.Chance(selectedTool.chanceFactor) && selectedTool != null)
                                     {
-                                        Messages.Message("RC_HurtByFarmAnimal".Translate(__instance.pawn.Named("PAWN"),
-                                            animal.NameShortColored), __instance.pawn, MessageTypeDefOf.NegativeEvent);
-                                    }
+                                        float damageAmount = Rand.Range(selectedTool.power / 2f, selectedTool.power);
+                                        DamageDef damageInflicted = selectedTool.Maneuvers.RandomElement().verb.meleeDamageDef;
+                                        DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f);
+                                        __instance.pawn.TakeDamage(damageInfo);
 
-                                    Find.TickManager.slower.SignalForceNormalSpeedShort();
-                                    __instance.pawn.stances.stunner.StunFor(60, __instance.pawn, false, false);
-                                    __instance.EndJobWith(JobCondition.Incompletable);
+                                        if (damageAmount > 0f && RandomChanceSettings.AllowMessages)
+                                        {
+                                            Messages.Message("RC_HurtByFarmAnimal".Translate(__instance.pawn.Named("PAWN"),
+                                                animal.NameShortColored), __instance.pawn, MessageTypeDefOf.NegativeEvent);
+                                        }
+
+                                        Find.TickManager.slower.SignalForceNormalSpeedShort();
+                                        __instance.pawn.stances.stunner.StunFor(60, __instance.pawn, false, false);
+                                        __instance.EndJobWith(JobCondition.Incompletable);
+                                    }
                                 }
                             }
                         }
