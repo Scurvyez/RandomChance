@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-    <DamageDef Name="Bomb">
+    <DamageDef Name="ElectricShock">
         <defName>RC_ElectricShockDamage</defName>
         <label>electric shock</label>
         <hediff>Crush</hediff>
