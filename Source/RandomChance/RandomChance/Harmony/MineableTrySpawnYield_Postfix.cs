@@ -90,7 +90,7 @@ namespace RandomChance
                                     GenPlace.TryPlaceThing(thingToSpawn, __instance.Position, map, ThingPlaceMode.Near);
                                 }
 
-                                break; // Exit the loop after selecting one item
+                                break; // Exit the loop after selecting one item.
                             }
                         }
                     }

@@ -14,6 +14,7 @@
     <RC_ElectricalRepairFailure>There's been an accident! {0} has botched some electrical repairs!\nTend to any injuries or other cascading failures quickly!</RC_ElectricalRepairFailure>
     <RC_PlantHarvestingFoundEggs>While foraging for resources, {0} found {1}.</RC_PlantHarvestingFoundEggs>
     <RC_HurtByFarmAnimal>{0} was injured while working on the farm.\nMaybe next time, don't make {1} angry.</RC_HurtByFarmAnimal>
+    <RC_DirtyFoodStoresArea>Do you want rats? Because this is how you get rats.</RC_DirtyFoodStoresArea>
 
     <!--==================== Settings ====================-->
 

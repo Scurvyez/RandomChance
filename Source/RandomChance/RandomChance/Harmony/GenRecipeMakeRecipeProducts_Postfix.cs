@@ -15,46 +15,49 @@ namespace RandomChance
         [HarmonyPostfix]
         public static void Postfix(ref IEnumerable<Thing> __result, RecipeDef recipeDef, Pawn worker, Thing dominantIngredient)
         {
-            if (!worker.IsColonyMech)
+            RandomProductExtension rpEx = recipeDef.GetModExtension<RandomProductExtension>();
+
+            if (rpEx == null) return;
             {
-                RandomProductExtension rpEx = recipeDef.GetModExtension<RandomProductExtension>();
-                float pawnsAvgSkillLevel = worker.skills.AverageOfRelevantSkillsFor(worker.CurJob.workGiverDef.workType);
-                float skillsFactor = 0.20f;
-
-                List<Thing> modifiedProducts = new();
-
-                foreach (Thing product in __result)
+                if (!worker.IsColonyMech)
                 {
-                    if (rpEx != null && rpEx.randomProducts != null && rpEx.randomProductChance.HasValue && rpEx.randomProductChance.Value > 0f 
-                        && Rand.Chance(rpEx.randomProductChance.Value))
+                    float pawnsAvgSkillLevel = worker.skills.AverageOfRelevantSkillsFor(worker.CurJob.workGiverDef.workType);
+                    float skillsFactor = 0.20f;
+
+                    List<Thing> modifiedProducts = new();
+
+                    foreach (Thing product in __result)
                     {
-                        float totalWeight = 0f;
-                        foreach (RandomProductData productData in rpEx.randomProducts)
+                        if (rpEx != null && rpEx.randomProducts != null && rpEx.randomProductChance.HasValue && rpEx.randomProductChance.Value > 0f
+                            && Rand.Chance(rpEx.randomProductChance.Value))
                         {
-                            totalWeight += productData.randomProductWeight;
-                        }
-
-                        float randomValue = Rand.Range(0f, totalWeight);
-                        float accumulatedWeight = 0f;
-
-                        foreach (RandomProductData productData in rpEx.randomProducts)
-                        {
-                            accumulatedWeight += productData.randomProductWeight;
-
-                            if (randomValue <= accumulatedWeight)
+                            float totalWeight = 0f;
+                            foreach (RandomProductData productData in rpEx.randomProducts)
                             {
-                                ThingDef selectedDef = DefDatabase<ThingDef>.GetNamed(productData.randomProduct.defName, errorOnFail: false);
-                                if (selectedDef != null)
-                                {
-                                    if (recipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
-                                    {
-                                        for (int i = 0; i < rpEx.randomProducts.Count; i++)
-                                        {
-                                            if (product.def == rpEx.randomProducts[i].randomProduct)
-                                            {
-                                                product.def = rpEx.randomProducts[i].randomProduct;
+                                totalWeight += productData.randomProductWeight;
+                            }
 
-                                                SimpleCurve bonusSpawnCurve = new()
+                            float randomValue = Rand.Range(0f, totalWeight);
+                            float accumulatedWeight = 0f;
+
+                            foreach (RandomProductData productData in rpEx.randomProducts)
+                            {
+                                accumulatedWeight += productData.randomProductWeight;
+
+                                if (randomValue <= accumulatedWeight)
+                                {
+                                    ThingDef selectedDef = DefDatabase<ThingDef>.GetNamed(productData.randomProduct.defName, errorOnFail: false);
+                                    if (selectedDef != null)
+                                    {
+                                        if (recipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
+                                        {
+                                            for (int i = 0; i < rpEx.randomProducts.Count; i++)
+                                            {
+                                                if (product.def == rpEx.randomProducts[i].randomProduct)
+                                                {
+                                                    product.def = rpEx.randomProducts[i].randomProduct;
+
+                                                    SimpleCurve bonusSpawnCurve = new()
                                                 {
                                                     { 0, 0 },
                                                     { 5, 0 },
@@ -64,53 +67,53 @@ namespace RandomChance
                                                     { 20, Rand.RangeInclusive(0, 4) }
                                                 };
 
-                                                int bonusSpawnCount = (int)bonusSpawnCurve.Evaluate(pawnsAvgSkillLevel);
-                                                int finalSpawnCount = product.stackCount + bonusSpawnCount;
-                                                product.stackCount = finalSpawnCount;
+                                                    int bonusSpawnCount = (int)bonusSpawnCurve.Evaluate(pawnsAvgSkillLevel);
+                                                    int finalSpawnCount = product.stackCount + bonusSpawnCount;
+                                                    product.stackCount = finalSpawnCount;
 
-                                                if (bonusSpawnCount > 0 && RandomChanceSettings.AllowMessages)
-                                                {
-                                                    Messages.Message("RC_BonusMealProduct".Translate(worker.Named("PAWN"), 
-                                                        product.Label), worker, MessageTypeDefOf.PositiveEvent);
+                                                    if (bonusSpawnCount > 0 && RandomChanceSettings.AllowMessages)
+                                                    {
+                                                        Messages.Message("RC_BonusMealProduct".Translate(worker.Named("PAWN"),
+                                                            product.Label), worker, MessageTypeDefOf.PositiveEvent);
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                    else
-                                    {
-                                        product.def = selectedDef;
-                                        FloatRange initialSpawnCountRange = productData.randomProductAmountRange;
-
-                                        int skillBasedSpawnCount = Mathf.RoundToInt(pawnsAvgSkillLevel * skillsFactor);
-
-                                        FloatRange newMinSpawnCountRange;
-                                        FloatRange newMaxSpawnCountRange;
-
-                                        newMinSpawnCountRange = new FloatRange(initialSpawnCountRange.min, initialSpawnCountRange.min * skillBasedSpawnCount);
-                                        newMaxSpawnCountRange = new FloatRange(initialSpawnCountRange.max, initialSpawnCountRange.max * skillBasedSpawnCount);
-
-                                        int newMinSpawnCount = Rand.RangeInclusive((int)newMinSpawnCountRange.min, (int)newMinSpawnCountRange.max);
-                                        int newMaxSpawnCount = Rand.RangeInclusive((int)newMaxSpawnCountRange.min, (int)newMaxSpawnCountRange.max);
-
-                                        product.stackCount = Rand.RangeInclusive(newMinSpawnCount, newMaxSpawnCount);
-
-                                        if (RandomChanceSettings.AllowMessages)
+                                        else
                                         {
-                                            Messages.Message("RC_RandomStoneCuttingProduct".Translate(worker.Named("PAWN"),
-                                            dominantIngredient.Label, product.Label), worker, MessageTypeDefOf.PositiveEvent);
+                                            product.def = selectedDef;
+                                            FloatRange initialSpawnCountRange = productData.randomProductAmountRange;
+
+                                            int skillBasedSpawnCount = Mathf.RoundToInt(pawnsAvgSkillLevel * skillsFactor);
+
+                                            FloatRange newMinSpawnCountRange;
+                                            FloatRange newMaxSpawnCountRange;
+
+                                            newMinSpawnCountRange = new FloatRange(initialSpawnCountRange.min, initialSpawnCountRange.min * skillBasedSpawnCount);
+                                            newMaxSpawnCountRange = new FloatRange(initialSpawnCountRange.max, initialSpawnCountRange.max * skillBasedSpawnCount);
+
+                                            int newMinSpawnCount = Rand.RangeInclusive((int)newMinSpawnCountRange.min, (int)newMinSpawnCountRange.max);
+                                            int newMaxSpawnCount = Rand.RangeInclusive((int)newMaxSpawnCountRange.min, (int)newMaxSpawnCountRange.max);
+
+                                            product.stackCount = Rand.RangeInclusive(newMinSpawnCount, newMaxSpawnCount);
+
+                                            if (RandomChanceSettings.AllowMessages)
+                                            {
+                                                Messages.Message("RC_RandomStoneCuttingProduct".Translate(worker.Named("PAWN"),
+                                                dominantIngredient.Label, product.Label), worker, MessageTypeDefOf.PositiveEvent);
+                                            }
                                         }
                                     }
+                                    break;
                                 }
-                                break;
                             }
                         }
-                    }
 
-                    if (recipeDef == RandomChance_DefOf.ButcherCorpseFlesh && Rand.Chance(RandomChanceSettings.BonusButcherProductChance))
-                    {
-                        Thing butcheredCorpse = worker.CurJob.GetTarget(TargetIndex.B).Thing;
+                        if (recipeDef == RandomChance_DefOf.ButcherCorpseFlesh && Rand.Chance(RandomChanceSettings.BonusButcherProductChance))
+                        {
+                            Thing butcheredCorpse = worker.CurJob.GetTarget(TargetIndex.B).Thing;
 
-                        SimpleCurve chanceCurve = new()
+                            SimpleCurve chanceCurve = new()
                         {
                             { 0, 0.025f },
                             { 3, 0.05f },
@@ -121,34 +124,35 @@ namespace RandomChance
                             { 20, 0.5f }
                         };
 
-                        if (butcheredCorpse is Corpse corpse)
-                        {
-                            if (corpse.InnerPawn.RaceProps.predator)
+                            if (butcheredCorpse is Corpse corpse)
                             {
-                                if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                                if (corpse.InnerPawn.RaceProps.predator)
                                 {
-                                    int additionalMeatStackCount = Rand.RangeInclusive(1, 15);
-                                    float butcheredCorpseBodySizeFactor = (corpse.InnerPawn.RaceProps.baseBodySize / 1.15f);
-                                    butcheredCorpseBodySizeFactor = Mathf.Max(butcheredCorpseBodySizeFactor, 1f);
-
-                                    ThingDef meatDef = GetRandomMeatFromOtherPawn();
-                                    Thing additionalMeat = ThingMaker.MakeThing(meatDef);
-                                    additionalMeat.stackCount = additionalMeatStackCount * Mathf.RoundToInt(butcheredCorpseBodySizeFactor);
-
-                                    if (RandomChanceSettings.AllowMessages)
+                                    if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
                                     {
-                                        Messages.Message("RC_PredatorButcheryBonusProduct".Translate(worker.Named("PAWN"),
-                                        additionalMeat.Label, dominantIngredient.Label), worker, MessageTypeDefOf.PositiveEvent);
-                                    }
+                                        int additionalMeatStackCount = Rand.RangeInclusive(1, 15);
+                                        float butcheredCorpseBodySizeFactor = (corpse.InnerPawn.RaceProps.baseBodySize / 1.15f);
+                                        butcheredCorpseBodySizeFactor = Mathf.Max(butcheredCorpseBodySizeFactor, 1f);
 
-                                    modifiedProducts.Add(additionalMeat);
+                                        ThingDef meatDef = GetRandomMeatFromOtherPawn();
+                                        Thing additionalMeat = ThingMaker.MakeThing(meatDef);
+                                        additionalMeat.stackCount = additionalMeatStackCount * Mathf.RoundToInt(butcheredCorpseBodySizeFactor);
+
+                                        if (RandomChanceSettings.AllowMessages)
+                                        {
+                                            Messages.Message("RC_PredatorButcheryBonusProduct".Translate(worker.Named("PAWN"),
+                                            additionalMeat.Label, dominantIngredient.Label), worker, MessageTypeDefOf.PositiveEvent);
+                                        }
+
+                                        modifiedProducts.Add(additionalMeat);
+                                    }
                                 }
                             }
                         }
+                        modifiedProducts.Add(product);
                     }
-                    modifiedProducts.Add(product);
+                    __result = modifiedProducts;
                 }
-                __result = modifiedProducts;
             }
         }
         

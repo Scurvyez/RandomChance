@@ -178,15 +178,15 @@
         <xpath>Defs/ThingDef[@Name="RockBase"]</xpath>
         <value>
             <li Class="RandomChance.RandomProductExtension">
-                <randomProductChance>0.5</randomProductChance> <!-- 5% chance -->
+                <randomProductChance>0.05</randomProductChance> <!-- 5% chance -->
                 <randomProducts>
-                    <!-- Vanilla + DLCs -->
+                    <!-- Vanilla -->
                     <!-- [that item's weight / the sum of weights] -->
-                    <Jade Weight="0.15">1~5</Jade>
-                    <Gold Weight="0.30">1~7</Gold>
-                    <Silver Weight="0.75">10~25</Silver>
-                    <Plasteel Weight="0.15">1~15</Plasteel>
-                    <Uranium Weight="0.10">1~7</Uranium>
+                    <Jade Weight="0.15">1~2</Jade>
+                    <Gold Weight="0.30">1~3</Gold>
+                    <Silver Weight="0.75">1~5</Silver>
+                    <Plasteel Weight="0.15">1~2</Plasteel>
+                    <Uranium Weight="0.10">1~2</Uranium>
                 </randomProducts>
             </li>
         </value>

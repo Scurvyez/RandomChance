@@ -65,6 +65,7 @@
     <Compile Include="Harmony\JobDriverFixBrokenDownBuildingMakeNewToils_Postfix.cs" />
     <Compile Include="Harmony\GenRecipeMakeRecipeProducts_Prefix.cs" />
     <Compile Include="Harmony\ToilsRecipeDoRecipeWork_Transpiler.cs" />
+    <Compile Include="MapComps\MapComponent_SpawnAnimalsIfDirty.cs" />
     <Compile Include="Settings\RancomChanceMod.cs" />
     <Compile Include="Settings\RandomChanceSettings.cs" />
     <Compile Include="Utils\RandomProductData.cs" />
