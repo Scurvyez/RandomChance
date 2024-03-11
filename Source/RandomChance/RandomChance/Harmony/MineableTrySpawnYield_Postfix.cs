@@ -28,27 +28,17 @@ namespace RandomChance
                 GenPlace.TryPlaceThing(thing2, __instance.Position, map, ThingPlaceMode.Near);
             }
 
-            if (!pawn.IsColonyMech)
+            if (!pawn.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
             {
+                float skillsFactor = 0.20f;
                 RandomProductExtension rpEx = __instance.def.GetModExtension<RandomProductExtension>();
                 int pawnsAvgSkillLevel = (int)pawn.skills.AverageOfRelevantSkillsFor(pawn.CurJob.workGiverDef.workType);
-                float skillsFactor = 0.20f;
-
-                SimpleCurve chanceCurve = new()
-                {
-                    { 0, 0.01f },
-                    { 3, 0.02f },
-                    { 6, 0.05f },
-                    { 8, 0.1f },
-                    { 14, 0.2f },
-                    { 18, 0.4f },
-                    { 20, 0.5f }
-                };
+                SimpleCurve extraYieldCurve = RandomChance_DefOf.RC_Curves.extraMiningYieldCurve;
 
                 if (rpEx != null && rpEx.randomProducts != null && rpEx.randomProductChance.HasValue && rpEx.randomProductChance.Value > 0f
                         && Rand.Chance(rpEx.randomProductChance.Value))
                 {
-                    if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                    if (Rand.Chance(extraYieldCurve.Evaluate(pawnsAvgSkillLevel)))
                     {
                         float totalWeight = 0f;
                         foreach (RandomProductData productData in rpEx.randomProducts)

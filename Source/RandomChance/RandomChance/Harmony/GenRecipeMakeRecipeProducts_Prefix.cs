@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
 using Verse;
@@ -25,27 +23,17 @@ namespace RandomChance
         [HarmonyPrefix]
         public static void Prefix(ref RecipeDef recipeDef, Pawn worker, IBillGiver billGiver)
         {
-            if (!worker.IsColonyMech)
+            if (!worker.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
             {
                 int pawnsAvgSkillLevel = (int)worker.skills.AverageOfRelevantSkillsFor(billGiver.GetWorkgiver().workType);
                 float betterQualityMealChance = RandomChanceSettings.CookingBetterMealChance; // 5%
+                SimpleCurve injuryCurve = RandomChance_DefOf.RC_Curves.betterMealOutcomeCurve;
 
                 if (Rand.Chance(betterQualityMealChance))
                 {
                     if (recipeMap.TryGetValue(recipeDef, out RecipeDef newRecipeDef))
                     {
-                        SimpleCurve higherQualityCurve = new()
-                        {
-                            { 0, 0 },
-                            { 3, 0.02f },
-                            { 6, 0.08f },
-                            { 8, 0.1f },
-                            { 14, 0.175f },
-                            { 18, 0.455f },
-                            { 20, 0.575f }
-                        };
-
-                        if (Rand.Chance(higherQualityCurve.Evaluate(pawnsAvgSkillLevel)))
+                        if (Rand.Chance(injuryCurve.Evaluate(pawnsAvgSkillLevel)))
                         {
                             recipeDef = newRecipeDef;
 

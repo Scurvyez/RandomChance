@@ -9,10 +9,7 @@ namespace RandomChance
         public int dirtinessThreshold = 6;
         private HashSet<IntVec3> foodCells = new HashSet<IntVec3>();
 
-        public MapComponent_SpawnAnimalsIfDirty(Map map) : base(map)
-        {
-            
-        }
+        public MapComponent_SpawnAnimalsIfDirty(Map map) : base(map) { }
 
         public override void MapComponentTick()
         {
@@ -82,7 +79,7 @@ namespace RandomChance
 
         private void SpawnAnimals(IntVec3 cell)
         {
-            PawnKindDef animalKindDef = PawnKindDef.Named("Rat"); // Change
+            PawnKindDef animalKindDef = RandomChance_DefOf.Rat;
 
             int numberToSpawn = Rand.RangeInclusive(1, 15);
 

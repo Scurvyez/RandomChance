@@ -46,28 +46,19 @@ namespace RandomChance
 
         public static void TryGiveRandomFailure(Pawn actor, Job curJob, JobDriver_DoBill jobDriver, Building_WorkTable building)
         {
-            if (!actor.IsColonyMech)
+            if (!actor.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
             {
                 bool startFire = false;
                 bool giveInjury = false;
 
                 float cookingFailureChance = RandomChanceSettings.CookingFailureChance; // 5% by default
+                SimpleCurve cookingFailureCurve = RandomChance_DefOf.RC_Curves.cookingFailureCurve;
                 float butcheringMessChance = RandomChanceSettings.ButcheringFailureChance; // 9% by default
+                SimpleCurve butcheringMessCurve = RandomChance_DefOf.RC_Curves.butcheringMessCurve;
                 float crematingInjuryChance = RandomChanceSettings.CrematingInjuryChance; // 5% by default
+                SimpleCurve crematingInjuryCurve = RandomChance_DefOf.RC_Curves.crematingInjuryCurve;
                 int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
-
                 building = curJob.GetTarget(TargetIndex.A).Thing as Building_WorkTable;
-
-                SimpleCurve chanceCurve = new()
-                {
-                    { 0, 0.5f },
-                    { 3, 0.5f },
-                    { 6, 0.3f },
-                    { 8, 0.2f },
-                    { 14, 0.1f },
-                    { 18, 0.05f },
-                    { 20, 0.02f }
-                };
 
                 if (curJob.RecipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
@@ -75,7 +66,7 @@ namespace RandomChance
                     {
                         if (Rand.Chance(cookingFailureChance))
                         {
-                            if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                            if (Rand.Chance(cookingFailureCurve.Evaluate(pawnsAvgSkillLevel)))
                             {
                                 if (Rand.Bool)
                                 {
@@ -105,7 +96,7 @@ namespace RandomChance
                     {
                         if (Rand.Chance(butcheringMessChance))
                         {
-                            if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                            if (Rand.Chance(butcheringMessCurve.Evaluate(pawnsAvgSkillLevel)))
                             {
                                 CauseMessHandler(actor, curJob, building);
                             }
@@ -119,7 +110,7 @@ namespace RandomChance
                     {
                         if (Rand.Chance(crematingInjuryChance))
                         {
-                            if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                            if (Rand.Chance(crematingInjuryCurve.Evaluate(pawnsAvgSkillLevel)))
                             {
                                 GiveInjuryHandler(actor, curJob, building);
                             }

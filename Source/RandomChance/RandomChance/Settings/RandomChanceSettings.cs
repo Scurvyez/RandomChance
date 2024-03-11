@@ -86,6 +86,14 @@ namespace RandomChance
             }
         }
 
+        public static float InjuredByApparelChance
+        {
+            get
+            {
+                return _instance._injuredByApparelChance;
+            }
+        }
+
         public static bool AllowMessages
         {
             get
@@ -104,6 +112,7 @@ namespace RandomChance
         public float _electricalRepairFailureChance = 0.05f;
         public float _plantHarvestingFindEggsChance = 0.05f;
         public float _hurtByFarmAnimalChance = 0.05f;
+        public float _injuredByApparelChance = 0.05f;
         public bool _allowMessages = true;
         
         public RandomChanceSettings()
@@ -124,6 +133,7 @@ namespace RandomChance
             Scribe_Values.Look(ref _electricalRepairFailureChance, "electricalRepairFailureChance", 0.05f);
             Scribe_Values.Look(ref _plantHarvestingFindEggsChance, "plantHarvestingFindEggsChance", 0.05f);
             Scribe_Values.Look(ref _hurtByFarmAnimalChance, "hurtByFarmAnimalChance", 0.05f);
+            Scribe_Values.Look(ref _injuredByApparelChance, "_injuredByApparelChance", 0.05f);
             Scribe_Values.Look(ref _allowMessages, "allowMessages", true);
         }
     }

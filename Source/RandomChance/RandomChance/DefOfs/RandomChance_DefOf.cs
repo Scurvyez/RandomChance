@@ -9,6 +9,10 @@ namespace RandomChance
         public static ThingDef ElectricStove;
         public static ThingDef FueledStove;
         public static ThingDef MealLavish;
+        public static ThingDef Apparel_PowerArmor;
+        public static ThingDef Apparel_PowerArmorHelmet;
+
+        public static PawnKindDef Rat;
 
         public static EffecterDef RC_ElectricShockBonesEffect;
 
@@ -33,6 +37,8 @@ namespace RandomChance
         public static RecipeDef CookMealLavishBulk_Meat;
         public static RecipeDef ButcherCorpseFlesh;
         public static RecipeDef CremateCorpse;
+
+        public static ConfigurationDef RC_Curves;
 
         static RandomChance_DefOf()
         {

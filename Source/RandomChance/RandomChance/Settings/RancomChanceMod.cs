@@ -37,7 +37,7 @@ namespace RandomChance
 
             Listing_Standard list2 = new ();
             Rect viewRect2 = new(inRect.x + 450, inRect.y, inRect.width / 2 - 20, inRect.height - 40); // 2nd rect, right-side panel
-            Rect vROffset2 = new(450, 0, inRect.width / 2 - 40, inRect.height + 100); // 2nd panel inside 1st, "100", update as more settings are added to list
+            Rect vROffset2 = new(450, 0, inRect.width / 2 - 40, inRect.height + 200); // 2nd panel inside 1st, "100", update as more settings are added to list
             Widgets.BeginScrollView(viewRect2, ref scrollPos, vROffset2, true);
 
             list2.Begin(vROffset2);
@@ -111,6 +111,16 @@ namespace RandomChance
             string plantHarvestingFindEggsChanceSliderText = plantHarvestingFindEggsChanceSlider.ToString("F2");
             list2.Label(label: "RC_PlantHarvestingFindEggsChance".Translate(plantHarvestingFindEggsChanceSliderText), tooltip: "RC_PlantHarvestingFindEggsChanceDesc".Translate());
             settings._plantHarvestingFindEggsChance = list2.Slider(settings._plantHarvestingFindEggsChance, 0.0f, 1.0f);
+            list2.Gap(6.0f);
+
+            // Apparel Shenanigans
+            list2.Label("<color=#ff6666>Apparel Shenanigans</color>");
+
+            list2.Gap(3.00f);
+            float injuredByApparelChanceSlider = settings._injuredByApparelChance;
+            string injuredByApparelChanceSliderText = injuredByApparelChanceSlider.ToString("F2");
+            list2.Label(label: "RC_InjuredByApparelChance".Translate(injuredByApparelChanceSliderText), tooltip: "RC_InjuredByApparelChanceDesc".Translate());
+            settings._injuredByApparelChance = list2.Slider(settings._injuredByApparelChance, 0.0f, 1.0f);
             list2.Gap(6.0f);
 
             // Animal work

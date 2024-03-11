@@ -1,11 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
 
@@ -24,26 +19,16 @@ namespace RandomChance
             {
                 initAction = delegate
                 {
-                    if (!__instance.pawn.IsColonyMech)
+                    if (!__instance.pawn.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
                     {
                         float workerInjuryChance = RandomChanceSettings.HurtByFarmAnimalChance; // 5% by default
+                        SimpleCurve injuryCurve = RandomChance_DefOf.RC_Curves.hurtByFarmAnimalCurve;
 
                         if (Rand.Chance(workerInjuryChance))
                         {
-                            SimpleCurve chanceCurve = new()
-                            {
-                                { 0, 0.55f }, // pawn skill lvl, chance %
-                                { 3, 0.45f },
-                                { 6, 0.35f },
-                                { 8, 0.20f },
-                                { 14, 0.10f },
-                                { 18, 0.05f },
-                                { 20, 0.02f }
-                            };
-
                             float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
 
-                            if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                            if (Rand.Chance(injuryCurve.Evaluate(pawnsAvgSkillLevel)))
                             {
                                 Pawn animal = __instance.job.GetTarget(TargetIndex.A).Thing as Pawn;
                                 List<Tool> tools = animal.Tools;

@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefOfs\RandomChance_DefOf.cs" />
+    <Compile Include="Harmony\JobDriverWearMakeNewToils_Postfix.cs" />
     <Compile Include="Harmony\MineableTrySpawnYield_Postfix.cs" />
     <Compile Include="Harmony\JobDriverGatherAnimalBodyResourcesMakeNewToils_Postfix.cs" />
     <Compile Include="Harmony\JobDriverPlantWorkMakeNewToils_Postfix.cs" />
@@ -68,6 +69,8 @@
     <Compile Include="MapComps\MapComponent_SpawnAnimalsIfDirty.cs" />
     <Compile Include="Settings\RancomChanceMod.cs" />
     <Compile Include="Settings\RandomChanceSettings.cs" />
+    <Compile Include="Utils\ConfigurationDef.cs" />
+    <Compile Include="Utils\QualityGetter.cs" />
     <Compile Include="Utils\RandomProductData.cs" />
     <Compile Include="DefModExtensions\RandomProductExtension.cs" />
     <Compile Include="Harmony\GenRecipeMakeRecipeProducts_Postfix.cs" />

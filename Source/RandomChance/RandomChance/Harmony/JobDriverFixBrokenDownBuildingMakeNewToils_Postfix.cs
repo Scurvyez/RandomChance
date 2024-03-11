@@ -1,11 +1,8 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.Noise;
 
 namespace RandomChance
 {
@@ -23,26 +20,17 @@ namespace RandomChance
             {
                 initAction = delegate
                 {
-                    if (!__instance.pawn.IsColonyMech)
+                    if (!__instance.pawn.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
                     {
                         float averageSkills = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
                         float failureChance = RandomChanceSettings.ElectricalRepairFailureChance; // 5% by default
+                        SimpleCurve injuryCurve = RandomChance_DefOf.RC_Curves.brokenBuildingDamageCurve;
+
                         if (Rand.Chance(failureChance))
                         {
                             Building building = __instance.job.GetTarget(TargetIndex.A).Thing as Building;
 
-                            SimpleCurve damageChanceCurve = new()
-                            {
-                                { 0, 0.5f },
-                                { 3, 0.5f },
-                                { 6, 0.3f },
-                                { 8, 0.2f },
-                                { 14, 0.1f },
-                                { 18, 0.05f },
-                                { 20, 0.02f }
-                            };
-
-                            if (Rand.Chance(damageChanceCurve.Evaluate(averageSkills)))
+                            if (Rand.Chance(injuryCurve.Evaluate(averageSkills)))
                             {
                                 if (building != null)
                                 {

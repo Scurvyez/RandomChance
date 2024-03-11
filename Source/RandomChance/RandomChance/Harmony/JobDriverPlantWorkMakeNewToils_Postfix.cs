@@ -20,29 +20,20 @@ namespace RandomChance
             {
                 initAction = delegate
                 {
-                    if (!__instance.pawn.IsColonyMech)
+                    if (!__instance.pawn.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
                     {
                         float findAnimalEggsChance = RandomChanceSettings.PlantHarvestingFindEggsChance; // 5% by default
+                        SimpleCurve discoveryCurve = RandomChance_DefOf.RC_Curves.plantWorkDiscoveryCurve;
+                        SimpleCurve aggitatedAnimalCurve = RandomChance_DefOf.RC_Curves.aggitatedWildAnimalCurve;
 
                         if (Rand.Chance(findAnimalEggsChance))
                         {
-                            SimpleCurve chanceCurve = new()
-                            {
-                                { 0, 0.02f }, // pawn skill lvl, chance %
-                                { 3, 0.05f },
-                                { 6, 0.1f },
-                                { 8, 0.15f },
-                                { 14, 0.275f },
-                                { 18, 0.4f },
-                                { 20, 0.475f }
-                            };
-
                             List<PawnKindDef> eggLayingAnimals = new();
                             Map map = __instance.job.GetTarget(TargetIndex.A).Thing.Map;
                             FieldInfo wildAnimalsField = AccessTools.Field(typeof(BiomeDef), "wildAnimals");
                             float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
 
-                            if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                            if (Rand.Chance(discoveryCurve.Evaluate(pawnsAvgSkillLevel)))
                             {
                                 if (map != null)
                                 {
@@ -87,19 +78,8 @@ namespace RandomChance
                                                 eggs.Label), __instance.pawn, MessageTypeDefOf.PositiveEvent);
                                         }
 
-                                        SimpleCurve agitatedAnimalChanceCurve = new()
-                                        {
-                                            { 0, 0.2f },
-                                            { 3, 0.15f },
-                                            { 6, 0.095f },
-                                            { 8, 0.075f },
-                                            { 14, 0.04f },
-                                            { 18, 0.025f },
-                                            { 20, 0.0f }
-                                        };
-
                                         float pawnAnimalSkill = __instance.pawn.skills.GetSkill(SkillDefOf.Animals).Level;
-                                        if (Rand.Chance(agitatedAnimalChanceCurve.Evaluate(pawnAnimalSkill)))
+                                        if (Rand.Chance(aggitatedAnimalCurve.Evaluate(pawnAnimalSkill)))
                                         {
                                             PawnKindDef agitatedAnimalKind = chosenEggDef.GetCompProperties<CompProperties_Hatcher>().hatcherPawn;
                                             Pawn agitatedAnimal = PawnGenerator.GeneratePawn(agitatedAnimalKind, null);
