@@ -15,6 +15,7 @@ namespace RandomChance
         public SimpleCurve cookingFailureCurve;
         public SimpleCurve butcheringMessCurve;
         public SimpleCurve crematingInjuryCurve;
+        public SimpleCurve switchFlickingSpreeCurve;
 
         public override IEnumerable<string> ConfigErrors()
         {
@@ -57,6 +58,10 @@ namespace RandomChance
             else if (crematingInjuryCurve == null)
             {
                 yield return "[RandomChance] crematingInjuryCurve is null, ensure the curve and it's points are defined in xml!";
+            }
+            else if (switchFlickingSpreeCurve == null)
+            {
+                yield return "[RandomChance] switchFlickingSpreeCurve is null, ensure the curve and it's points are defined in xml!";
             }
         }
     }

@@ -37,7 +37,7 @@ namespace RandomChance
 
             Listing_Standard list2 = new ();
             Rect viewRect2 = new(inRect.x + 450, inRect.y, inRect.width / 2 - 20, inRect.height - 40); // 2nd rect, right-side panel
-            Rect vROffset2 = new(450, 0, inRect.width / 2 - 40, inRect.height + 200); // 2nd panel inside 1st, "100", update as more settings are added to list
+            Rect vROffset2 = new(450, 0, inRect.width / 2 - 40, inRect.height + 400); // 2nd panel inside 1st, "100", update as more settings are added to list
             Widgets.BeginScrollView(viewRect2, ref scrollPos, vROffset2, true);
 
             list2.Begin(vROffset2);
@@ -113,16 +113,6 @@ namespace RandomChance
             settings._plantHarvestingFindEggsChance = list2.Slider(settings._plantHarvestingFindEggsChance, 0.0f, 1.0f);
             list2.Gap(6.0f);
 
-            // Apparel Shenanigans
-            list2.Label("<color=#ff6666>Apparel Shenanigans</color>");
-
-            list2.Gap(3.00f);
-            float injuredByApparelChanceSlider = settings._injuredByApparelChance;
-            string injuredByApparelChanceSliderText = injuredByApparelChanceSlider.ToString("F2");
-            list2.Label(label: "RC_InjuredByApparelChance".Translate(injuredByApparelChanceSliderText), tooltip: "RC_InjuredByApparelChanceDesc".Translate());
-            settings._injuredByApparelChance = list2.Slider(settings._injuredByApparelChance, 0.0f, 1.0f);
-            list2.Gap(6.0f);
-
             // Animal work
             list2.Label("<color=#ff6666>Animal work</color>");
             
@@ -131,6 +121,23 @@ namespace RandomChance
             string hurtByFarmAnimalChanceSliderText = hurtByFarmAnimalChanceSlider.ToString("F2");
             list2.Label(label: "RC_HurtByFarmAnimalChance".Translate(hurtByFarmAnimalChanceSliderText), tooltip: "RC_HurtByFarmAnimalChanceDesc".Translate());
             settings._hurtByFarmAnimalChance = list2.Slider(settings._hurtByFarmAnimalChance, 0.0f, 1.0f);
+            list2.Gap(6.0f);
+
+            // Misc. Stuff
+            list2.Label("<color=#ff6666>Misc. Stuff</color>");
+
+            list2.Gap(3.00f);
+            float injuredByApparelChanceSlider = settings._injuredByApparelChance;
+            string injuredByApparelChanceSliderText = injuredByApparelChanceSlider.ToString("F2");
+            list2.Label(label: "RC_InjuredByApparelChance".Translate(injuredByApparelChanceSliderText), tooltip: "RC_InjuredByApparelChanceDesc".Translate());
+            settings._injuredByApparelChance = list2.Slider(settings._injuredByApparelChance, 0.0f, 1.0f);
+            list2.Gap(6.0f);
+
+            list2.Gap(3.00f);
+            float switchFlickingSpreeChanceSlider = settings._switchFlickingSpreeChance;
+            string switchFlickingSpreeChanceSliderText = switchFlickingSpreeChanceSlider.ToString("F2");
+            list2.Label(label: "RC_SwitchFlickingSpreeChance".Translate(switchFlickingSpreeChanceSliderText), tooltip: "RC_SwitchFlickingSpreeChanceDesc".Translate());
+            settings._switchFlickingSpreeChance = list2.Slider(settings._switchFlickingSpreeChance, 0.0f, 1.0f);
             list2.Gap(6.0f);
 
             list2.End();

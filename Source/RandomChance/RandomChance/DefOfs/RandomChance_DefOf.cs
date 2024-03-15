@@ -18,10 +18,12 @@ namespace RandomChance
 
         public static DamageDef RC_ElectricShockDamage;
 
+        public static HediffDef Burn;
         public static HediffDef RC_ElectricShockHediff;
 
         public static ShaderTypeDef TransparentPostLight;
 
+        public static RecipeDef CookMealSimple;
         public static RecipeDef CookMealSimpleBulk;
         public static RecipeDef CookMealFine;
         public static RecipeDef CookMealFine_Veg;

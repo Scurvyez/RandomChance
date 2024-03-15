@@ -133,6 +133,19 @@
                 <li>(20, 0.02)</li>
             </points>
         </crematingInjuryCurve>
+
+        <!-- Chance for a pawn to start a switch flicking spree. -->
+        <switchFlickingSpreeCurve>
+            <points>
+                <li>(0, 0.9)</li>
+                <li>(3, 0.75)</li>
+                <li>(6, 0.5)</li>
+                <li>(8, 0.5)</li>
+                <li>(14, 0.25)</li>
+                <li>(18, 0.1)</li>
+                <li>(20, 0.1)</li>
+            </points>
+        </switchFlickingSpreeCurve>
     </RandomChance.ConfigurationDef>
 
 </Defs>

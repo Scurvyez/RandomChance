@@ -10,7 +10,7 @@ namespace RandomChance
     {
         private static readonly Dictionary<RecipeDef, RecipeDef> recipeMap = new ()
         {
-            { RecipeDefOf.CookMealSimple, RandomChance_DefOf.CookMealFine },
+            { RandomChance_DefOf.CookMealSimple, RandomChance_DefOf.CookMealFine },
             { RandomChance_DefOf.CookMealFine, RandomChance_DefOf.CookMealLavish },
             { RandomChance_DefOf.CookMealSimpleBulk, RandomChance_DefOf.CookMealFineBulk },
             { RandomChance_DefOf.CookMealFine_Veg, RandomChance_DefOf.CookMealLavish_Veg },

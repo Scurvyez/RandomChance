@@ -6,7 +6,6 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 using RimWorld;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -138,7 +137,7 @@ namespace RandomChance
                     ingredients.Destroy();
                 }
 
-                FireUtility.TryStartFireIn(buildingPos, map, RandomChanceSettings.FailedCookingFireSize);
+                FireUtility.TryStartFireIn(buildingPos, map, RandomChanceSettings.FailedCookingFireSize, null);
                 MoteMaker.MakeColonistActionOverlay(actor, ThingDefOf.Mote_ColonistFleeing);
                 Find.TickManager.slower.SignalForceNormalSpeedShort();
                 actor.stances.stunner.StunFor(120, actor, false, false);
@@ -150,7 +149,7 @@ namespace RandomChance
             int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
             IntVec3 buildingPos = building.Position;
             Map map = building.Map;
-            HediffDef burnHediffDef = HediffDefOf.Burn;
+            HediffDef burnHediffDef = RandomChance_DefOf.Burn;
             HediffDef cutHediffDef = HediffDefOf.Cut;
 
             float severity = pawnsAvgSkillLevel switch

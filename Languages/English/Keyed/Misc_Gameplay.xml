@@ -55,8 +55,10 @@
     <RC_HurtByFarmAnimalChance>Injury chance: {0}</RC_HurtByFarmAnimalChance>
     <RC_HurtByFarmAnimalChanceDesc>Adjusting this slider alters the chance for a pawn to get injured by farm animals while collecting resources. (Percent chance before pawns' average relevant skills are accounted for.)</RC_HurtByFarmAnimalChanceDesc>
 
-    <!-- Apparel Shenanigans -->
-    <RC_InjuredByApparelChance>Injury chance: {0}</RC_InjuredByApparelChance>
+    <!-- Misc. Stuff -->
+    <RC_InjuredByApparelChance>Apparel injury chance: {0}</RC_InjuredByApparelChance>
     <RC_InjuredByApparelChanceDesc>Adjusting this slider alters the chance for a pawn to get injured by... apparel.</RC_InjuredByApparelChanceDesc>
-
+    <RC_SwitchFlickingSpreeChance>Switch flicking spree chance: {0}</RC_SwitchFlickingSpreeChance>
+    <RC_SwitchFlickingSpreeChanceDesc>Adjusting this slider alters the chance for a pawn to go on a spree of flicking switches.</RC_SwitchFlickingSpreeChanceDesc>
+    
 </LanguageData>
