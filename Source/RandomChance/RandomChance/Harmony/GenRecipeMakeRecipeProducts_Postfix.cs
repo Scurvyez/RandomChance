@@ -113,16 +113,16 @@ namespace RandomChance
                         {
                             Thing butcheredCorpse = worker.CurJob.GetTarget(TargetIndex.B).Thing;
 
-                            SimpleCurve chanceCurve = new()
-                        {
-                            { 0, 0.025f },
-                            { 3, 0.05f },
-                            { 6, 0.09f },
-                            { 8, 0.2f },
-                            { 14, 0.3f },
-                            { 18, 0.4f },
-                            { 20, 0.5f }
-                        };
+                            SimpleCurve chanceCurve = new() // add a new xml curve for this one!
+                            {
+                                { 0, 0.025f },
+                                { 3, 0.05f },
+                                { 6, 0.09f },
+                                { 8, 0.2f },
+                                { 14, 0.3f },
+                                { 18, 0.4f },
+                                { 20, 0.5f }
+                            };
 
                             if (butcheredCorpse is Corpse corpse)
                             {

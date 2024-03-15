@@ -6,3 +6,4 @@ S:\Games\Steam\steamapps\common\RimWorld\Mods\RandomChance\Assemblies\RandomChan
 S:\Games\Steam\steamapps\common\RimWorld\Mods\RandomChance\Source\RandomChance\RandomChance\obj\Debug\RandomChance.csproj.AssemblyReference.cache
 S:\Games\Steam\steamapps\common\RimWorld\Mods\RandomChance\Source\RandomChance\RandomChance\obj\Debug\RandomChance.csproj.CoreCompileInputs.cache
 S:\Games\Steam\steamapps\common\RimWorld\Mods\RandomChance\Source\RandomChance\RandomChance\obj\Debug\RandomChance.dll
+S:\Games\Steam\steamapps\common\RimWorld\Mods\RandomChance\1.5\Assemblies\RandomChance.dll

@@ -9,10 +9,7 @@ namespace RandomChance
         public float randomProductWeight = 0f;
         public FloatRange randomProductAmountRange = new (1, 2);
         
-        public RandomProductData()
-        {
-
-        }
+        public RandomProductData() { }
 
         public RandomProductData(ThingDef randomProduct, float randomProductWeight, FloatRange randomProductAmountRange)
         {

@@ -3,14 +3,15 @@ using RimWorld;
 using System.Reflection;
 using UnityEngine;
 using Verse;
+using System;
 
 namespace RandomChance
 {
-    [HarmonyPatch(typeof(Mineable), "TrySpawnYield")]
+    [HarmonyPatch(typeof(Mineable), "TrySpawnYield", new Type[] { typeof(Map), typeof(bool), typeof(Pawn) })]
     public class MineableTrySpawnYield_Postfix
     {
         [HarmonyPostfix]
-        public static void Postfix(ref Map map, Mineable __instance, float yieldChance, bool moteOnWaste, Pawn pawn)
+        public static void Postfix(ref Map map, bool moteOnWaste, Pawn pawn, Mineable __instance)
         {
             FieldInfo yieldPctField = AccessTools.Field(typeof(Mineable), "yieldPct");
             float yieldPct = (float)yieldPctField.GetValue(__instance);
