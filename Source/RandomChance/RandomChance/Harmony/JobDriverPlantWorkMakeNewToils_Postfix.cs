@@ -10,6 +10,7 @@ namespace RandomChance
     [HarmonyPatch(typeof(JobDriver_PlantWork), "MakeNewToils")]
     public class JobDriverPlantWorkMakeNewToils_Postfix
     {
+        // FIX THIS WHOLE ASS MESS
         [HarmonyPostfix]
         public static void Postfix(ref IEnumerable<Toil> __result, JobDriver_PlantWork __instance)
         {
@@ -28,31 +29,19 @@ namespace RandomChance
 
                         if (Rand.Chance(findAnimalEggsChance))
                         {
-                            List<PawnKindDef> eggLayingAnimals = new();
                             Map map = __instance.job.GetTarget(TargetIndex.A).Thing.Map;
-                            FieldInfo wildAnimalsField = AccessTools.Field(typeof(BiomeDef), "wildAnimals");
                             float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
 
                             if (Rand.Chance(discoveryCurve.Evaluate(pawnsAvgSkillLevel)))
                             {
                                 if (map != null)
                                 {
-                                    if (wildAnimalsField.GetValue(map.Biome) is List<BiomeAnimalRecord> biomeSpecificAnimals)
-                                    {
-                                        foreach (BiomeAnimalRecord animalRecord in biomeSpecificAnimals)
-                                        {
-                                            PawnKindDef kindDef = animalRecord.animal;
-                                            if (kindDef != null && kindDef.race.GetCompProperties<CompProperties_EggLayer>() != null)
-                                            {
-                                                eggLayingAnimals.Add(kindDef);
-                                            }
-                                        }
-                                    }
-
+                                    MapComponent_CollectAnimals mapComp = map.GetComponent<MapComponent_CollectAnimals>();
                                     List<ThingDef> possibleEggs = new();
-                                    for (int i = 0; i < eggLayingAnimals.Count; i++)
+
+                                    for (int i = 0; i < mapComp.eggLayingAnimals.Count; i++)
                                     {
-                                        PawnKindDef kindDef = eggLayingAnimals[i];
+                                        PawnKindDef kindDef = mapComp.eggLayingAnimals[i];
                                         Pawn pawn = PawnGenerator.GeneratePawn(kindDef, null);
                                         CompEggLayer compEggLayer = pawn.TryGetComp<CompEggLayer>();
                                         if (compEggLayer != null)
@@ -81,11 +70,18 @@ namespace RandomChance
                                         float pawnAnimalSkill = __instance.pawn.skills.GetSkill(SkillDefOf.Animals).Level;
                                         if (Rand.Chance(aggitatedAnimalCurve.Evaluate(pawnAnimalSkill)))
                                         {
-                                            PawnKindDef agitatedAnimalKind = chosenEggDef.GetCompProperties<CompProperties_Hatcher>().hatcherPawn;
-                                            Pawn agitatedAnimal = PawnGenerator.GeneratePawn(agitatedAnimalKind, null);
                                             IntVec3 spawnCell = CellFinder.RandomClosewalkCellNear(__instance.pawn.Position, map, 1);
-                                            GenSpawn.Spawn(agitatedAnimal, spawnCell, map);
-                                            agitatedAnimal.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Manhunter);
+                                            if (spawnCell.GetRoof(map).isNatural)
+                                            {
+                                                PawnKindDef agitatedAnimalKind = chosenEggDef.GetCompProperties<CompProperties_Hatcher>().hatcherPawn;
+                                                Pawn agitatedAnimal = PawnGenerator.GeneratePawn(agitatedAnimalKind, null);
+                                                GenSpawn.Spawn(agitatedAnimal, spawnCell, map);
+                                                agitatedAnimal.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Manhunter);
+                                            }
+                                            else
+                                            {
+
+                                            }
                                         }
                                     }
                                 }

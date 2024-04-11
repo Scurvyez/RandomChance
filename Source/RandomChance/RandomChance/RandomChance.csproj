@@ -67,6 +67,7 @@
     <Compile Include="Harmony\GenRecipeMakeRecipeProducts_Prefix.cs" />
     <Compile Include="Harmony\ToilsRecipeDoRecipeWork_Transpiler.cs" />
     <Compile Include="JobGivers\JobGiver_SwitchFlickingSpree.cs" />
+    <Compile Include="MapComps\MapComponent_CollectAnimals.cs" />
     <Compile Include="MapComps\MapComponent_SpawnAnimalsIfDirty.cs" />
     <Compile Include="MentalStates\MentalState_SwitchFlickingSpree.cs" />
     <Compile Include="Settings\RancomChanceMod.cs" />
