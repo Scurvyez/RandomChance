@@ -4,6 +4,7 @@ using RimWorld;
 
 namespace RandomChance
 {
+    /*
     public class MapComponent_SpawnAnimalsIfDirty : MapComponent
     {
         public int dirtinessThreshold = 6;
@@ -90,4 +91,5 @@ namespace RandomChance
             }
         }
     }
+    */
 }

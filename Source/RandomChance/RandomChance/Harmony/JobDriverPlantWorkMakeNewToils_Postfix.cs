@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
+using RandomChance.MapComps;
 using RimWorld;
 using System.Collections.Generic;
-using System.Reflection;
 using Verse;
 using Verse.AI;
 
@@ -10,10 +10,10 @@ namespace RandomChance
     [HarmonyPatch(typeof(JobDriver_PlantWork), "MakeNewToils")]
     public class JobDriverPlantWorkMakeNewToils_Postfix
     {
-        // FIX THIS WHOLE ASS MESS
         [HarmonyPostfix]
         public static void Postfix(ref IEnumerable<Toil> __result, JobDriver_PlantWork __instance)
         {
+            Map map = __instance.job.GetTarget(TargetIndex.A).Thing.Map;
             List<Toil> newToils = new(__result);
             int numToils = newToils.Count;
 
@@ -21,41 +21,23 @@ namespace RandomChance
             {
                 initAction = delegate
                 {
-                    if (!__instance.pawn.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
+                    if (map != null && !__instance.pawn.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
                     {
+                        MapComponent_CollectThings thingCollections = map.GetComponent<MapComponent_CollectThings>();
+
                         float findAnimalEggsChance = RandomChanceSettings.PlantHarvestingFindEggsChance; // 5% by default
                         SimpleCurve discoveryCurve = RandomChance_DefOf.RC_Curves.plantWorkDiscoveryCurve;
-                        SimpleCurve aggitatedAnimalCurve = RandomChance_DefOf.RC_Curves.aggitatedWildAnimalCurve;
+                        float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
 
-                        if (Rand.Chance(findAnimalEggsChance))
+                        if (thingCollections != null)
                         {
-                            Map map = __instance.job.GetTarget(TargetIndex.A).Thing.Map;
-                            float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
+                            ThingDef chosenEggDef = thingCollections.possibleEggs.RandomElement();
 
-                            if (Rand.Chance(discoveryCurve.Evaluate(pawnsAvgSkillLevel)))
+                            if (chosenEggDef != null && chosenEggDef.GetCompProperties<CompProperties_Hatcher>() != null)
                             {
-                                if (map != null)
+                                if (Rand.Chance(findAnimalEggsChance) && Rand.Chance(discoveryCurve.Evaluate(pawnsAvgSkillLevel)))
                                 {
-                                    MapComponent_CollectAnimals mapComp = map.GetComponent<MapComponent_CollectAnimals>();
-                                    List<ThingDef> possibleEggs = new();
-
-                                    for (int i = 0; i < mapComp.eggLayingAnimals.Count; i++)
-                                    {
-                                        PawnKindDef kindDef = mapComp.eggLayingAnimals[i];
-                                        Pawn pawn = PawnGenerator.GeneratePawn(kindDef, null);
-                                        CompEggLayer compEggLayer = pawn.TryGetComp<CompEggLayer>();
-                                        if (compEggLayer != null)
-                                        {
-                                            possibleEggs.Add(compEggLayer.Props.eggUnfertilizedDef);
-                                            possibleEggs.Add(compEggLayer.Props.eggFertilizedDef);
-                                        }
-                                    }
-
-                                    if (possibleEggs.NullOrEmpty())
-                                        return;
-
-                                    ThingDef chosenEggDef = possibleEggs.RandomElement();
-                                    if (chosenEggDef != null)
+                                    if (chosenEggDef != null && chosenEggDef.GetCompProperties<CompProperties_Hatcher>() != null)
                                     {
                                         Thing eggs = ThingMaker.MakeThing(chosenEggDef, null);
                                         eggs.stackCount = Rand.RangeInclusive(1, 3);
@@ -66,23 +48,21 @@ namespace RandomChance
                                             Messages.Message("RC_PlantHarvestingFoundEggs".Translate(__instance.pawn.Named("PAWN"),
                                                 eggs.Label), __instance.pawn, MessageTypeDefOf.PositiveEvent);
                                         }
+                                    }
+                                }
 
-                                        float pawnAnimalSkill = __instance.pawn.skills.GetSkill(SkillDefOf.Animals).Level;
-                                        if (Rand.Chance(aggitatedAnimalCurve.Evaluate(pawnAnimalSkill)))
-                                        {
-                                            IntVec3 spawnCell = CellFinder.RandomClosewalkCellNear(__instance.pawn.Position, map, 1);
-                                            if (spawnCell.GetRoof(map).isNatural)
-                                            {
-                                                PawnKindDef agitatedAnimalKind = chosenEggDef.GetCompProperties<CompProperties_Hatcher>().hatcherPawn;
-                                                Pawn agitatedAnimal = PawnGenerator.GeneratePawn(agitatedAnimalKind, null);
-                                                GenSpawn.Spawn(agitatedAnimal, spawnCell, map);
-                                                agitatedAnimal.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Manhunter);
-                                            }
-                                            else
-                                            {
+                                Thing targetThing = __instance.job.GetTarget(TargetIndex.A).Thing;
+                                SimpleCurve agitatedAnimalCurve = RandomChance_DefOf.RC_Curves.agitatedWildAnimalCurve;
+                                if (Rand.Chance(agitatedAnimalCurve.Evaluate(pawnsAvgSkillLevel)))
+                                {
+                                    PawnKindDef agitatedAnimalKind = chosenEggDef.GetCompProperties<CompProperties_Hatcher>().hatcherPawn;
 
-                                            }
-                                        }
+                                    if (!targetThing.def.plant.sowTags.Contains("Hydroponic"))
+                                    {
+                                        IntVec3 spawnCell = CellFinder.RandomClosewalkCellNear(__instance.pawn.Position, map, 1);
+                                        Pawn agitatedAnimal = PawnGenerator.GeneratePawn(agitatedAnimalKind, null);
+                                        GenSpawn.Spawn(agitatedAnimal, spawnCell, map);
+                                        agitatedAnimal.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Manhunter);
                                     }
                                 }
                             }

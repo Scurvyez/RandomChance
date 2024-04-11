@@ -69,18 +69,18 @@
             </points>
         </plantWorkDiscoveryCurve>
 
-        <!-- Chance to spook and aggitate wild animals while foraging. -->
-        <aggitatedWildAnimalCurve>
+        <!-- Chance to spook and agitate wild animals while foraging. -->
+        <agitatedWildAnimalCurve>
             <points>
-                <li>(0, 0.20)</li>
-                <li>(3, 0.15)</li>
-                <li>(6, 0.095)</li>
+                <li>(0, 0.50)</li>
+                <li>(3, 0.35)</li>
+                <li>(6, 0.1)</li>
                 <li>(8, 0.075)</li>
                 <li>(14, 0.04)</li>
                 <li>(18, 0.025)</li>
                 <li>(20, 0.0)</li>
             </points>
-        </aggitatedWildAnimalCurve>
+        </agitatedWildAnimalCurve>
 
         <!-- Chance to mine additional resources with high skill. -->
         <extraMiningYieldCurve>

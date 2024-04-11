@@ -10,7 +10,7 @@ namespace RandomChance
         public SimpleCurve brokenBuildingDamageCurve;
         public SimpleCurve hurtByFarmAnimalCurve;
         public SimpleCurve plantWorkDiscoveryCurve;
-        public SimpleCurve aggitatedWildAnimalCurve;
+        public SimpleCurve agitatedWildAnimalCurve;
         public SimpleCurve extraMiningYieldCurve;
         public SimpleCurve cookingFailureCurve;
         public SimpleCurve butcheringMessCurve;
@@ -39,9 +39,9 @@ namespace RandomChance
             {
                 yield return "[RandomChance] plantWorkDiscoveryCurve is null, ensure the curve and it's points are defined in xml!";
             }
-            else if (aggitatedWildAnimalCurve == null)
+            else if (agitatedWildAnimalCurve == null)
             {
-                yield return "[RandomChance] aggitatedWildAnimalCurve is null, ensure the curve and it's points are defined in xml!";
+                yield return "[RandomChance] agitatedWildAnimalCurve is null, ensure the curve and it's points are defined in xml!";
             }
             else if (extraMiningYieldCurve == null)
             {

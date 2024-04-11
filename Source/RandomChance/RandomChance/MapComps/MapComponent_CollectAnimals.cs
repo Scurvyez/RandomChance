@@ -6,28 +6,38 @@ using Verse;
 
 namespace RandomChance
 {
-    public class MapComponent_CollectAnimals : MapComponent
+    public class MapComponent_AnimalCollections : MapComponent
     {
         public List<PawnKindDef> eggLayingAnimals = new();
 
-        public MapComponent_CollectAnimals(Map map) : base(map) { }
+        public MapComponent_AnimalCollections(Map map) : base(map) { }
 
-        public override void MapGenerated()
+        public override void FinalizeInit()
         {
-            base.MapGenerated();
+            base.FinalizeInit();
+            CollectNativeEggLayingWildAnimals();
+        }
 
-            FieldInfo wildAnimalsField = AccessTools.Field(typeof(BiomeDef), "wildAnimals");
-            if (wildAnimalsField.GetValue(map.Biome) is List<BiomeAnimalRecord> biomeSpecificAnimals)
+        private void CollectNativeEggLayingWildAnimals()
+        {
+            if (map.Biome != null)
             {
-                foreach (BiomeAnimalRecord animalRecord in biomeSpecificAnimals)
+                FieldInfo wildAnimalsField = AccessTools.Field(typeof(BiomeDef), "wildAnimals");
+                if (wildAnimalsField.GetValue(map.Biome) is List<BiomeAnimalRecord> biomeSpecificAnimals && !biomeSpecificAnimals.NullOrEmpty())
                 {
-                    PawnKindDef kindDef = animalRecord.animal;
-                    if (kindDef != null && kindDef.race.GetCompProperties<CompProperties_EggLayer>() != null)
+                    foreach (BiomeAnimalRecord animalRecord in biomeSpecificAnimals)
                     {
-                        eggLayingAnimals.Add(kindDef);
+                        if (animalRecord.animal != null)
+                        {
+                            PawnKindDef kindDef = animalRecord.animal;
+                            if (kindDef != null && kindDef.race.GetCompProperties<CompProperties_EggLayer>() != null)
+                            {
+                                eggLayingAnimals.Add(kindDef);
+                            }
+                        }
                     }
+                    //Log.Message($"<color=#ff8c66>Wild, egg-laying animal count: {eggLayingAnimals.Count}</color>");
                 }
-                //Log.Message($"Wild, egg-laying animal count: {eggLayingAnimals.Count}");
             }
         }
     }
