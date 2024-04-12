@@ -13,7 +13,6 @@ namespace RandomChance
         [HarmonyPostfix]
         public static void Postfix(ref IEnumerable<Toil> __result, JobDriver_PlantWork __instance)
         {
-            Map map = __instance.job.GetTarget(TargetIndex.A).Thing.Map;
             List<Toil> newToils = new(__result);
             int numToils = newToils.Count;
 
@@ -21,6 +20,8 @@ namespace RandomChance
             {
                 initAction = delegate
                 {
+                    Map map = __instance.job.GetTarget(TargetIndex.A).Thing.Map;
+
                     if (map != null && !__instance.pawn.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
                     {
                         MapComponent_CollectThings thingCollections = map.GetComponent<MapComponent_CollectThings>();
@@ -31,6 +32,7 @@ namespace RandomChance
 
                         if (thingCollections != null)
                         {
+
                             ThingDef chosenEggDef = thingCollections.possibleEggs.RandomElement();
 
                             if (chosenEggDef != null && chosenEggDef.GetCompProperties<CompProperties_Hatcher>() != null)
@@ -61,6 +63,7 @@ namespace RandomChance
                                     {
                                         IntVec3 spawnCell = CellFinder.RandomClosewalkCellNear(__instance.pawn.Position, map, 1);
                                         Pawn agitatedAnimal = PawnGenerator.GeneratePawn(agitatedAnimalKind, null);
+                                        agitatedAnimal.gender = Gender.Female;
                                         GenSpawn.Spawn(agitatedAnimal, spawnCell, map);
                                         agitatedAnimal.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Manhunter);
                                     }

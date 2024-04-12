@@ -36,7 +36,6 @@ namespace RandomChance
                             }
                         }
                     }
-                    //Log.Message($"<color=#ff8c66>Wild, egg-laying animal count: {eggLayingAnimals.Count}</color>");
                 }
             }
         }

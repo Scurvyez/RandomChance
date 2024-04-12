@@ -29,11 +29,9 @@ namespace RandomChance.MapComps
                     CompEggLayer compEggLayer = pawn.TryGetComp<CompEggLayer>();
                     if (compEggLayer != null)
                     {
-                        possibleEggs.Add(compEggLayer.Props.eggUnfertilizedDef);
                         possibleEggs.Add(compEggLayer.Props.eggFertilizedDef);
                     }
                 }
-                //Log.Message($"<color=#ff8c66>Possible egg types count: {possibleEggs.Count}</color>");
             }
         }
     }
