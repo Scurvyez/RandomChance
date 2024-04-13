@@ -40,7 +40,7 @@ namespace RandomChance
             harmony.Patch(original: AccessTools.Method(typeof(Mineable), "TrySpawnYield", new Type[] { typeof(Map), typeof(bool), typeof(Pawn) }),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(TrySpawnYieldPostFix)));
 
-            harmony.Patch(AccessTools.Method(typeof(Toils_Recipe), nameof(Toils_Recipe.DoRecipeWork)),
+            harmony.Patch(original: AccessTools.Method(typeof(Toils_Recipe), nameof(Toils_Recipe.DoRecipeWork)),
                 transpiler: new HarmonyMethod(typeof(HarmonyPatches), nameof(DoRecipeWorkTranspiler)));
         }
         
