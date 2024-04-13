@@ -9,6 +9,7 @@ using Verse.AI;
 
 namespace RandomChance
 {
+    /*
     [HarmonyPatch(typeof(GenRecipe), "MakeRecipeProducts")]
     public static class GenRecipeMakeRecipeProducts_Postfix
     {
@@ -168,4 +169,5 @@ namespace RandomChance
                 return ThingDefOf.Meat_Human;
         }
     }
+    */
 }

@@ -3,18 +3,21 @@
 
     <!--==================== Messages.Message() ====================-->
 
-    <RC_RandomStoneCuttingProduct>Thanks to a splash of luck, {0} has unearthed a hidden treasure while chiseling away at a {1}.\nThe discovery? precious {2}.</RC_RandomStoneCuttingProduct>
-    <RC_BonusMealProduct>Through a sprinkle of serendipity, {0} has skillfully transformed every last morsel of sustenance into {1}.</RC_BonusMealProduct>
-    <RC_FireInKitchen>Oh no! {0}'s otherworldly poor cooking skills have led to a fire in the kitchen!\nMore practice at {0_possessive} job may lead to less injury in the future.</RC_FireInKitchen>
-    <RC_InjuryInKitchen>Ouch! {0} has injured {0_possessive}self in the kitchen!\nPractice makes perfect though. Right?</RC_InjuryInKitchen>
-    <RC_InjuryWhileCremating>Oww! {0} was burned while attempting to operate the crematorium.\nPerhaps, {0} should be more careful?</RC_InjuryWhileCremating>
-    <RC_BetterMealProduced>Woah! {0}'s passion for her job in the kitchen has led to a glorious culinary upgrade!</RC_BetterMealProduced>
-    <RC_HorriblyUncleanKitchen>Sharpen your knife already! {0} has made an absolute mess while butchering an animal.\nPerhaps more time practicing the craft will prevent future hiccups of this sort.</RC_HorriblyUncleanKitchen>
-    <RC_PredatorButcheryBonusProduct>{0} has discovered {1} while carefully butchering a {2}.\nThe Rim is a cruel and dark place. Be wary.</RC_PredatorButcheryBonusProduct>
-    <RC_ElectricalRepairFailure>There's been an accident! {0} has botched some electrical repairs!\nTend to any injuries or other cascading failures quickly!</RC_ElectricalRepairFailure>
-    <RC_PlantHarvestingFoundEggs>While foraging for resources, {0} found {1}.</RC_PlantHarvestingFoundEggs>
-    <RC_HurtByFarmAnimal>{0} was injured while working on the farm.\nMaybe next time, don't make {1} angry.</RC_HurtByFarmAnimal>
-    <RC_DirtyFoodStoresArea>Do you want rats? Because this is how you get rats.</RC_DirtyFoodStoresArea>
+    <RC_RandomStoneCuttingProduct>{0} has unearthed {2} while chiseling away at a {1}.</RC_RandomStoneCuttingProduct>
+    <RC_BonusMealProduct>{0} has skillfully transformed every last morsel of sustenance into {1}.</RC_BonusMealProduct>
+    <RC_FireInKitchen>{0}'s poor cooking skills have led to a fire in the kitchen!</RC_FireInKitchen>
+    <RC_InjuryInKitchen>{0} has injured {0_possessive}self in the kitchen!</RC_InjuryInKitchen>
+    <RC_InjuryWhileCremating>{0} burned {0_possessive}self while operating the crematorium.</RC_InjuryWhileCremating>
+    <RC_BetterMealProduced>{0}'s passion for her job in the kitchen has led to a glorious culinary upgrade!</RC_BetterMealProduced>
+    <RC_HorriblyUncleanKitchen>{0} has made an absolute mess while butchering an animal.</RC_HorriblyUncleanKitchen>
+    <RC_PredatorButcheryBonusProduct>{0} has discovered {1} while carefully butchering a {2}.</RC_PredatorButcheryBonusProduct>
+    <RC_ElectricalRepairFailure>{0} has botched some electrical repairs!</RC_ElectricalRepairFailure>
+    <RC_PlantWorkFoundEggs>{0} found {1} while tending to a plant.</RC_PlantWorkFoundEggs>
+    <RC_PlantWorkAngryMomma>{0} has angered a {1} while tending to a plant.</RC_PlantWorkAngryMomma>
+    <RC_HurtByFarmAnimal>{0} was injured by an animal while working on the farm.</RC_HurtByFarmAnimal>
+    <RC_InjuryWhileDonningArmor>{0} was injured while donning {1}.</RC_InjuryWhileDonningArmor>
+
+    <!-- <RC_DirtyFoodStoresArea>Do you want rats? Because this is how you get rats.</RC_DirtyFoodStoresArea> -->
 
     <!--==================== Settings ====================-->
 

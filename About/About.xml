@@ -28,13 +28,19 @@ Discord: steveo.o
 
         CHECK RANDOM CHANCE VALUES BEFORE RELEASE
 
-        - [DONE] equipping and unequipping power armors could come with a risk of pawns getting stuck in an inconvenient way
+        - [DONE] equipping and unequipping power armors could come with a risk of pawns getting hurt
         - low level pawns with no passion in skill for required task
             - X cancels job: got bored, having a beer
         - poorly made art
             - pawns have chance to insult the artist, start social fights
         - "horse shoe pins could probably be a bit more dangerous too"
-            - dart boards too
+            - dart boards as well
+        
+        CE Stuff
+        
+        - squib rounds
+        - rookie grenade throws lol - katana 
+        - chance on impact to detonate/cook off ammo a target is carrying when they get shot
     -->
 
 </ModMetaData>

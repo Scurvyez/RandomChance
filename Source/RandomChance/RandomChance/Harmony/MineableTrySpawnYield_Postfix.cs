@@ -7,6 +7,7 @@ using System;
 
 namespace RandomChance
 {
+    /*
     [HarmonyPatch(typeof(Mineable), "TrySpawnYield", new Type[] { typeof(Map), typeof(bool), typeof(Pawn) })]
     public class MineableTrySpawnYield_Postfix
     {
@@ -89,4 +90,5 @@ namespace RandomChance
             }
         }
     }
+    */
 }

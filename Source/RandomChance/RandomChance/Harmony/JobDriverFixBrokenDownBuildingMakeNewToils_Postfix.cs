@@ -6,6 +6,7 @@ using Verse.AI;
 
 namespace RandomChance
 {
+    /*
     [HarmonyPatch(typeof(JobDriver_FixBrokenDownBuilding), "MakeNewToils")]
     public class JobDriverFixBrokenDownBuildingMakeNewToils_Postfix
     {
@@ -15,7 +16,6 @@ namespace RandomChance
             List<Toil> newToils = new(__result);
             int numToils = newToils.Count;
 
-            // new toil with delegate
             Toil customToil = new Toil
             {
                 initAction = delegate
@@ -70,13 +70,13 @@ namespace RandomChance
                                     hediff.Severity = Rand.Value;
                                     __instance.pawn.health.AddHediff(hediff, bodyPart);
 
-                                    /*Effecter shockEffect;
+                                    Effecter shockEffect;
 
                                     shockEffect = RandomChance_DefOf.RC_ElectricShockBonesEffect.Spawn();
                                     shockEffect.Trigger(__instance.pawn, __instance.pawn);
 
                                     shockEffect.Cleanup();
-                                    shockEffect = null;*/
+                                    shockEffect = null;
 
                                     Find.TickManager.slower.SignalForceNormalSpeedShort();
                                     __instance.pawn.stances.stunner.StunFor(60, __instance.pawn, false, false);
@@ -96,4 +96,5 @@ namespace RandomChance
             __result = newToils;
         }
     }
+    */
 }

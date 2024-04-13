@@ -6,20 +6,16 @@ using Verse.AI;
 
 namespace RandomChance
 {
+    /*
     [HarmonyPatch(typeof(JobDriver_Wear), "MakeNewToils")]
     public class JobDriverWearMakeNewToils_Postfix
     {
-        private static List<BodyPartRecord> digits = new List<BodyPartRecord>();
-
         [HarmonyPostfix]
         public static void Postfix(ref IEnumerable<Toil> __result, JobDriver_Wear __instance)
         {
-            digits = __instance.pawn.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbDigit);
-
             List<Toil> newToils = new(__result);
             int numToils = newToils.Count;
 
-            // new toil with delegate
             Toil customToil = new Toil
             {
                 initAction = delegate
@@ -28,26 +24,30 @@ namespace RandomChance
                     {
                         DamageDef damageInflicted = DamageDefOf.Cut;
                         SimpleCurve injuryCurve = RandomChance_DefOf.RC_Curves.powerArmorInjuryCurve;
-                        float workerInjuryChance = RandomChanceSettings.InjuredByApparelChance;
                         float pawnsSkillLevel = __instance.pawn.skills.GetSkill(SkillDefOf.Intellectual).Level;
                         float qualityFactor = QualityGetter.GetQualityValue(__instance.job.GetTarget(TargetIndex.A).Thing.TryGetComp<CompQuality>().Quality, injuryCurve);
+                        List<BodyPartRecord> digits = __instance.pawn.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbDigit);
+                        ThingDef apparelPiece = __instance.job.GetTarget(TargetIndex.A).Thing.def;
 
-                        if (Rand.Chance(workerInjuryChance))
+                        if (Rand.Chance(RandomChanceSettings.InjuredByApparelChance) && Rand.Chance(injuryCurve.Evaluate(pawnsSkillLevel)))
                         {
-                            if (Rand.Chance(injuryCurve.Evaluate(pawnsSkillLevel)))
-                            {
-                                float damageAmount = Rand.Range(0.1f, pawnsSkillLevel) * qualityFactor;
+                            float damageAmount = Rand.Range(0.1f, pawnsSkillLevel) * qualityFactor;
 
-                                if (__instance.job.GetTarget(TargetIndex.A).Thing.def == RandomChance_DefOf.Apparel_PowerArmor) // body
-                                {
-                                    DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f, -1f, null, digits.RandomElement());
-                                    __instance.pawn.TakeDamage(damageInfo);
-                                }
-                                if (__instance.job.GetTarget(TargetIndex.A).Thing.def == RandomChance_DefOf.Apparel_PowerArmorHelmet) // head
-                                {
-                                    DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f, -1f, null, __instance.pawn.RaceProps.body.GetPartsWithDef(BodyPartDefOf.Head).RandomElement());
-                                    __instance.pawn.TakeDamage(damageInfo);
-                                }
+                            if (apparelPiece == RandomChance_DefOf.Apparel_PowerArmor) // body
+                            {
+                                DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f, -1f, null, digits.RandomElement());
+                                __instance.pawn.TakeDamage(damageInfo);
+                            }
+                            else if (apparelPiece == RandomChance_DefOf.Apparel_PowerArmorHelmet) // head
+                            {
+                                DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f, -1f, null, __instance.pawn.RaceProps.body.GetPartsWithDef(BodyPartDefOf.Head).RandomElement());
+                                __instance.pawn.TakeDamage(damageInfo);
+                            }
+
+                            if (RandomChanceSettings.AllowMessages)
+                            {
+                                Messages.Message("RC_InjuryWhileDonningArmor".Translate(__instance.pawn.Named("PAWN"),
+                                    apparelPiece.label), __instance.pawn, MessageTypeDefOf.NegativeEvent);
                             }
                         }
                     }
@@ -61,4 +61,5 @@ namespace RandomChance
             __result = newToils;
         }
     }
+    */
 }

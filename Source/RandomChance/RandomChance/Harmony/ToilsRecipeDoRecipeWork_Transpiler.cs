@@ -10,6 +10,7 @@ using Verse.AI;
 
 namespace RandomChance
 {
+    /*
     [HarmonyPatch]
     public static class ToilsRecipeDoRecipeWork_Transpiler
     {
@@ -249,4 +250,5 @@ namespace RandomChance
             }
         }
     }
+    */
 }

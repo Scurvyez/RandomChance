@@ -6,6 +6,7 @@ using Verse.AI;
 
 namespace RandomChance
 {
+    /*
     [HarmonyPatch(typeof(JobDriver_GatherAnimalBodyResources), "MakeNewToils")]
     public static class JobDriverGatherAnimalBodyResourcesMakeNewToils_Postfix
     {
@@ -21,20 +22,21 @@ namespace RandomChance
                 {
                     if (!__instance.pawn.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
                     {
-                        float workerInjuryChance = RandomChanceSettings.HurtByFarmAnimalChance; // 5% by default
                         SimpleCurve injuryCurve = RandomChance_DefOf.RC_Curves.hurtByFarmAnimalCurve;
+                        float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
 
-                        if (Rand.Chance(workerInjuryChance))
+                        if (Rand.Chance(RandomChanceSettings.HurtByFarmAnimalChance) && Rand.Chance(injuryCurve.Evaluate(pawnsAvgSkillLevel)))
                         {
-                            float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
+                            if (__instance.job.GetTarget(TargetIndex.A).Thing is not Pawn animal) return;
 
-                            if (Rand.Chance(injuryCurve.Evaluate(pawnsAvgSkillLevel)))
+                            if (animal != null)
                             {
-                                Pawn animal = __instance.job.GetTarget(TargetIndex.A).Thing as Pawn;
                                 List<Tool> tools = animal.Tools;
-                                if (animal != null && tools != null && tools.Count > 0)
+
+                                if (tools != null && tools.Count > 0)
                                 {
                                     Tool selectedTool = tools.RandomElement();
+
                                     if (Rand.Chance(selectedTool.chanceFactor) && selectedTool != null)
                                     {
                                         float damageAmount = Rand.Range(selectedTool.power / 2f, selectedTool.power);
@@ -66,4 +68,5 @@ namespace RandomChance
             __result = newToils;
         }
     }
+    */
 }

@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|s:\\games\\steam\\steamapps\\common\\rimworld\\mods\\randomchance\\source\\randomchance\\randomchance\\harmony\\jobdriverplantworkmakenewtoils_postfix.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\harmony\\jobdriverplantworkmakenewtoils_postfix.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|s:\\games\\steam\\steamapps\\common\\rimworld\\mods\\randomchance\\source\\randomchance\\randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\randomchance\\mapcomps\\mapcomponent_collectanimals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\mapcomps\\mapcomponent_collectanimals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\randomchance\\mapcomps\\mapcomponent_collectthings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\mapcomps\\mapcomponent_collectthings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|s:\\games\\steam\\steamapps\\common\\rimworld\\mods\\randomchance\\source\\randomchance\\randomchance\\harmony\\toilsrecipedorecipework_transpiler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\harmony\\toilsrecipedorecipework_transpiler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,41 +26,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MapComponent_CollectThings.cs",
-              "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\MapComps\\MapComponent_CollectThings.cs",
-              "RelativeDocumentMoniker": "RandomChance\\MapComps\\MapComponent_CollectThings.cs",
-              "ToolTip": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\MapComps\\MapComponent_CollectThings.cs",
-              "RelativeToolTip": "RandomChance\\MapComps\\MapComponent_CollectThings.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAAACYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-11T15:33:43.665Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MapComponent_CollectAnimals.cs",
-              "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\MapComps\\MapComponent_CollectAnimals.cs",
-              "RelativeDocumentMoniker": "RandomChance\\MapComps\\MapComponent_CollectAnimals.cs",
-              "ToolTip": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\MapComps\\MapComponent_CollectAnimals.cs",
-              "RelativeToolTip": "RandomChance\\MapComps\\MapComponent_CollectAnimals.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAxwCsAAAAAAAAA",
+              "Title": "ToilsRecipeDoRecipeWork_Transpiler.cs",
+              "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
+              "RelativeDocumentMoniker": "RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
+              "ToolTip": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
+              "RelativeToolTip": "RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-11T03:42:26.77Z",
+              "WhenOpened": "2024-04-13T17:03:38.89Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "JobDriverPlantWorkMakeNewToils_Postfix.cs",
-              "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\JobDriverPlantWorkMakeNewToils_Postfix.cs",
-              "RelativeDocumentMoniker": "RandomChance\\Harmony\\JobDriverPlantWorkMakeNewToils_Postfix.cs",
-              "ToolTip": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\JobDriverPlantWorkMakeNewToils_Postfix.cs",
-              "RelativeToolTip": "RandomChance\\Harmony\\JobDriverPlantWorkMakeNewToils_Postfix.cs",
-              "ViewState": "AQIAACUAAAAAAAAAAAAgwDYAAAAAAAAA",
+              "Title": "HarmonyPatches.cs",
+              "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\HarmonyPatches.cs",
+              "RelativeDocumentMoniker": "RandomChance\\Harmony\\HarmonyPatches.cs",
+              "ToolTip": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\HarmonyPatches.cs",
+              "RelativeToolTip": "RandomChance\\Harmony\\HarmonyPatches.cs",
+              "ViewState": "AQIAAPwCAAAAAAAAAAAQwA8DAAA6AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-11T02:44:21.886Z",
+              "WhenOpened": "2024-04-13T16:15:02.735Z",
               "EditorCaption": ""
             }
           ]

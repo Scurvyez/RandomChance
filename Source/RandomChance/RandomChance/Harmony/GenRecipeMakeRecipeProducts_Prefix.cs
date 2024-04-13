@@ -5,6 +5,7 @@ using Verse;
 
 namespace RandomChance
 {
+    /*
     [HarmonyPatch(typeof(GenRecipe), "MakeRecipeProducts")]
     public static class GenRecipeMakeRecipeProducts_Prefix
     {
@@ -48,4 +49,5 @@ namespace RandomChance
             }
         }
     }
+    */
 }
