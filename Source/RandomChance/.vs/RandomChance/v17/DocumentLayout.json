@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|s:\\games\\steam\\steamapps\\common\\rimworld\\mods\\randomchance\\source\\randomchance\\randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|s:\\games\\steam\\steamapps\\common\\rimworld\\mods\\randomchance\\source\\randomchance\\randomchance\\utils\\filthyareaanimalspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\utils\\filthyareaanimalspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\randomchance\\harmony\\toilsrecipedorecipework_transpiler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\harmony\\toilsrecipedorecipework_transpiler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,26 +27,26 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ToilsRecipeDoRecipeWork_Transpiler.cs",
-              "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
-              "RelativeDocumentMoniker": "RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
-              "ToolTip": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
-              "RelativeToolTip": "RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAA9AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-13T17:03:38.89Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "HarmonyPatches.cs",
               "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\HarmonyPatches.cs",
               "RelativeDocumentMoniker": "RandomChance\\Harmony\\HarmonyPatches.cs",
               "ToolTip": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\HarmonyPatches.cs",
               "RelativeToolTip": "RandomChance\\Harmony\\HarmonyPatches.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAAAC0AAAAIAAAA",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAACkAAABTAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-13T16:15:02.735Z",
+              "WhenOpened": "2024-04-13T16:15:02.735Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FilthyAreaAnimalSpawner.cs",
+              "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Utils\\FilthyAreaAnimalSpawner.cs",
+              "RelativeDocumentMoniker": "RandomChance\\Utils\\FilthyAreaAnimalSpawner.cs",
+              "ToolTip": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Utils\\FilthyAreaAnimalSpawner.cs",
+              "RelativeToolTip": "RandomChance\\Utils\\FilthyAreaAnimalSpawner.cs",
+              "ViewState": "AQIAADEAAAAAAAAAAAAgwEwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-13T23:18:25.428Z",
               "EditorCaption": ""
             }
           ]

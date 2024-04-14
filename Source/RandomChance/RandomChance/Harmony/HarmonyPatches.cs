@@ -8,7 +8,8 @@ using UnityEngine;
 using Verse.AI;
 using RandomChance.MapComps;
 using System.Reflection;
-using System.Reflection.Emit;
+using static Verse.GenThreading;
+using UnityEngine.Assertions;
 
 namespace RandomChance
 {
@@ -20,9 +21,7 @@ namespace RandomChance
             Harmony harmony = new Harmony(id: "rimworld.scurvyez.randomchance");
 
             harmony.Patch(original: AccessTools.Method(typeof(GenRecipe), nameof(GenRecipe.MakeRecipeProducts)),
-                prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(MakeRecipeProductsPrefix)));
-
-            harmony.Patch(original: AccessTools.Method(typeof(GenRecipe), nameof(GenRecipe.MakeRecipeProducts)),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(MakeRecipeProductsPrefix)),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(MakeRecipeProductsPostfix)));
 
             harmony.Patch(original: AccessTools.Method(typeof(JobDriver_FixBrokenDownBuilding), "MakeNewToils"),
@@ -40,8 +39,8 @@ namespace RandomChance
             harmony.Patch(original: AccessTools.Method(typeof(Mineable), "TrySpawnYield", new Type[] { typeof(Map), typeof(bool), typeof(Pawn) }),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(TrySpawnYieldPostFix)));
 
-            harmony.Patch(original: AccessTools.Method(typeof(Toils_Recipe), nameof(Toils_Recipe.DoRecipeWork)),
-                transpiler: new HarmonyMethod(typeof(HarmonyPatches), nameof(DoRecipeWorkTranspiler)));
+            harmony.Patch(original: AccessTools.Method(typeof(TickManager), nameof(TickManager.DoSingleTick)),
+                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(DoSingleTickPostfix)));
         }
         
         private static readonly Dictionary<RecipeDef, RecipeDef> recipeMap = new()
@@ -574,229 +573,15 @@ namespace RandomChance
             }
         }
 
-        public static IEnumerable<CodeInstruction> DoRecipeWorkTranspiler(IEnumerable<CodeInstruction> instructions)
+        public static void DoSingleTickPostfix()
         {
-            MethodInfo target = AccessTools.Method(typeof(IBillGiverWithTickAction), "UsedThisTick");
-            MethodBase addition = AccessTools.Method(typeof(HarmonyPatches), nameof(TryGiveRandomFailure));
-
-            foreach (CodeInstruction instruction in instructions)
+            try
             {
-                yield return instruction;
-
-                if (instruction.Calls(target))
-                {
-                    yield return new CodeInstruction(OpCodes.Ldloc_0); // Load 'actor' onto the stack
-                    yield return new CodeInstruction(OpCodes.Ldloc_1); // Load 'curJob' onto the stack
-                    yield return new CodeInstruction(OpCodes.Ldloc_2); // Load 'jobDriver' onto the stack
-                    yield return new CodeInstruction(OpCodes.Ldloc_S, 7); // Load 'building' onto the stack
-                    yield return new CodeInstruction(OpCodes.Call, addition); // Call the TryGiveRandomFailure method
-                    continue;
-                }
+                FilthyAreaAnimalSpawner.AnimalSpawnerTick();
             }
-        }
-
-        public static void TryGiveRandomFailure(Pawn actor, Job curJob, JobDriver_DoBill jobDriver, Building_WorkTable building)
-        {
-            Log.Message("TryGiveRandomFailure Running");
-            if (!actor.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
+            catch (Exception e)
             {
-                bool startFire = false;
-                bool giveInjury = false;
-
-                SimpleCurve cookingFailureCurve = RandomChance_DefOf.RC_Curves.cookingFailureCurve;
-                SimpleCurve butcheringMessCurve = RandomChance_DefOf.RC_Curves.butcheringMessCurve;
-                SimpleCurve crematingInjuryCurve = RandomChance_DefOf.RC_Curves.crematingInjuryCurve;
-                int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
-                building = curJob.GetTarget(TargetIndex.A).Thing as Building_WorkTable;
-
-                if (curJob.RecipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    if (jobDriver.ticksSpentDoingRecipeWork == 1)
-                    {
-                        if (Rand.Chance(RandomChanceSettings.CookingFailureChance))
-                        {
-                            if (Rand.Chance(cookingFailureCurve.Evaluate(pawnsAvgSkillLevel)))
-                            {
-                                if (Rand.Bool)
-                                {
-                                    startFire = true;
-                                }
-                                else
-                                {
-                                    giveInjury = true;
-                                }
-                            }
-                        }
-                    }
-
-                    if (startFire)
-                    {
-                        StartFireHandler(actor, curJob, building);
-                    }
-                    if (giveInjury)
-                    {
-                        GiveInjuryHandler(actor, curJob, building);
-                    }
-                }
-
-                if (curJob.RecipeDef == RandomChance_DefOf.ButcherCorpseFlesh)
-                {
-                    if (jobDriver.ticksSpentDoingRecipeWork == 1)
-                    {
-                        if (Rand.Chance(RandomChanceSettings.ButcheringFailureChance))
-                        {
-                            if (Rand.Chance(butcheringMessCurve.Evaluate(pawnsAvgSkillLevel)))
-                            {
-                                CauseMessHandler(actor, curJob, building);
-                            }
-                        }
-                    }
-                }
-
-                if (curJob.RecipeDef == RandomChance_DefOf.CremateCorpse)
-                {
-                    if (jobDriver.ticksSpentDoingRecipeWork == 1)
-                    {
-                        if (Rand.Chance(RandomChanceSettings.CrematingInjuryChance))
-                        {
-                            if (Rand.Chance(crematingInjuryCurve.Evaluate(pawnsAvgSkillLevel)))
-                            {
-                                GiveInjuryHandler(actor, curJob, building);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private static void StartFireHandler(Pawn actor, Job curJob, Building_WorkTable building)
-        {
-            if (RandomChanceSettings.AllowMessages)
-            {
-                Messages.Message("RC_FireInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
-            }
-
-            Thing ingredients = curJob.GetTarget(TargetIndex.B).Thing;
-            IntVec3 buildingPos = building.Position;
-            Map map = building.Map;
-
-            if (ingredients != null)
-            {
-                if (!ingredients.Destroyed)
-                {
-                    ingredients.Destroy();
-                }
-
-                FireUtility.TryStartFireIn(buildingPos, map, RandomChanceSettings.FailedCookingFireSize, null);
-                MoteMaker.MakeColonistActionOverlay(actor, ThingDefOf.Mote_ColonistFleeing);
-                Find.TickManager.slower.SignalForceNormalSpeedShort();
-                actor.stances.stunner.StunFor(120, actor, false, false);
-            }
-        }
-
-        private static void GiveInjuryHandler(Pawn actor, Job curJob, Building_WorkTable building)
-        {
-            int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
-            IntVec3 buildingPos = building.Position;
-            Map map = building.Map;
-            HediffDef burnHediffDef = RandomChance_DefOf.Burn;
-            HediffDef cutHediffDef = HediffDefOf.Cut;
-
-            float severity = pawnsAvgSkillLevel switch
-            {
-                < 5 => 0.4f,
-                <= 10 => 0.2f,
-                <= 15 => 0.08f,
-                <= 18 => 0.02f,
-                <= 20 => 0f,
-                _ => 0f,
-            };
-
-            if (curJob.RecipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                BodyPartRecord fingersPart = actor.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbDigit).RandomElement();
-
-                if (fingersPart != null)
-                {
-                    if (Rand.Bool)
-                    {
-                        Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, fingersPart);
-                        hediff.Severity = severity;
-                        actor.health.AddHediff(hediff);
-
-                        if (RandomChanceSettings.AllowMessages)
-                        {
-                            Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")),
-                                actor, MessageTypeDefOf.NegativeEvent);
-                        }
-                    }
-                    else
-                    {
-                        Hediff hediff = HediffMaker.MakeHediff(cutHediffDef, actor, fingersPart);
-                        hediff.Severity = severity;
-                        actor.health.AddHediff(hediff);
-
-                        if (RandomChanceSettings.AllowMessages)
-                        {
-                            Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")),
-                                actor, MessageTypeDefOf.NegativeEvent);
-                        }
-
-                        IntVec3 adjacentCell = buildingPos + GenAdj.CardinalDirections.RandomElement();
-                        FilthMaker.TryMakeFilth(adjacentCell, map, ThingDefOf.Filth_Blood);
-                    }
-                }
-            }
-            else if (curJob.RecipeDef == RandomChance_DefOf.CremateCorpse)
-            {
-                BodyPartRecord bodyPart = actor.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbSegment).RandomElement();
-
-                if (bodyPart != null)
-                {
-                    Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, bodyPart);
-                    hediff.Severity = severity;
-                    actor.health.AddHediff(hediff);
-
-                    if (RandomChanceSettings.AllowMessages)
-                    {
-                        Messages.Message("RC_InjuryWhileCremating".Translate(actor.Named("PAWN")),
-                            actor, MessageTypeDefOf.NegativeEvent);
-                    }
-                }
-            }
-        }
-
-        private static void CauseMessHandler(Pawn actor, Job curJob, Building_WorkTable building)
-        {
-            if (curJob.GetTarget(TargetIndex.B).Thing is Corpse animalCorpse)
-            {
-                IntVec3 pawnPos = actor.Position;
-                Map map = building.Map;
-                int radius = RandomChanceSettings.ButcherMessRadius; // make a mod setting
-                IntVec3 centerCell = pawnPos + GenAdj.CardinalDirections.RandomElement();
-                Pawn animalPawn = animalCorpse.InnerPawn;
-
-                Region region = centerCell.GetRegion(map);
-                if (region != null)
-                {
-                    foreach (IntVec3 cell in GenRadial.RadialCellsAround(centerCell, radius, true))
-                    {
-                        if (cell.GetRegion(map) == region)
-                        {
-                            FilthMaker.TryMakeFilth(cell, map, animalPawn.def.race.BloodDef);
-                        }
-                    }
-                }
-                else
-                {
-                    FilthMaker.TryMakeFilth(centerCell, map, animalPawn.def.race.BloodDef);
-                }
-
-                if (RandomChanceSettings.AllowMessages)
-                {
-                    Messages.Message("RC_HorriblyUncleanKitchen".Translate(actor.Named("PAWN")),
-                        actor, MessageTypeDefOf.NegativeEvent);
-                }
+                Log.Error(e.ToString());
             }
         }
     }

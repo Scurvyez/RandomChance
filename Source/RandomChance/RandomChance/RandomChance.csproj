@@ -60,25 +60,18 @@
   <ItemGroup>
     <Compile Include="RandomChanceWelcomeNote.cs" />
     <Compile Include="DefOfs\RandomChance_DefOf.cs" />
-    <Compile Include="Harmony\JobDriverWearMakeNewToils_Postfix.cs" />
-    <Compile Include="Harmony\MineableTrySpawnYield_Postfix.cs" />
-    <Compile Include="Harmony\JobDriverGatherAnimalBodyResourcesMakeNewToils_Postfix.cs" />
-    <Compile Include="Harmony\JobDriverPlantWorkMakeNewToils_Postfix.cs" />
-    <Compile Include="Harmony\JobDriverFixBrokenDownBuildingMakeNewToils_Postfix.cs" />
-    <Compile Include="Harmony\GenRecipeMakeRecipeProducts_Prefix.cs" />
     <Compile Include="Harmony\ToilsRecipeDoRecipeWork_Transpiler.cs" />
     <Compile Include="JobGivers\JobGiver_SwitchFlickingSpree.cs" />
     <Compile Include="MapComps\MapComponent_CollectThings.cs" />
     <Compile Include="MapComps\MapComponent_CollectAnimals.cs" />
-    <Compile Include="MapComps\MapComponent_SpawnAnimalsIfDirty.cs" />
     <Compile Include="MentalStates\MentalState_SwitchFlickingSpree.cs" />
     <Compile Include="Settings\RancomChanceMod.cs" />
     <Compile Include="Settings\RandomChanceSettings.cs" />
+    <Compile Include="Utils\FilthyAreaAnimalSpawner.cs" />
     <Compile Include="Utils\ConfigurationDef.cs" />
     <Compile Include="Utils\QualityGetter.cs" />
     <Compile Include="Utils\RandomProductData.cs" />
     <Compile Include="DefModExtensions\RandomProductExtension.cs" />
-    <Compile Include="Harmony\GenRecipeMakeRecipeProducts_Postfix.cs" />
     <Compile Include="Harmony\HarmonyPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
