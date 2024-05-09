@@ -16,6 +16,11 @@ namespace RandomChance
         {
             base.FinalizeInit();
             CollectNativeEggLayingWildAnimals();
+
+            foreach (PawnKindDef animal in eggLayingAnimals)
+            {
+                Log.Message($"Animal: {animal.defName}");
+            }
         }
 
         private void CollectNativeEggLayingWildAnimals()

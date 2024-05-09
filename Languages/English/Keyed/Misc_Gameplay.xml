@@ -16,8 +16,7 @@
     <RC_PlantWorkAngryMomma>{0} has angered a {1} while tending to a plant.</RC_PlantWorkAngryMomma>
     <RC_HurtByFarmAnimal>{0} was injured by an animal while working on the farm.</RC_HurtByFarmAnimal>
     <RC_InjuryWhileDonningArmor>{0} was injured while donning {1}.</RC_InjuryWhileDonningArmor>
-
-    <!-- <RC_DirtyFoodStoresArea>Do you want rats? Because this is how you get rats.</RC_DirtyFoodStoresArea> -->
+    <RC_DirtyRoomsAndFilthyRats>Do you want rats? Because this is how you get rats.</RC_DirtyRoomsAndFilthyRats>
 
     <!--==================== Settings ====================-->
 

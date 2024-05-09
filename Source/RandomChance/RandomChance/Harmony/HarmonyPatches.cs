@@ -8,8 +8,6 @@ using UnityEngine;
 using Verse.AI;
 using RandomChance.MapComps;
 using System.Reflection;
-using static Verse.GenThreading;
-using UnityEngine.Assertions;
 
 namespace RandomChance
 {
@@ -38,9 +36,6 @@ namespace RandomChance
 
             harmony.Patch(original: AccessTools.Method(typeof(Mineable), "TrySpawnYield", new Type[] { typeof(Map), typeof(bool), typeof(Pawn) }),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(TrySpawnYieldPostFix)));
-
-            harmony.Patch(original: AccessTools.Method(typeof(TickManager), nameof(TickManager.DoSingleTick)),
-                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(DoSingleTickPostfix)));
         }
         
         private static readonly Dictionary<RecipeDef, RecipeDef> recipeMap = new()
@@ -182,23 +177,13 @@ namespace RandomChance
                         if (recipeDef == RandomChance_DefOf.ButcherCorpseFlesh && Rand.Chance(RandomChanceSettings.BonusButcherProductChance))
                         {
                             Thing butcheredCorpse = worker.CurJob.GetTarget(TargetIndex.B).Thing;
-
-                            SimpleCurve chanceCurve = new() // add a new xml curve for this one!
-                            {
-                                { 0, 0.025f },
-                                { 3, 0.05f },
-                                { 6, 0.09f },
-                                { 8, 0.2f },
-                                { 14, 0.3f },
-                                { 18, 0.4f },
-                                { 20, 0.5f }
-                            };
-
+                            SimpleCurve bonusProductsCurve = RandomChance_DefOf.RC_Curves.butcherBonusProductsCurve;
+                            
                             if (butcheredCorpse is Corpse corpse)
                             {
                                 if (corpse.InnerPawn.RaceProps.predator)
                                 {
-                                    if (Rand.Chance(chanceCurve.Evaluate(pawnsAvgSkillLevel)))
+                                    if (Rand.Chance(bonusProductsCurve.Evaluate(pawnsAvgSkillLevel)))
                                     {
                                         int additionalMeatStackCount = Rand.RangeInclusive(1, 15);
                                         float butcheredCorpseBodySizeFactor = (corpse.InnerPawn.RaceProps.baseBodySize / 1.15f);
@@ -494,94 +479,92 @@ namespace RandomChance
 
             __result = newToils;
         }
-        
+
         public static void TrySpawnYieldPostFix(ref Map map, bool moteOnWaste, Pawn pawn, Mineable __instance)
         {
-            FieldInfo yieldPctField = AccessTools.Field(typeof(Mineable), "yieldPct");
-            float yieldPct = (float)yieldPctField.GetValue(__instance);
-
-            // Spawn the original mineableThing
-            if (__instance.def.building.mineableThing != null && !(Rand.Value > __instance.def.building.mineableDropChance))
+            if (map != null && __instance != null && __instance.def != null && __instance.def.building != null)
             {
-                int num = Mathf.Max(1, __instance.def.building.EffectiveMineableYield);
-                if (__instance.def.building.mineableYieldWasteable)
-                {
-                    num = Mathf.Max(1, GenMath.RoundRandom((float)num * yieldPct));
-                }
-                Thing thing2 = ThingMaker.MakeThing(__instance.def.building.mineableThing);
-                thing2.stackCount = num;
-                GenPlace.TryPlaceThing(thing2, __instance.Position, map, ThingPlaceMode.Near);
-            }
+                //Log.Message($"TrySpawnYieldPostfix called for job on: {__instance.def.label}");
 
-            if (!pawn.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
-            {
-                float skillsFactor = 0.20f;
-                RandomProductExtension rpEx = __instance.def.GetModExtension<RandomProductExtension>();
-                int pawnsAvgSkillLevel = (int)pawn.skills.AverageOfRelevantSkillsFor(pawn.CurJob.workGiverDef.workType);
-                SimpleCurve extraYieldCurve = RandomChance_DefOf.RC_Curves.extraMiningYieldCurve;
+                FieldInfo yieldPctField = AccessTools.Field(typeof(Mineable), "yieldPct");
+                float yieldPct = (float)yieldPctField.GetValue(__instance);
 
-                if (rpEx != null && rpEx.randomProducts != null && rpEx.randomProductChance.HasValue && rpEx.randomProductChance.Value > 0f
-                        && Rand.Chance(rpEx.randomProductChance.Value))
+                // Spawn the original mineableThing
+                if (__instance.def.building.mineableThing != null && !(Rand.Value > __instance.def.building.mineableDropChance))
                 {
-                    if (Rand.Chance(extraYieldCurve.Evaluate(pawnsAvgSkillLevel)))
+                    int num = Mathf.Max(1, __instance.def.building.EffectiveMineableYield);
+                    if (__instance.def.building.mineableYieldWasteable)
                     {
-                        float totalWeight = 0f;
-                        foreach (RandomProductData productData in rpEx.randomProducts)
+                        num = Mathf.Max(1, GenMath.RoundRandom((float)num * yieldPct));
+                    }
+                    Thing thing2 = ThingMaker.MakeThing(__instance.def.building.mineableThing);
+                    thing2.stackCount = num;
+                    GenPlace.TryPlaceThing(thing2, __instance.Position, map, ThingPlaceMode.Near);
+                }
+
+                if (!pawn.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
+                {
+                    float skillsFactor = 0.20f;
+                    RandomProductExtension rpEx = __instance.def.GetModExtension<RandomProductExtension>();
+                    int pawnsAvgSkillLevel = (int)pawn.skills.AverageOfRelevantSkillsFor(pawn.CurJob.workGiverDef.workType);
+                    SimpleCurve extraYieldCurve = RandomChance_DefOf.RC_Curves.extraMiningYieldCurve;
+
+                    if (rpEx != null && rpEx.randomProducts != null && rpEx.randomProductChance.HasValue && rpEx.randomProductChance.Value > 0f
+                            && Rand.Chance(rpEx.randomProductChance.Value))
+                    {
+                        if (extraYieldCurve != null)
                         {
-                            totalWeight += productData.randomProductWeight;
-                        }
-
-                        float randomValue = Rand.Range(0f, totalWeight);
-                        float accumulatedWeight = 0f;
-
-                        ThingDef selectedDef = null;
-
-                        foreach (RandomProductData productData in rpEx.randomProducts)
-                        {
-                            accumulatedWeight += productData.randomProductWeight;
-
-                            if (randomValue <= accumulatedWeight)
+                            if (rpEx.randomProducts != null)
                             {
-                                selectedDef = DefDatabase<ThingDef>.GetNamed(productData.randomProduct.defName, errorOnFail: false);
+                                float totalWeight = rpEx.randomProducts.Sum(productData => productData?.randomProductWeight ?? 0f);
 
-                                if (selectedDef != null)
+                                if (totalWeight > 0f)
                                 {
-                                    Thing thingToSpawn = ThingMaker.MakeThing(selectedDef);
+                                    float randomValue = Rand.Range(0f, totalWeight);
+                                    float accumulatedWeight = 0f;
 
-                                    FloatRange initialSpawnCountRange = productData.randomProductAmountRange;
+                                    ThingDef selectedDef = null;
 
-                                    int skillBasedSpawnCount = Mathf.RoundToInt(pawnsAvgSkillLevel * skillsFactor);
+                                    foreach (RandomProductData productData in rpEx.randomProducts)
+                                    {
+                                        if (productData == null)
+                                            continue;
 
-                                    FloatRange newMinSpawnCountRange;
-                                    FloatRange newMaxSpawnCountRange;
+                                        accumulatedWeight += productData.randomProductWeight;
 
-                                    newMinSpawnCountRange = new FloatRange(initialSpawnCountRange.min, initialSpawnCountRange.min * skillBasedSpawnCount);
-                                    newMaxSpawnCountRange = new FloatRange(initialSpawnCountRange.max, initialSpawnCountRange.max * skillBasedSpawnCount);
+                                        if (randomValue <= accumulatedWeight)
+                                        {
+                                            selectedDef = DefDatabase<ThingDef>.GetNamed(productData.randomProduct?.defName, errorOnFail: false);
 
-                                    int newMinSpawnCount = Rand.RangeInclusive((int)newMinSpawnCountRange.min, (int)newMinSpawnCountRange.max);
-                                    int newMaxSpawnCount = Rand.RangeInclusive((int)newMaxSpawnCountRange.min, (int)newMaxSpawnCountRange.max);
+                                            if (selectedDef != null)
+                                            {
+                                                Thing thingToSpawn = ThingMaker.MakeThing(selectedDef);
 
-                                    thingToSpawn.stackCount = Rand.RangeInclusive(newMinSpawnCount, newMaxSpawnCount);
-                                    GenPlace.TryPlaceThing(thingToSpawn, __instance.Position, map, ThingPlaceMode.Near);
+                                                FloatRange initialSpawnCountRange = productData.randomProductAmountRange;
+
+                                                int skillBasedSpawnCount = Mathf.RoundToInt(pawnsAvgSkillLevel * skillsFactor);
+
+                                                FloatRange newMinSpawnCountRange;
+                                                FloatRange newMaxSpawnCountRange;
+
+                                                newMinSpawnCountRange = new FloatRange(initialSpawnCountRange.min, initialSpawnCountRange.min * skillBasedSpawnCount);
+                                                newMaxSpawnCountRange = new FloatRange(initialSpawnCountRange.max, initialSpawnCountRange.max * skillBasedSpawnCount);
+
+                                                int newMinSpawnCount = Rand.RangeInclusive((int)newMinSpawnCountRange.min, (int)newMinSpawnCountRange.max);
+                                                int newMaxSpawnCount = Rand.RangeInclusive((int)newMaxSpawnCountRange.min, (int)newMaxSpawnCountRange.max);
+
+                                                thingToSpawn.stackCount = Rand.RangeInclusive(newMinSpawnCount, newMaxSpawnCount);
+                                                GenPlace.TryPlaceThing(thingToSpawn, __instance.Position, map, ThingPlaceMode.Near);
+                                            }
+
+                                            break; // Exit the loop after selecting one item.
+                                        }
+                                    }
                                 }
-
-                                break; // Exit the loop after selecting one item.
                             }
                         }
                     }
                 }
-            }
-        }
-
-        public static void DoSingleTickPostfix()
-        {
-            try
-            {
-                FilthyAreaAnimalSpawner.AnimalSpawnerTick();
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.ToString());
             }
         }
     }

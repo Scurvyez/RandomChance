@@ -10,7 +10,7 @@
     <RootNamespace>RandomChance</RootNamespace>
     <AssemblyName>RandomChance</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>Latest</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MapComps\MapComponent_CheckFilthyRooms.cs" />
     <Compile Include="RandomChanceWelcomeNote.cs" />
     <Compile Include="DefOfs\RandomChance_DefOf.cs" />
     <Compile Include="Harmony\ToilsRecipeDoRecipeWork_Transpiler.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="MentalStates\MentalState_SwitchFlickingSpree.cs" />
     <Compile Include="Settings\RancomChanceMod.cs" />
     <Compile Include="Settings\RandomChanceSettings.cs" />
-    <Compile Include="Utils\FilthyAreaAnimalSpawner.cs" />
     <Compile Include="Utils\ConfigurationDef.cs" />
     <Compile Include="Utils\QualityGetter.cs" />
     <Compile Include="Utils\RandomProductData.cs" />

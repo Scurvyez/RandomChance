@@ -134,6 +134,19 @@
             </points>
         </crematingInjuryCurve>
 
+        <!-- Chance for a pawn to get produce more from butchering. -->
+        <butcherBonusProductsCurve>
+            <points>
+                <li>(0, 0.025)</li>
+                <li>(3, 0.05)</li>
+                <li>(6, 0.09)</li>
+                <li>(8, 0.2)</li>
+                <li>(14, 0.3)</li>
+                <li>(18, 0.4)</li>
+                <li>(20, 0.5)</li>
+            </points>
+        </butcherBonusProductsCurve>
+
         <!-- Chance for a pawn to start a switch flicking spree. -->
         <switchFlickingSpreeCurve>
             <points>
