@@ -44,17 +44,17 @@ namespace RandomChance
 
         public static void TryGiveRandomFailure(Pawn actor, Job curJob, JobDriver_DoBill jobDriver, Building_WorkTable building)
         {
-            if (!actor.IsColonyMech && RandomChance_DefOf.RC_Curves != null)
+            if (!actor.IsColonyMech && RCDefOf.RC_Curves != null)
             {
                 bool startFire = false;
                 bool giveInjury = false;
 
-                float cookingFailureChance = RandomChanceSettings.CookingFailureChance; // 5% by default
-                SimpleCurve cookingFailureCurve = RandomChance_DefOf.RC_Curves.cookingFailureCurve;
-                float butcheringMessChance = RandomChanceSettings.ButcheringFailureChance; // 9% by default
-                SimpleCurve butcheringMessCurve = RandomChance_DefOf.RC_Curves.butcheringMessCurve;
-                float crematingInjuryChance = RandomChanceSettings.CrematingInjuryChance; // 5% by default
-                SimpleCurve crematingInjuryCurve = RandomChance_DefOf.RC_Curves.crematingInjuryCurve;
+                float cookingFailureChance = RCSettings.CookingFailureChance; // 5% by default
+                SimpleCurve cookingFailureCurve = RCDefOf.RC_Curves.cookingFailureCurve;
+                float butcheringMessChance = RCSettings.ButcheringFailureChance; // 9% by default
+                SimpleCurve butcheringMessCurve = RCDefOf.RC_Curves.butcheringMessCurve;
+                float crematingInjuryChance = RCSettings.CrematingInjuryChance; // 5% by default
+                SimpleCurve crematingInjuryCurve = RCDefOf.RC_Curves.crematingInjuryCurve;
                 int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
                 building = curJob.GetTarget(TargetIndex.A).Thing as Building_WorkTable;
 
@@ -88,7 +88,7 @@ namespace RandomChance
                     }
                 }
 
-                if (curJob.RecipeDef == RandomChance_DefOf.ButcherCorpseFlesh)
+                if (curJob.RecipeDef == RCDefOf.ButcherCorpseFlesh)
                 {
                     if (jobDriver.ticksSpentDoingRecipeWork == 1)
                     {
@@ -102,7 +102,7 @@ namespace RandomChance
                     }
                 }
 
-                if (curJob.RecipeDef == RandomChance_DefOf.CremateCorpse)
+                if (curJob.RecipeDef == RCDefOf.CremateCorpse)
                 {
                     if (jobDriver.ticksSpentDoingRecipeWork == 1)
                     {
@@ -120,7 +120,7 @@ namespace RandomChance
 
         private static void StartFireHandler(Pawn actor, Job curJob, Building_WorkTable building)
         {
-            if (RandomChanceSettings.AllowMessages)
+            if (RCSettings.AllowMessages)
             {
                 Messages.Message("RC_FireInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
             }
@@ -136,7 +136,7 @@ namespace RandomChance
                     ingredients.Destroy();
                 }
 
-                FireUtility.TryStartFireIn(buildingPos, map, RandomChanceSettings.FailedCookingFireSize, null);
+                FireUtility.TryStartFireIn(buildingPos, map, RCSettings.FailedCookingFireSize, null);
                 MoteMaker.MakeColonistActionOverlay(actor, ThingDefOf.Mote_ColonistFleeing);
                 Find.TickManager.slower.SignalForceNormalSpeedShort();
                 actor.stances.stunner.StunFor(120, actor, false, false);
@@ -148,7 +148,7 @@ namespace RandomChance
             int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
             IntVec3 buildingPos = building.Position;
             Map map = building.Map;
-            HediffDef burnHediffDef = RandomChance_DefOf.Burn;
+            HediffDef burnHediffDef = RCDefOf.Burn;
             HediffDef cutHediffDef = HediffDefOf.Cut;
 
             float severity = pawnsAvgSkillLevel switch
@@ -173,7 +173,7 @@ namespace RandomChance
                         hediff.Severity = severity;
                         actor.health.AddHediff(hediff);
 
-                        if (RandomChanceSettings.AllowMessages)
+                        if (RCSettings.AllowMessages)
                         {
                             Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")),
                                 actor, MessageTypeDefOf.NegativeEvent);
@@ -185,7 +185,7 @@ namespace RandomChance
                         hediff.Severity = severity;
                         actor.health.AddHediff(hediff);
 
-                        if (RandomChanceSettings.AllowMessages)
+                        if (RCSettings.AllowMessages)
                         {
                             Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")),
                                 actor, MessageTypeDefOf.NegativeEvent);
@@ -196,7 +196,7 @@ namespace RandomChance
                     }
                 }
             }
-            else if (curJob.RecipeDef == RandomChance_DefOf.CremateCorpse)
+            else if (curJob.RecipeDef == RCDefOf.CremateCorpse)
             {
                 BodyPartRecord bodyPart = actor.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbSegment).RandomElement();
 
@@ -206,7 +206,7 @@ namespace RandomChance
                     hediff.Severity = severity;
                     actor.health.AddHediff(hediff);
 
-                    if (RandomChanceSettings.AllowMessages)
+                    if (RCSettings.AllowMessages)
                     {
                         Messages.Message("RC_InjuryWhileCremating".Translate(actor.Named("PAWN")),
                             actor, MessageTypeDefOf.NegativeEvent);
@@ -221,7 +221,7 @@ namespace RandomChance
             {
                 IntVec3 pawnPos = actor.Position;
                 Map map = building.Map;
-                int radius = RandomChanceSettings.ButcherMessRadius; // make a mod setting
+                int radius = RCSettings.ButcherMessRadius; // make a mod setting
                 IntVec3 centerCell = pawnPos + GenAdj.CardinalDirections.RandomElement();
                 Pawn animalPawn = animalCorpse.InnerPawn;
 
@@ -241,7 +241,7 @@ namespace RandomChance
                     FilthMaker.TryMakeFilth(centerCell, map, animalPawn.def.race.BloodDef);
                 }
 
-                if (RandomChanceSettings.AllowMessages)
+                if (RCSettings.AllowMessages)
                 {
                     Messages.Message("RC_HorriblyUncleanKitchen".Translate(actor.Named("PAWN")),
                         actor, MessageTypeDefOf.NegativeEvent);

@@ -6,11 +6,11 @@ namespace RandomChance
     public class RandomProductExtension : DefModExtension
     {
         public float? randomProductChance = 0f;
-        public List<RandomProductData> randomProducts = new ();
+        public List<RCRandomProductData> randomProducts = new ();
 
         public float GetRandomProductWeight(ThingDef productDef)
         {
-            foreach (RandomProductData productData in randomProducts)
+            foreach (RCRandomProductData productData in randomProducts)
             {
                 if (productData.randomProduct.defName == productDef.defName)
                 {
@@ -22,7 +22,7 @@ namespace RandomChance
 
         public FloatRange GetRandomProductSpawnRange(ThingDef productDef)
         {
-            foreach (RandomProductData productData in randomProducts)
+            foreach (RCRandomProductData productData in randomProducts)
             {
                 if (productData.randomProduct.defName == productDef.defName)
                 {

@@ -3,16 +3,16 @@ using Verse;
 
 namespace RandomChance
 {
-    public class RancomChanceMod : Mod
+    public class RCMod : Mod
     {
-        RandomChanceSettings settings;
-        public static RancomChanceMod mod;
+        RCSettings settings;
+        public static RCMod mod;
         private Vector2 scrollPos = Vector2.zero;
 
-        public RancomChanceMod(ModContentPack content) : base(content)
+        public RCMod(ModContentPack content) : base(content)
         {
             mod = this;
-            settings = GetSettings<RandomChanceSettings>();
+            settings = GetSettings<RCSettings>();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
@@ -101,6 +101,16 @@ namespace RandomChance
             string electricalRepairFailureChanceSliderText = electricalRepairFailureChanceSlider.ToString("F2");
             list2.Label(label: "RC_ElectricalRepairFailureChance".Translate(electricalRepairFailureChanceSliderText), tooltip: "RC_ElectricalRepairFailureChanceDesc".Translate());
             settings._electricalRepairFailureChance = list2.Slider(settings._electricalRepairFailureChance, 0.0f, 1.0f);
+            
+            float electricalRepairFireChanceSlider = settings._electricalRepairFireChance;
+            string electricalRepairFireChanceSliderText = electricalRepairFireChanceSlider.ToString("F2");
+            list2.Label(label: "RC_ElectricalRepairFireChance".Translate(electricalRepairFireChanceSliderText), tooltip: "RC_ElectricalRepairFireChanceDesc".Translate());
+            settings._electricalRepairFireChance = list2.Slider(settings._electricalRepairFireChance, 0.0f, 1.0f);
+            
+            float electricalRepairShortCircuitChanceSlider = settings._electricalRepairShortCircuitChance;
+            string electricalRepairShortCircuitChanceSliderText = electricalRepairShortCircuitChanceSlider.ToString("F2");
+            list2.Label(label: "RC_ElectricalRepairShortCircuitChance".Translate(electricalRepairShortCircuitChanceSliderText), tooltip: "RC_ElectricalRepairShortCircuitChanceDesc".Translate());
+            settings._electricalRepairShortCircuitChance = list2.Slider(settings._electricalRepairShortCircuitChance, 0.0f, 1.0f);
             list2.Gap(6.0f);
 
             // Plant work

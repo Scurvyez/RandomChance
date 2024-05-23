@@ -4,19 +4,24 @@
     <FleckDef ParentName="FleckBase_Thrown">
         <defName>RC_ElectricShockBones</defName>
         <altitudeLayer>MoteOverhead</altitudeLayer>
-        <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
-        <fadeInTime>0.1</fadeInTime>
-        <solidTime>0.2</solidTime>
-        <fadeOutTime>0.1</fadeOutTime>
+        <fadeInTime>0</fadeInTime>
+        <solidTime>0</solidTime>
+        <fadeOutTime>3</fadeOutTime>
         <growthRate>0.0</growthRate>
         <graphicData>
             <graphicClass>Graphic_FleckPulse</graphicClass>
-            <texPath>Things/Pawn/Humanlike/Bodies/Dessicated/Dessicated_Male_north</texPath>
-            <shaderType>MoteGlow</shaderType>
+            <texPath>RandomChance/Effects/ElectricShockGeneric</texPath>
+            <shaderType>MoteGlowPulse</shaderType>
+            <renderInstanced>true</renderInstanced>
+            <shaderParameters>
+                <_Color>(1, 1, 1, 1.5)</_Color>
+                <_Interval>0.03</_Interval>
+            </shaderParameters>
+            <drawSize>(0.5, 0.5)</drawSize>
         </graphicData>
     </FleckDef>
 
-    <EffecterDef>
+    <!--<EffecterDef>
         <defName>RC_ElectricShockBonesEffect</defName>
         <children>
             <li>
@@ -28,6 +33,6 @@
                 <attachToSpawnThing>true</attachToSpawnThing>
             </li>
         </children>
-    </EffecterDef>
+    </EffecterDef>-->
 
 </Defs>

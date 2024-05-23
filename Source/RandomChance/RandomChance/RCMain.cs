@@ -5,11 +5,11 @@ using Verse;
 namespace RandomChance
 {
     [StaticConstructorOnStartup]
-    public static class RandomChanceMain
+    public static class RCMain
     {
-        static RandomChanceMain()
+        static RCMain()
         {
-            Log.Message("[<color=#4494E3FF>Random Chance</color>] 03/15/2024 " + "<color=#ff8c66>[1.5 Update | Older versions will no longer be maintained.]</color>");
+            RCLog.Message("1.5 Update | Older versions will no longer be maintained.");
 
             Harmony harmonyTInstance = new Harmony("com.randomchance");
             harmonyTInstance.PatchAll(Assembly.GetExecutingAssembly());

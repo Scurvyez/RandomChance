@@ -48,6 +48,10 @@
     <!-- Repairing -->
     <RC_ElectricalRepairFailureChance>Failure chance: {0}</RC_ElectricalRepairFailureChance>
     <RC_ElectricalRepairFailureChanceDesc>Adjusting this slider alters the chance for a pawn to get electrocuted while repairing electrical equipment with components. There... may even be a secondary explosion is fate demands it so. (Percent chance before pawns' average relevant skills are accounted for.)</RC_ElectricalRepairFailureChanceDesc>
+    <RC_ElectricalRepairFireChance>Failed repairs fire chance: {0}</RC_ElectricalRepairFireChance>
+    <RC_ElectricalRepairFireChanceDesc>Adjusting this slider alters the chance for a fire to start at the place of ongoing electrical repairs.</RC_ElectricalRepairFireChanceDesc>
+    <RC_ElectricalRepairShortCircuitChance>Failed repairs short circuit chance: {0}</RC_ElectricalRepairShortCircuitChance>
+    <RC_ElectricalRepairShortCircuitChanceDesc>Adjusting this slider alters the chance for a larger short circuit event as a result of failed electrical repairs.</RC_ElectricalRepairShortCircuitChanceDesc>
 
     <!-- Plant work -->
     <RC_PlantHarvestingFindEggsChance>Bonus egg chance: {0}</RC_PlantHarvestingFindEggsChance>

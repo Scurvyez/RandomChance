@@ -4,7 +4,7 @@ using RimWorld;
 namespace RandomChance
 {
     [DefOf]
-    public class RandomChance_DefOf
+    public class RCDefOf
     {
         public static ThingDef ElectricStove;
         public static ThingDef FueledStove;
@@ -14,12 +14,12 @@ namespace RandomChance
 
         public static PawnKindDef Rat;
 
-        public static EffecterDef RC_ElectricShockBonesEffect;
-
-        public static DamageDef RC_ElectricShockDamage;
+        public static FleckDef RC_ElectricShockBones;
 
         public static HediffDef Burn;
         public static HediffDef RC_ElectricShockHediff;
+
+        public static IncidentDef ShortCircuit;
 
         public static ShaderTypeDef TransparentPostLight;
 
@@ -42,9 +42,9 @@ namespace RandomChance
 
         public static ConfigurationDef RC_Curves;
 
-        static RandomChance_DefOf()
+        static RCDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(RandomChance_DefOf));
+            DefOfHelper.EnsureInitializedInCtor(typeof(RCDefOf));
         }
     }
 }

@@ -19,8 +19,8 @@ namespace RandomChance
 
         protected override Job TryGiveJob(Pawn pawn)
         {
-            float switchFlickingSpreeChance = RandomChanceSettings.SwitchFlickingSpreeChance;
-            SimpleCurve switchFlickingSpreeCurve = RandomChance_DefOf.RC_Curves.switchFlickingSpreeCurve;
+            float switchFlickingSpreeChance = RCSettings.SwitchFlickingSpreeChance;
+            SimpleCurve switchFlickingSpreeCurve = RCDefOf.RC_Curves.switchFlickingSpreeCurve;
             float pawnsAvgSkillLevel = pawn.skills.GetSkill(SkillDefOf.Social).Level;
 
             if (pawn.mindState.nextMoveOrderIsWait)

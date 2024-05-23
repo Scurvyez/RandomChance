@@ -3,15 +3,15 @@ using Verse;
 
 namespace RandomChance
 {
-    public class RandomProductData
+    public class RCRandomProductData
     {
         public ThingDef randomProduct = null;
         public float randomProductWeight = 0f;
         public FloatRange randomProductAmountRange = new (1, 2);
         
-        public RandomProductData() { }
+        public RCRandomProductData() { }
 
-        public RandomProductData(ThingDef randomProduct, float randomProductWeight, FloatRange randomProductAmountRange)
+        public RCRandomProductData(ThingDef randomProduct, float randomProductWeight, FloatRange randomProductAmountRange)
         {
             this.randomProduct = randomProduct;
             this.randomProductWeight = randomProductWeight;

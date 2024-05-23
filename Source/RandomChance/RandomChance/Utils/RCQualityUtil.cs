@@ -4,7 +4,7 @@ using Verse;
 
 namespace RandomChance
 {
-    public static class QualityGetter
+    public static class RCQualityUtil
     {
         public static float GetQualityValue(QualityCategory quality, SimpleCurve factors)
         {

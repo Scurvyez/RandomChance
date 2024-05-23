@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|s:\\games\\steam\\steamapps\\common\\rimworld\\mods\\randomchance\\source\\randomchance\\randomchance\\harmony\\toilsrecipedorecipework_transpiler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\harmony\\toilsrecipedorecipework_transpiler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|s:\\games\\steam\\steamapps\\common\\rimworld\\mods\\randomchance\\source\\randomchance\\randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -26,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,7 +38,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "ToilsRecipeDoRecipeWork_Transpiler.cs",
+              "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
+              "RelativeDocumentMoniker": "RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
+              "ToolTip": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
+              "RelativeToolTip": "RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-09T23:43:55.073Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "MapComponent_CollectAnimals.cs",
               "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\MapComps\\MapComponent_CollectAnimals.cs",
               "RelativeDocumentMoniker": "RandomChance\\MapComps\\MapComponent_CollectAnimals.cs",
@@ -46,7 +63,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "MapComponent_CollectThings.cs",
               "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\MapComps\\MapComponent_CollectThings.cs",
               "RelativeDocumentMoniker": "RandomChance\\MapComps\\MapComponent_CollectThings.cs",
@@ -58,7 +75,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "HarmonyPatches.cs",
               "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\HarmonyPatches.cs",
               "RelativeDocumentMoniker": "RandomChance\\Harmony\\HarmonyPatches.cs",
@@ -71,7 +88,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "MapComponent_CheckFilthyRooms.cs",
               "DocumentMoniker": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\MapComps\\MapComponent_CheckFilthyRooms.cs",
               "RelativeDocumentMoniker": "RandomChance\\MapComps\\MapComponent_CheckFilthyRooms.cs",

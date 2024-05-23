@@ -59,21 +59,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapComps\MapComponent_CheckFilthyRooms.cs" />
-    <Compile Include="RandomChanceWelcomeNote.cs" />
-    <Compile Include="DefOfs\RandomChance_DefOf.cs" />
+    <Compile Include="RCMain.cs" />
+    <Compile Include="DefOfs\RCDefOf.cs" />
     <Compile Include="Harmony\ToilsRecipeDoRecipeWork_Transpiler.cs" />
     <Compile Include="JobGivers\JobGiver_SwitchFlickingSpree.cs" />
     <Compile Include="MapComps\MapComponent_CollectThings.cs" />
     <Compile Include="MapComps\MapComponent_CollectAnimals.cs" />
     <Compile Include="MentalStates\MentalState_SwitchFlickingSpree.cs" />
-    <Compile Include="Settings\RancomChanceMod.cs" />
-    <Compile Include="Settings\RandomChanceSettings.cs" />
+    <Compile Include="Settings\RCMod.cs" />
+    <Compile Include="Settings\RCSettings.cs" />
     <Compile Include="Utils\ConfigurationDef.cs" />
-    <Compile Include="Utils\QualityGetter.cs" />
-    <Compile Include="Utils\RandomProductData.cs" />
+    <Compile Include="Utils\RCFoodUtil.cs" />
+    <Compile Include="Utils\RCQualityUtil.cs" />
+    <Compile Include="Utils\RCRandomProductData.cs" />
     <Compile Include="DefModExtensions\RandomProductExtension.cs" />
     <Compile Include="Harmony\HarmonyPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\RCLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
