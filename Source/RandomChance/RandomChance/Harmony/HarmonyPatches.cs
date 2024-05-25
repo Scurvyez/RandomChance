@@ -8,6 +8,7 @@ using UnityEngine;
 using Verse.AI;
 using RandomChance.MapComps;
 using System.Reflection;
+#pragma warning disable CS0642 // Possible mistaken empty statement
 
 namespace RandomChance
 {

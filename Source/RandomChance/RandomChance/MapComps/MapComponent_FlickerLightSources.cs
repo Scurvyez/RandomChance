@@ -9,7 +9,6 @@ namespace RandomChance
         public bool FlickLightSources;
 
         private int _counter = 0;
-        private int _lastUpdate;
         private FlickeringLightsExtension flickeringLightsExtension;
         
         public MapComponent_FlickerLightSources(Map map) : base(map) { }
@@ -25,6 +24,7 @@ namespace RandomChance
             base.MapComponentTick();
 
             if (flickeringLightsExtension == null) return;
+            
             if (FlickLightSources)
             {
                 _counter++;
@@ -43,7 +43,6 @@ namespace RandomChance
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref _lastUpdate, "lastUpdate");
             Scribe_Values.Look(ref FlickLightSources, "FlickLightSources");
         }
         
@@ -55,7 +54,7 @@ namespace RandomChance
             foreach (Thing thing in mapComp.availableLightSources)
             {
                 CompPowerTrader comp = thing.TryGetComp<CompPowerTrader>();
-                if (comp != null && Rand.Chance(0.25f) && thing.IsHashIntervalTick(60))
+                if (comp != null && Rand.Chance(flickeringLightsExtension.flickerChance) && thing.IsHashIntervalTick(60))
                 {
                     comp.PowerOn = !comp.PowerOn;
                 }

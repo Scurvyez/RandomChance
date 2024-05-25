@@ -22,8 +22,6 @@ namespace RandomChance
         public static IncidentDef ShortCircuit;
         public static IncidentDef RC_FlickeringLights;
 
-        public static ShaderTypeDef TransparentPostLight;
-
         public static RecipeDef CookMealSimple;
         public static RecipeDef CookMealSimpleBulk;
         public static RecipeDef CookMealFine;

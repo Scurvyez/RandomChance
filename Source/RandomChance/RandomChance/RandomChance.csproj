@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefModExtensions\FlickeringLightsExtension.cs" />
+    <Compile Include="GameConditions\GameCondition_FlickeringLights.cs" />
     <Compile Include="Incidents\IncidentWorker_FlickeringLights.cs" />
     <Compile Include="MapComps\MapComponent_CheckFilthyRooms.cs" />
     <Compile Include="MapComps\MapComponent_FlickerLightSources.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="MentalStates\MentalState_SwitchFlickingSpree.cs" />
     <Compile Include="Settings\RCMod.cs" />
     <Compile Include="Settings\RCSettings.cs" />
+    <Compile Include="Thoughts\ThoughtWorker_ExperiencedFlickeringLights.cs" />
     <Compile Include="Utils\ConfigMiscDef.cs" />
     <Compile Include="Utils\ConfigCurvesDef.cs" />
     <Compile Include="Utils\RCFailureUtil.cs" />
