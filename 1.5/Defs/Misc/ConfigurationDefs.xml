@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-    <RandomChance.ConfigurationDef>
-        <defName>RC_Curves</defName>
+    <RandomChance.ConfigCurvesDef>
+        <defName>RC_ConfigCurves</defName>
 
         <!-- Chance to produce a meal of better quality with high skill. -->
         <betterMealOutcomeCurve>
@@ -159,6 +159,27 @@
                 <li>(20, 0.1)</li>
             </points>
         </switchFlickingSpreeCurve>
-    </RandomChance.ConfigurationDef>
+    </RandomChance.ConfigCurvesDef>
+
+    <RandomChance.ConfigMiscDef>
+        <defName>RC_ConfigMisc</defName>
+        <randomProductSkillsFactor>0.2</randomProductSkillsFactor>
+        <cookingBonusRangeOne>0~1</cookingBonusRangeOne>
+        <cookingBonusRangeTwo>0~2</cookingBonusRangeTwo>
+        <cookingBonusRangeThree>0~3</cookingBonusRangeThree>
+        <cookingBonusRangeFour>0~4</cookingBonusRangeFour>
+        <additionalMeatStackCount>1~15</additionalMeatStackCount>
+        <repairFailureExplosionRadius>1~5</repairFailureExplosionRadius>
+        <repairFailureExpolsionDamageAmount>1~5</repairFailureExpolsionDamageAmount>
+        <repairFailureStunDuration>180</repairFailureStunDuration>
+        <repairFailureFireSize>1~3</repairFailureFireSize>
+        <farmAnimalInjuryStunDuration>60</farmAnimalInjuryStunDuration>
+        <plantWorkEggDiscoveryCount>1~3</plantWorkEggDiscoveryCount>
+        <miningExtraProductSkillsFactor>0.2</miningExtraProductSkillsFactor>
+
+        <shockFleckRChannel>0~0.2</shockFleckRChannel>
+        <shockFleckGChannel>0~0.4</shockFleckGChannel>
+        <shockFleckBChannel>0.8~1</shockFleckBChannel>
+    </RandomChance.ConfigMiscDef>
 
 </Defs>

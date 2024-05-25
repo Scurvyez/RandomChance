@@ -3,7 +3,7 @@ using Verse;
 
 namespace RandomChance
 {
-    public class ConfigurationDef : Def
+    public class ConfigCurvesDef : Def
     {
         public SimpleCurve powerArmorInjuryCurve;
         public SimpleCurve betterMealOutcomeCurve;

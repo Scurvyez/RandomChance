@@ -2,7 +2,7 @@
 <Defs>
 
     <FleckDef ParentName="FleckBase_Thrown">
-        <defName>RC_ElectricShockBones</defName>
+        <defName>RC_ElectricShock</defName>
         <altitudeLayer>MoteOverhead</altitudeLayer>
         <fadeInTime>0</fadeInTime>
         <solidTime>0</solidTime>
@@ -14,25 +14,11 @@
             <shaderType>MoteGlowPulse</shaderType>
             <renderInstanced>true</renderInstanced>
             <shaderParameters>
-                <_Color>(1, 1, 1, 1.5)</_Color>
+                <_Color>(1, 1, 1, 2)</_Color>
                 <_Interval>0.03</_Interval>
             </shaderParameters>
-            <drawSize>(0.5, 0.5)</drawSize>
+            <drawSize>(1, 1)</drawSize>
         </graphicData>
     </FleckDef>
-
-    <!--<EffecterDef>
-        <defName>RC_ElectricShockBonesEffect</defName>
-        <children>
-            <li>
-                <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
-                <fleckDef>RC_ElectricShockBones</fleckDef>
-                <scale>1.0~1.0</scale>
-                <spawnLocType>OnSource</spawnLocType>
-                <absoluteAngle>true</absoluteAngle>
-                <attachToSpawnThing>true</attachToSpawnThing>
-            </li>
-        </children>
-    </EffecterDef>-->
 
 </Defs>

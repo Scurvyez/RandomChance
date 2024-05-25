@@ -14,12 +14,13 @@ namespace RandomChance
 
         public static PawnKindDef Rat;
 
-        public static FleckDef RC_ElectricShockBones;
+        public static FleckDef RC_ElectricShock;
 
         public static HediffDef Burn;
         public static HediffDef RC_ElectricShockHediff;
 
         public static IncidentDef ShortCircuit;
+        public static IncidentDef RC_FlickeringLights;
 
         public static ShaderTypeDef TransparentPostLight;
 
@@ -40,7 +41,8 @@ namespace RandomChance
         public static RecipeDef ButcherCorpseFlesh;
         public static RecipeDef CremateCorpse;
 
-        public static ConfigurationDef RC_Curves;
+        public static ConfigCurvesDef RC_ConfigCurves;
+        public static ConfigMiscDef RC_ConfigMisc;
 
         static RCDefOf()
         {

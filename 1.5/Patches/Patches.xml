@@ -146,6 +146,15 @@
     </Operation>
 
     <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/RecipeDef[defName="ButcherCorpseFlesh"]</xpath>
+        <value>
+            <li Class="RandomChance.RandomProductExtension">
+                <randomProductChance>0.05</randomProductChance> <!-- 5% chance -->
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
         <xpath>Defs/RecipeDef[defName="SmashCorpseMechanoid"]</xpath>
         <value>
             <li Class="RandomChance.RandomProductExtension">

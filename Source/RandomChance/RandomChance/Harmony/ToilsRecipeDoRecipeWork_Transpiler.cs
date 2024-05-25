@@ -44,207 +44,58 @@ namespace RandomChance
 
         public static void TryGiveRandomFailure(Pawn actor, Job curJob, JobDriver_DoBill jobDriver, Building_WorkTable building)
         {
-            if (!actor.IsColonyMech && RCDefOf.RC_Curves != null)
-            {
-                bool startFire = false;
-                bool giveInjury = false;
+            if (actor.IsColonyMech || RCDefOf.RC_ConfigCurves == null) return;
+            bool startFire = false;
+            bool giveInjury = false;
 
-                float cookingFailureChance = RCSettings.CookingFailureChance; // 5% by default
-                SimpleCurve cookingFailureCurve = RCDefOf.RC_Curves.cookingFailureCurve;
-                float butcheringMessChance = RCSettings.ButcheringFailureChance; // 9% by default
-                SimpleCurve butcheringMessCurve = RCDefOf.RC_Curves.butcheringMessCurve;
-                float crematingInjuryChance = RCSettings.CrematingInjuryChance; // 5% by default
-                SimpleCurve crematingInjuryCurve = RCDefOf.RC_Curves.crematingInjuryCurve;
-                int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
-                building = curJob.GetTarget(TargetIndex.A).Thing as Building_WorkTable;
-
-                if (curJob.RecipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    if (jobDriver.ticksSpentDoingRecipeWork == 1)
-                    {
-                        if (Rand.Chance(cookingFailureChance))
-                        {
-                            if (Rand.Chance(cookingFailureCurve.Evaluate(pawnsAvgSkillLevel)))
-                            {
-                                if (Rand.Bool)
-                                {
-                                    startFire = true;
-                                }
-                                else
-                                {
-                                    giveInjury = true;
-                                }
-                            }
-                        }
-                    }
-
-                    if (startFire)
-                    {
-                        StartFireHandler(actor, curJob, building);
-                    }
-                    if (giveInjury)
-                    {
-                        GiveInjuryHandler(actor, curJob, building);
-                    }
-                }
-
-                if (curJob.RecipeDef == RCDefOf.ButcherCorpseFlesh)
-                {
-                    if (jobDriver.ticksSpentDoingRecipeWork == 1)
-                    {
-                        if (Rand.Chance(butcheringMessChance))
-                        {
-                            if (Rand.Chance(butcheringMessCurve.Evaluate(pawnsAvgSkillLevel)))
-                            {
-                                CauseMessHandler(actor, curJob, building);
-                            }
-                        }
-                    }
-                }
-
-                if (curJob.RecipeDef == RCDefOf.CremateCorpse)
-                {
-                    if (jobDriver.ticksSpentDoingRecipeWork == 1)
-                    {
-                        if (Rand.Chance(crematingInjuryChance))
-                        {
-                            if (Rand.Chance(crematingInjuryCurve.Evaluate(pawnsAvgSkillLevel)))
-                            {
-                                GiveInjuryHandler(actor, curJob, building);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private static void StartFireHandler(Pawn actor, Job curJob, Building_WorkTable building)
-        {
-            if (RCSettings.AllowMessages)
-            {
-                Messages.Message("RC_FireInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
-            }
-
-            Thing ingredients = curJob.GetTarget(TargetIndex.B).Thing;
-            IntVec3 buildingPos = building.Position;
-            Map map = building.Map;
-
-            if (ingredients != null)
-            {
-                if (!ingredients.Destroyed)
-                {
-                    ingredients.Destroy();
-                }
-
-                FireUtility.TryStartFireIn(buildingPos, map, RCSettings.FailedCookingFireSize, null);
-                MoteMaker.MakeColonistActionOverlay(actor, ThingDefOf.Mote_ColonistFleeing);
-                Find.TickManager.slower.SignalForceNormalSpeedShort();
-                actor.stances.stunner.StunFor(120, actor, false, false);
-            }
-        }
-
-        private static void GiveInjuryHandler(Pawn actor, Job curJob, Building_WorkTable building)
-        {
             int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
-            IntVec3 buildingPos = building.Position;
-            Map map = building.Map;
-            HediffDef burnHediffDef = RCDefOf.Burn;
-            HediffDef cutHediffDef = HediffDefOf.Cut;
-
-            float severity = pawnsAvgSkillLevel switch
-            {
-                < 5 => 0.4f,
-                <= 10 => 0.2f,
-                <= 15 => 0.08f,
-                <= 18 => 0.02f,
-                <= 20 => 0f,
-                _ => 0f,
-            };
+            building = curJob.GetTarget(TargetIndex.A).Thing as Building_WorkTable;
 
             if (curJob.RecipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                BodyPartRecord fingersPart = actor.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbDigit).RandomElement();
-
-                if (fingersPart != null) 
+                if (jobDriver.ticksSpentDoingRecipeWork == 1)
                 {
-                    if (Rand.Bool)
+                    if (Rand.Chance(RCSettings.CookingFailureChance) 
+                        && Rand.Chance(RCDefOf.RC_ConfigCurves.cookingFailureCurve.Evaluate(pawnsAvgSkillLevel)))
                     {
-                        Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, fingersPart);
-                        hediff.Severity = severity;
-                        actor.health.AddHediff(hediff);
-
-                        if (RCSettings.AllowMessages)
+                        if (Rand.Bool)
                         {
-                            Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")),
-                                actor, MessageTypeDefOf.NegativeEvent);
+                            startFire = true;
                         }
-                    }
-                    else
-                    {
-                        Hediff hediff = HediffMaker.MakeHediff(cutHediffDef, actor, fingersPart);
-                        hediff.Severity = severity;
-                        actor.health.AddHediff(hediff);
-
-                        if (RCSettings.AllowMessages)
+                        else
                         {
-                            Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")),
-                                actor, MessageTypeDefOf.NegativeEvent);
+                            giveInjury = true;
                         }
-
-                        IntVec3 adjacentCell = buildingPos + GenAdj.CardinalDirections.RandomElement();
-                        FilthMaker.TryMakeFilth(adjacentCell, map, ThingDefOf.Filth_Blood);
                     }
                 }
+
+                if (startFire)
+                {
+                    RCFailureUtil.StartFireHandler(actor, curJob, building);
+                }
+                if (giveInjury)
+                {
+                    RCFailureUtil.GiveInjuryHandler(actor, curJob, building);
+                }
             }
+
+            else if (curJob.RecipeDef == RCDefOf.ButcherCorpseFlesh)
+            {
+                if (jobDriver.ticksSpentDoingRecipeWork != 1) return;
+                if (!Rand.Chance(RCSettings.ButcheringFailureChance)) return;
+                if (Rand.Chance(RCDefOf.RC_ConfigCurves.butcheringMessCurve.Evaluate(pawnsAvgSkillLevel)))
+                {
+                    RCFailureUtil.CauseMessHandler(actor, curJob, building);
+                }
+            }
+
             else if (curJob.RecipeDef == RCDefOf.CremateCorpse)
             {
-                BodyPartRecord bodyPart = actor.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbSegment).RandomElement();
-
-                if (bodyPart != null)
+                if (jobDriver.ticksSpentDoingRecipeWork != 1) return;
+                if (!Rand.Chance(RCSettings.CrematingInjuryChance)) return;
+                if (Rand.Chance(RCDefOf.RC_ConfigCurves.crematingInjuryCurve.Evaluate(pawnsAvgSkillLevel)))
                 {
-                    Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, bodyPart);
-                    hediff.Severity = severity;
-                    actor.health.AddHediff(hediff);
-
-                    if (RCSettings.AllowMessages)
-                    {
-                        Messages.Message("RC_InjuryWhileCremating".Translate(actor.Named("PAWN")),
-                            actor, MessageTypeDefOf.NegativeEvent);
-                    }
-                }
-            }
-        }
-
-        private static void CauseMessHandler(Pawn actor, Job curJob, Building_WorkTable building)
-        {
-            if (curJob.GetTarget(TargetIndex.B).Thing is Corpse animalCorpse)
-            {
-                IntVec3 pawnPos = actor.Position;
-                Map map = building.Map;
-                int radius = RCSettings.ButcherMessRadius; // make a mod setting
-                IntVec3 centerCell = pawnPos + GenAdj.CardinalDirections.RandomElement();
-                Pawn animalPawn = animalCorpse.InnerPawn;
-
-                Region region = centerCell.GetRegion(map);
-                if (region != null)
-                {
-                    foreach (IntVec3 cell in GenRadial.RadialCellsAround(centerCell, radius, true))
-                    {
-                        if (cell.GetRegion(map) == region)
-                        {
-                            FilthMaker.TryMakeFilth(cell, map, animalPawn.def.race.BloodDef);
-                        }
-                    }
-                }
-                else
-                {
-                    FilthMaker.TryMakeFilth(centerCell, map, animalPawn.def.race.BloodDef);
-                }
-
-                if (RCSettings.AllowMessages)
-                {
-                    Messages.Message("RC_HorriblyUncleanKitchen".Translate(actor.Named("PAWN")),
-                        actor, MessageTypeDefOf.NegativeEvent);
+                    RCFailureUtil.GiveInjuryHandler(actor, curJob, building);
                 }
             }
         }

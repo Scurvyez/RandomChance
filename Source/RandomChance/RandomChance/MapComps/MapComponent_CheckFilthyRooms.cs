@@ -16,7 +16,7 @@ namespace RandomChance
         private int _countToSpawn = Rand.RangeInclusive(1, 5);
         private Dictionary<Room, int> _roomFilthCounters = new();
         
-        private const int SampleDuration = 720; // (45,000)... 3/4 of a day?
+        private const int SampleDuration = 45000; // (45,000)... 3/4 of a day?
         private const int FilthThreshold = 6; // 6 pieces of filth?
         private const int FilthChecksLimit = 2; // 2 checks till rats!?
         private const float ManhuntChance = 0.3f;
@@ -57,7 +57,7 @@ namespace RandomChance
                         roomFilthCounter = 0;
                     }
 
-                    int totalFilthInRoom = CalculateRoomDirtiness(room);
+                    int totalFilthInRoom = RCMapUtil.CalculateRoomDirtiness(room, map);
                     //RCLog.Message($"Filth in {room.ID}: {totalFilthInRoom}");
 
                     // Check if the room is dirty enough
@@ -84,9 +84,9 @@ namespace RandomChance
             }
 
             // Reset the counters for rooms that need it
-            foreach (var room in roomsToReset)
+            foreach (Room room in roomsToReset)
             {
-                SpawnFilthyRats(room);
+                RCSpawningUtil.SpawnFilthyRats(room, _countToSpawn, map, ManhuntChance);
                 _roomFilthCounters[room] = 0;
 
                 if (RCSettings.AllowMessages)
@@ -96,41 +96,6 @@ namespace RandomChance
             }
 
             _lastUpdate = Find.TickManager.TicksAbs;
-        }
-
-        private int CalculateRoomDirtiness(Room room)
-        {
-            int dirtinessLevel = 0;
-
-            foreach (IntVec3 cell in room.Cells)
-            {
-                List<Thing> things = cell.GetThingList(map);
-                foreach (Thing thing in things)
-                {
-                    if (thing.def.IsFilth)
-                    {
-                        dirtinessLevel++;
-                    }
-                }
-            }
-            return dirtinessLevel;
-        }
-
-        private void SpawnFilthyRats(Room room)
-        {
-            PawnKindDef animalKindDef = RCDefOf.Rat;
-            IntVec3 spawnCell = room.Cells.RandomElement();
-
-            for (int i = 0; i < _countToSpawn; i++)
-            {
-                Pawn animalToSpawn = PawnGenerator.GeneratePawn(animalKindDef, null);
-                GenSpawn.Spawn(animalToSpawn, spawnCell, map);
-
-                if (Rand.Value < ManhuntChance)
-                {
-                    animalToSpawn.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.ManhunterPermanent);
-                }
-            }
         }
     }
 }
