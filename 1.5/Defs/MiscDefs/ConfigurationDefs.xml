@@ -72,9 +72,9 @@
         <!-- Chance to spook and agitate wild animals while foraging. -->
         <agitatedWildAnimalCurve>
             <points>
-                <li>(0, 0.50)</li>
-                <li>(3, 0.35)</li>
-                <li>(6, 0.1)</li>
+                <li>(0, 0.30)</li>
+                <li>(3, 0.225)</li>
+                <li>(6, 0.09)</li>
                 <li>(8, 0.075)</li>
                 <li>(14, 0.04)</li>
                 <li>(18, 0.025)</li>

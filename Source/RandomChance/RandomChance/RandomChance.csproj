@@ -69,10 +69,9 @@
     <Compile Include="JobGivers\JobGiver_SwitchFlickingSpree.cs" />
     <Compile Include="MapComps\MapComponent_CollectThings.cs" />
     <Compile Include="MapComps\MapComponent_CollectAnimals.cs" />
-    <Compile Include="MentalStates\MentalState_SwitchFlickingSpree.cs" />
     <Compile Include="Settings\RCMod.cs" />
     <Compile Include="Settings\RCSettings.cs" />
-    <Compile Include="Thoughts\ThoughtWorker_ExperiencedFlickeringLights.cs" />
+    <Compile Include="Thoughts\Thought_MemoryWimpAdjusted.cs" />
     <Compile Include="Utils\ConfigMiscDef.cs" />
     <Compile Include="Utils\ConfigCurvesDef.cs" />
     <Compile Include="Utils\RCFailureUtil.cs" />

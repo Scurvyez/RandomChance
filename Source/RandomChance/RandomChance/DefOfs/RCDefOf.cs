@@ -12,6 +12,13 @@ namespace RandomChance
         public static ThingDef Apparel_PowerArmor;
         public static ThingDef Apparel_PowerArmorHelmet;
 
+        public static ThoughtDef RC_ExperiencedFlickeringLights;
+        public static ThoughtDef RC_ViewedPoorArtWork;
+        public static ThoughtDef RC_ViewedAwfulArtWork;
+        public static ThoughtDef RC_ViewedMasterworkArtWork;
+        public static ThoughtDef RC_ViewedLegendaryArtWork;
+        public static ThoughtDef RC_ViewedInsultingArtWork;
+        
         public static PawnKindDef Rat;
 
         public static FleckDef RC_ElectricShock;

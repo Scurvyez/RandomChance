@@ -24,19 +24,18 @@ namespace RandomChance
             base.MapComponentTick();
 
             if (flickeringLightsExtension == null) return;
+
+            if (!FlickLightSources) return;
             
-            if (FlickLightSources)
+            _counter++;
+            if (_counter <= flickeringLightsExtension.flickerDuration)
             {
-                _counter++;
-                if (_counter <= flickeringLightsExtension.flickerDuration)
-                {
-                    TryFlickLightSourcesOnOff();
-                }
-                else
-                {
-                    FlickLightSources = false;
-                    _counter = 0;
-                }
+                TryFlickLightSourcesOnOff();
+            }
+            else
+            {
+                FlickLightSources = false;
+                _counter = 0;
             }
         }
 

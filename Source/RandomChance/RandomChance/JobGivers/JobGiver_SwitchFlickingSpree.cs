@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace RandomChance
 {
-    public class JobGiver_SwitchFlickingSpree : ThinkNode_JobGiver
+    /*public class JobGiver_SwitchFlickingSpree : ThinkNode_JobGiver
     {
         private IntRange waitBetweenTicks = new IntRange(80, 140);
         private static List<Thing> flickableBuildings = new ();
@@ -74,5 +74,5 @@ namespace RandomChance
             }
             return flickableBuildings.RandomElement();
         }
-    }
+    }*/
 }

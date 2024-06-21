@@ -66,11 +66,8 @@ namespace RandomChance.MapComps
         private void CollectAvailableLightSources()
         {
             if (map == null) return;
-
-            List<Building> lightSources = map.listerBuildings.allBuildingsColonist
-                .Where(building => building.HasComp<CompPowerTrader>() && building.HasComp<CompGlower>())
-                .ToList();
-
+            
+            List<Building> lightSources = map.listerBuildings.allBuildingsColonist.Where(RCMapUtil.IsColonyLightSource).ToList();
             lightSources = lightSources.OrderBy(x => Rand.Value).ToList(); // Shuffle the list randomly
 
             for (int i = 0; i < flickeringLightsExtension.maxLightSources && i < lightSources.Count; i++)

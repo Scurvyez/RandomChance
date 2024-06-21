@@ -24,7 +24,6 @@ namespace RandomChance
         public static float PlantHarvestingFindEggsChance => _instance._plantHarvestingFindEggsChance;
         public static float HurtByFarmAnimalChance => _instance._hurtByFarmAnimalChance;
         public static float InjuredByApparelChance => _instance._injuredByApparelChance;
-        public static float SwitchFlickingSpreeChance => _instance._switchFlickingSpreeChance;
         public static bool AllowMessages => _instance._allowMessages;
 
         public float _cookingFailureChance = 0.05f;
@@ -40,7 +39,6 @@ namespace RandomChance
         public float _plantHarvestingFindEggsChance = 0.05f;
         public float _hurtByFarmAnimalChance = 0.05f;
         public float _injuredByApparelChance = 0.05f;
-        public float _switchFlickingSpreeChance = 0.05f;
         public bool _allowMessages = true;
         
         public override void ExposeData()
@@ -59,7 +57,6 @@ namespace RandomChance
             Scribe_Values.Look(ref _plantHarvestingFindEggsChance, "plantHarvestingFindEggsChance", 0.05f);
             Scribe_Values.Look(ref _hurtByFarmAnimalChance, "hurtByFarmAnimalChance", 0.05f);
             Scribe_Values.Look(ref _injuredByApparelChance, "injuredByApparelChance", 0.05f);
-            Scribe_Values.Look(ref _switchFlickingSpreeChance, "switchFlickingSpreeChance", 0.05f);
             Scribe_Values.Look(ref _allowMessages, "allowMessages", true);
         }
     }

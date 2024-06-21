@@ -3,13 +3,23 @@
 
     <ThoughtDef>
         <defName>RC_ExperiencedFlickeringLights</defName>
-        <workerClass>RandomChance.ThoughtWorker_ExperiencedFlickeringLights</workerClass>
+        <thoughtClass>RandomChance.Thought_MemoryWimpAdjusted</thoughtClass>
         <gameCondition>RC_FlickeringLights</gameCondition>
+        <durationDays>0.5</durationDays>
+        <nullifyingTraits>
+            <li MayRequire="Ludeon.RimWorld.Anomaly">Occultist</li>
+            <li>Psychopath</li>
+        </nullifyingTraits>
         <stages>
             <li>
                 <label>haunting electrical anomaly</label>
-                <description>What is happening? I've got chills down my spine.</description>
+                <description>What is happening? I've got chills down my spine. What could've made the lights do that?</description>
                 <baseMoodEffect>-5</baseMoodEffect>
+            </li>
+            <li>
+                <label>haunting electrical anomaly</label>
+                <description>What is happening?! Why are the lights doing that? I'm scared...</description>
+                <baseMoodEffect>-10</baseMoodEffect>
             </li>
         </stages>
     </ThoughtDef>

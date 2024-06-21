@@ -37,6 +37,9 @@ namespace RandomChance
 
             harmony.Patch(original: AccessTools.Method(typeof(Mineable), "TrySpawnYield", new Type[] { typeof(Map), typeof(bool), typeof(Pawn) }),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(TrySpawnYieldPostFix)));
+
+            harmony.Patch(original: AccessTools.Method(typeof(JobDriver_ViewArt), "WaitTickAction"),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(ViewArtWaitTickActionPrefix)));
         }
         
         public static void MakeRecipeProductsPrefix(ref RecipeDef recipeDef, Pawn worker, IBillGiver billGiver)
@@ -437,7 +440,7 @@ namespace RandomChance
 
         public static void TrySpawnYieldPostFix(ref Map map, bool moteOnWaste, Pawn pawn, Mineable __instance)
         {
-            //if (DebugSettings.godMode) return;
+            if (DebugSettings.godMode || Prefs.DevMode) return;
             if (map == null || __instance?.def?.building == null) return;
             //RCLog.Message($"TrySpawnYieldPostfix called for job on: {__instance.def.label}");
 
@@ -507,6 +510,42 @@ namespace RandomChance
 
                     break; // Exit the loop after selecting one item.
                 }
+            }
+        }
+
+        public static void ViewArtWaitTickActionPrefix(JobDriver_ViewArt __instance)
+        {
+            float negativeMoodChance = 0.25f;
+            float positiveMoodChance = 0.25f;
+            Thing artPiece = __instance.job.GetTarget(TargetIndex.A).Thing;
+            Pawn pawn = __instance.pawn;
+            
+            if (artPiece == null) return;
+            if (!artPiece.TryGetQuality(out QualityCategory quality)) return;
+            
+            if (quality == QualityCategory.Awful && Rand.Chance(negativeMoodChance))
+            {
+                pawn.needs.mood.thoughts.memories.TryGainMemory(RCDefOf.RC_ViewedInsultingArtWork);
+            }
+            
+            switch (quality)
+            {
+                case QualityCategory.Awful:
+                    if (Rand.Chance(negativeMoodChance))
+                        pawn.needs.mood.thoughts.memories.TryGainMemory(RCDefOf.RC_ViewedAwfulArtWork);
+                    break;
+                case QualityCategory.Poor:
+                    if (Rand.Chance(negativeMoodChance))
+                        pawn.needs.mood.thoughts.memories.TryGainMemory(RCDefOf.RC_ViewedPoorArtWork);
+                    break;
+                case QualityCategory.Masterwork:
+                    if (Rand.Chance(positiveMoodChance))
+                        pawn.needs.mood.thoughts.memories.TryGainMemory(RCDefOf.RC_ViewedMasterworkArtWork);
+                    break;
+                case QualityCategory.Legendary:
+                    if (Rand.Chance(positiveMoodChance))
+                        pawn.needs.mood.thoughts.memories.TryGainMemory(RCDefOf.RC_ViewedLegendaryArtWork);
+                    break;
             }
         }
     }

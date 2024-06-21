@@ -8,10 +8,7 @@ namespace RandomChance
     {
         protected override bool CanFireNowSub(IncidentParms parms)
         {
-            if (!base.CanFireNowSub(parms))
-            {
-                return false;
-            }
+            if (!base.CanFireNowSub(parms)) return false;
             if (!ModsConfig.AnomalyActive) return false;
             Map map = (Map)parms.target;
             return !map.GetComponent<MapComponent_CollectThings>().availableLightSources.NullOrEmpty();

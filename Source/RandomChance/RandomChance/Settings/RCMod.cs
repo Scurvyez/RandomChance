@@ -143,13 +143,6 @@ namespace RandomChance
             settings._injuredByApparelChance = list2.Slider(settings._injuredByApparelChance, 0.0f, 1.0f);
             list2.Gap(6.0f);
 
-            list2.Gap(3.00f);
-            float switchFlickingSpreeChanceSlider = settings._switchFlickingSpreeChance;
-            string switchFlickingSpreeChanceSliderText = switchFlickingSpreeChanceSlider.ToString("F2");
-            list2.Label(label: "RC_SwitchFlickingSpreeChance".Translate(switchFlickingSpreeChanceSliderText), tooltip: "RC_SwitchFlickingSpreeChanceDesc".Translate());
-            settings._switchFlickingSpreeChance = list2.Slider(settings._switchFlickingSpreeChance, 0.0f, 1.0f);
-            list2.Gap(6.0f);
-
             list2.End();
             Widgets.EndScrollView();
         }

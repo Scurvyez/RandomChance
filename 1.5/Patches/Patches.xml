@@ -2,18 +2,6 @@
 
 <Patch>
 
-    <Operation Class="PatchOperationAdd">
-        <xpath>Defs/ThinkTreeDef[defName="MentalStateNonCritical"]/thinkRoot/subNodes</xpath>
-        <value>
-            <li Class="ThinkNode_ConditionalMentalState">
-                <state>RC_SwitchFlickingSpree</state>
-                <subNodes>
-                    <li Class="RandomChance.JobGiver_SwitchFlickingSpree" />
-                </subNodes>
-            </li>
-        </value>
-    </Operation>
-
     <Operation Class="PatchOperationAddModExtension">
         <xpath>Defs/RecipeDef[defName="Make_StoneBlocksAny" or defName="Make_StoneBlocksSandstone" or defName="Make_StoneBlocksGranite" or defName="Make_StoneBlocksLimestone" or defName="Make_StoneBlocksSlate" or defName="Make_StoneBlocksMarble"]</xpath>
         <value>

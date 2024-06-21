@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using RandomChance.MapComps;
 using RimWorld;
 using Verse;
 
@@ -23,6 +22,11 @@ namespace RandomChance
                 }
             }
             return dirtinessLevel;
+        }
+
+        public static bool IsColonyLightSource(Building building)
+        {
+            return building.HasComp<CompPowerTrader>() && building.HasComp<CompGlower>();
         }
     }
 }
