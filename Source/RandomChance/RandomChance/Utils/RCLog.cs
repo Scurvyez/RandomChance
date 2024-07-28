@@ -24,5 +24,4 @@ namespace RandomChance
             Log.Message("[Random Chance] ".Colorize(MessageMsgCol) + msg);
         }
     }
-    
 }

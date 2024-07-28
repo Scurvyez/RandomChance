@@ -12,13 +12,13 @@
         </nullifyingTraits>
         <stages>
             <li>
-                <label>haunting electrical anomaly</label>
-                <description>What is happening? I've got chills down my spine. What could've made the lights do that?</description>
+                <label>unnerving electrical anomaly</label>
+                <description>The lights are flickering sporadically... it's unsettling. What could be causing this?</description>
                 <baseMoodEffect>-5</baseMoodEffect>
             </li>
             <li>
                 <label>haunting electrical anomaly</label>
-                <description>What is happening?! Why are the lights doing that? I'm scared...</description>
+                <description>The lights are flickering madly! Something feels terribly wrong... I'm really scared.</description>
                 <baseMoodEffect>-10</baseMoodEffect>
             </li>
         </stages>

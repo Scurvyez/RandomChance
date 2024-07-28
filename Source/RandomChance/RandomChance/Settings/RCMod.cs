@@ -5,8 +5,9 @@ namespace RandomChance
 {
     public class RCMod : Mod
     {
-        RCSettings settings;
         public static RCMod mod;
+        
+        private RCSettings settings;
         private Vector2 scrollPos = Vector2.zero;
 
         public RCMod(ModContentPack content) : base(content)
@@ -37,7 +38,7 @@ namespace RandomChance
 
             Listing_Standard list2 = new ();
             Rect viewRect2 = new(inRect.x + 450, inRect.y, inRect.width / 2 - 20, inRect.height - 40); // 2nd rect, right-side panel
-            Rect vROffset2 = new(450, 0, inRect.width / 2 - 40, inRect.height + 400); // 2nd panel inside 1st, "100", update as more settings are added to list
+            Rect vROffset2 = new(450, 0, inRect.width / 2 - 40, inRect.height + 375); // 2nd panel inside 1st, "100", update as more settings are added to list
             Widgets.BeginScrollView(viewRect2, ref scrollPos, vROffset2, true);
 
             list2.Begin(vROffset2);

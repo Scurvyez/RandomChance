@@ -15,11 +15,10 @@ namespace RandomChance
         private int _lastUpdate;
         private int _countToSpawn = Rand.RangeInclusive(1, 5);
         private Dictionary<Room, int> _roomFilthCounters = new();
-        
-        private const int SampleDuration = 45000; // (45,000)... 3/4 of a day?
-        private const int FilthThreshold = 6; // 6 pieces of filth?
-        private const int FilthChecksLimit = 2; // 2 checks till rats!?
-        private const float ManhuntChance = 0.3f;
+        private int SampleDuration = 45000; // (45,000)... 3/4 of a day?
+        private int FilthThreshold = 6; // 6 pieces of filth?
+        private int FilthChecksLimit = 2; // 2 checks till rats!?
+        private float ManhuntChance = 0.3f; // 30% chance by default
 
         public MapComponent_CheckFilthyRooms(Map map) : base(map) { }
 
@@ -49,37 +48,34 @@ namespace RandomChance
             // Iterate through each SEPARATE room in the home area
             foreach (Room room in map.areaManager.Home.ActiveCells.Select(cell => cell.GetRoom(map)).Distinct())
             {
-                if (room != null && room.CellCount > 0 && room.ProperRoom && room.OpenRoofCount == 0)
+                if (room == null || room.CellCount <= 0 || !room.ProperRoom || room.OpenRoofCount != 0) continue;
+                // Get the filth counter for this room, initialize it if it doesn't exist yet
+                if (!_roomFilthCounters.TryGetValue(room, out int roomFilthCounter))
                 {
-                    // Get the filth counter for this room, initialize it if it doesn't exist yet
-                    if (!_roomFilthCounters.TryGetValue(room, out var roomFilthCounter))
-                    {
-                        roomFilthCounter = 0;
-                    }
+                    roomFilthCounter = 0;
+                }
 
-                    int totalFilthInRoom = RCMapUtil.CalculateRoomDirtiness(room, map);
-                    //RCLog.Message($"Filth in {room.ID}: {totalFilthInRoom}");
+                int totalFilthInRoom = RCMapUtil.CalculateRoomDirtiness(room, map);
 
-                    // Check if the room is dirty enough
-                    if (totalFilthInRoom > FilthThreshold)
-                    {
-                        // Increment the filth counter for this room if it is
-                        roomFilthCounter++;
-                    }
-                    else
-                    {
-                        // Decrement the filth counter for this room (with a lower limit of 0) if it isn't
-                        roomFilthCounter = Mathf.Max(0, roomFilthCounter - 1);
-                    }
+                // Check if the room is dirty enough
+                if (totalFilthInRoom > FilthThreshold)
+                {
+                    // Increment the filth counter for this room if it is
+                    roomFilthCounter++;
+                }
+                else
+                {
+                    // Decrement the filth counter for this room (with a lower limit of 0) if it isn't
+                    roomFilthCounter = Mathf.Max(0, roomFilthCounter - 1);
+                }
 
-                    // Update the filth counter for this room
-                    _roomFilthCounters[room] = roomFilthCounter;
+                // Update the filth counter for this room
+                _roomFilthCounters[room] = roomFilthCounter;
 
-                    // Check if this room needs its counter reset
-                    if (roomFilthCounter >= FilthChecksLimit)
-                    {
-                        roomsToReset.Add(room);
-                    }
+                // Check if this room needs its counter reset
+                if (roomFilthCounter >= FilthChecksLimit)
+                {
+                    roomsToReset.Add(room);
                 }
             }
 
@@ -94,7 +90,6 @@ namespace RandomChance
                     Messages.Message("RC_DirtyRoomsAndFilthyRats".Translate(), null, MessageTypeDefOf.NeutralEvent);
                 }
             }
-
             _lastUpdate = Find.TickManager.TicksAbs;
         }
     }

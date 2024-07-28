@@ -20,22 +20,19 @@ namespace RandomChance
 
         private void CollectNativeEggLayingWildAnimals()
         {
-            if (map.Biome != null)
+            if (map.Biome == null) return;
+            FieldInfo wildAnimalsField = AccessTools.Field(typeof(BiomeDef), "wildAnimals");
+
+            if (wildAnimalsField.GetValue(map.Biome) is not List<BiomeAnimalRecord> biomeSpecificAnimals ||
+                biomeSpecificAnimals.NullOrEmpty()) return;
+            
+            foreach (BiomeAnimalRecord animalRecord in biomeSpecificAnimals)
             {
-                FieldInfo wildAnimalsField = AccessTools.Field(typeof(BiomeDef), "wildAnimals");
-                if (wildAnimalsField.GetValue(map.Biome) is List<BiomeAnimalRecord> biomeSpecificAnimals && !biomeSpecificAnimals.NullOrEmpty())
+                if (animalRecord.animal == null) continue;
+                PawnKindDef kindDef = animalRecord.animal;
+                if (kindDef != null && kindDef.race.GetCompProperties<CompProperties_EggLayer>() != null)
                 {
-                    foreach (BiomeAnimalRecord animalRecord in biomeSpecificAnimals)
-                    {
-                        if (animalRecord.animal != null)
-                        {
-                            PawnKindDef kindDef = animalRecord.animal;
-                            if (kindDef != null && kindDef.race.GetCompProperties<CompProperties_EggLayer>() != null)
-                            {
-                                eggLayingAnimals.Add(kindDef);
-                            }
-                        }
-                    }
+                    eggLayingAnimals.Add(kindDef);
                 }
             }
         }

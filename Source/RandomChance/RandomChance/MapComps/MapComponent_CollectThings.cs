@@ -31,11 +31,11 @@ namespace RandomChance.MapComps
             base.MapComponentTick();
 
             if (flickeringLightsExtension == null) return;
-            if (map != null && _lastUpdate + flickeringLightsExtension.lightSourceSampleInterval <= Find.TickManager.TicksAbs)
-            {
-                availableLightSources.Clear();
-                CollectAvailableLightSources();
-            }
+            if (map == null || _lastUpdate + flickeringLightsExtension.lightSourceSampleInterval >
+                Find.TickManager.TicksAbs) return;
+            
+            availableLightSources.Clear();
+            CollectAvailableLightSources();
         }
         
         public override void ExposeData()
@@ -48,17 +48,15 @@ namespace RandomChance.MapComps
         {
             MapComponent_AnimalCollections animalCollection = map.GetComponent<MapComponent_AnimalCollections>();
 
-            if (!animalCollection.eggLayingAnimals.NullOrEmpty())
+            if (animalCollection.eggLayingAnimals.NullOrEmpty()) return;
+            for (int i = 0; i < animalCollection.eggLayingAnimals.Count; i++)
             {
-                for (int i = 0; i < animalCollection.eggLayingAnimals.Count; i++)
+                PawnKindDef kindDef = animalCollection.eggLayingAnimals[i];
+                Pawn pawn = PawnGenerator.GeneratePawn(kindDef, null);
+                CompEggLayer compEggLayer = pawn.TryGetComp<CompEggLayer>();
+                if (compEggLayer != null)
                 {
-                    PawnKindDef kindDef = animalCollection.eggLayingAnimals[i];
-                    Pawn pawn = PawnGenerator.GeneratePawn(kindDef, null);
-                    CompEggLayer compEggLayer = pawn.TryGetComp<CompEggLayer>();
-                    if (compEggLayer != null)
-                    {
-                        possibleEggs.Add(compEggLayer.Props.eggFertilizedDef);
-                    }
+                    possibleEggs.Add(compEggLayer.Props.eggFertilizedDef);
                 }
             }
         }

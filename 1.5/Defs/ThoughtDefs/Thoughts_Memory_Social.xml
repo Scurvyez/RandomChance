@@ -75,7 +75,7 @@
         <stages>
             <li>
                 <label>legendary craftsmanship</label>
-                <description>This piece isn't just beautiful in every way. It emanates greatness. Surely this was produced by one of the greatest artists ever seen.</description>
+                <description>This piece isn't just beautiful in every way... it emanates greatness. Surely this was produced by one of the greatest artists ever seen.</description>
                 <baseMoodEffect>7</baseMoodEffect>
             </li>
         </stages>

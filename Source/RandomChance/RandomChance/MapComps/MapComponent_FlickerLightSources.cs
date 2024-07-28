@@ -22,9 +22,8 @@ namespace RandomChance
         public override void MapComponentTick()
         {
             base.MapComponentTick();
-
+            
             if (flickeringLightsExtension == null) return;
-
             if (!FlickLightSources) return;
             
             _counter++;
