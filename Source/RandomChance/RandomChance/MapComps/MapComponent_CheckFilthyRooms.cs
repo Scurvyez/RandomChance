@@ -12,13 +12,10 @@ namespace RandomChance
     /// </summary>
     public class MapComponent_CheckFilthyRooms : MapComponent
     {
+        private bool _onCooldown;
+        private int _cooldownTicks;
         private int _lastUpdate;
-        private int _countToSpawn = Rand.RangeInclusive(1, 5);
         private Dictionary<Room, int> _roomFilthCounters = new();
-        private int SampleDuration = 45000; // (45,000)... 3/4 of a day?
-        private int FilthThreshold = 6; // 6 pieces of filth?
-        private int FilthChecksLimit = 2; // 2 checks till rats!?
-        private float ManhuntChance = 0.3f; // 30% chance by default
 
         public MapComponent_CheckFilthyRooms(Map map) : base(map) { }
 
@@ -26,7 +23,17 @@ namespace RandomChance
         {
             base.MapComponentTick();
 
-            if (map != null && _lastUpdate + SampleDuration <= Find.TickManager.TicksAbs)
+            if (!RCSettings.AllowFilthyRoomEvent) return;
+            if (_onCooldown)
+            {
+                if (--_cooldownTicks <= 0)
+                {
+                    _onCooldown = false;
+                }
+                return;
+            }
+            
+            if (map != null && _lastUpdate + RCSettings.FilthyRoomSampleInterval <= Find.TickManager.TicksAbs)
             {
                 AnimalSpawnerTick();
             }
@@ -35,6 +42,8 @@ namespace RandomChance
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_Values.Look(ref _cooldownTicks, "cooldownTicks");
+            Scribe_Values.Look(ref _onCooldown, "onCooldown");
             Scribe_Values.Look(ref _lastUpdate, "lastUpdate");
         }
 
@@ -58,7 +67,7 @@ namespace RandomChance
                 int totalFilthInRoom = RCMapUtil.CalculateRoomDirtiness(room, map);
 
                 // Check if the room is dirty enough
-                if (totalFilthInRoom > FilthThreshold)
+                if (totalFilthInRoom > RCSettings.FilthyRoomSpawnThreshold)
                 {
                     // Increment the filth counter for this room if it is
                     roomFilthCounter++;
@@ -73,7 +82,7 @@ namespace RandomChance
                 _roomFilthCounters[room] = roomFilthCounter;
 
                 // Check if this room needs its counter reset
-                if (roomFilthCounter >= FilthChecksLimit)
+                if (roomFilthCounter >= RCSettings.FilthyRoomSampleChecks)
                 {
                     roomsToReset.Add(room);
                 }
@@ -82,7 +91,7 @@ namespace RandomChance
             // Reset the counters for rooms that need it
             foreach (Room room in roomsToReset)
             {
-                RCSpawningUtil.SpawnFilthyRats(room, _countToSpawn, map, ManhuntChance);
+                RCSpawningUtil.SpawnFilthyRats(room, RCSettings.FilthyRoomPestSpawnRange.RandomInRange, map, RCSettings.FilthyRoomSpawnMHChance);
                 _roomFilthCounters[room] = 0;
 
                 if (RCSettings.AllowMessages)
@@ -90,6 +99,13 @@ namespace RandomChance
                     Messages.Message("RC_DirtyRoomsAndFilthyRats".Translate(), null, MessageTypeDefOf.NeutralEvent);
                 }
             }
+
+            if (roomsToReset.Any())
+            {
+                _onCooldown = true;
+                _cooldownTicks = RCSettings.FilthyRoomCooldownTicks;
+            }
+            
             _lastUpdate = Find.TickManager.TicksAbs;
         }
     }

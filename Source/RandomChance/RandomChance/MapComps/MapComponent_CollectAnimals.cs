@@ -28,9 +28,10 @@ namespace RandomChance
             
             foreach (BiomeAnimalRecord animalRecord in biomeSpecificAnimals)
             {
-                if (animalRecord.animal == null) continue;
                 PawnKindDef kindDef = animalRecord.animal;
-                if (kindDef != null && kindDef.race.GetCompProperties<CompProperties_EggLayer>() != null)
+                if (kindDef?.race.GetCompProperties<CompProperties_EggLayer>() != null
+                    && kindDef.race.race.baseBodySize <= 1f
+                    && kindDef.combatPower <= 75f)
                 {
                     eggLayingAnimals.Add(kindDef);
                 }

@@ -67,124 +67,120 @@ namespace RandomChance
             RandomProductExtension rpEx = recipeDef.GetModExtension<RandomProductExtension>();
 
             if (rpEx == null) return;
+
+            float pawnsAvgSkillLevel = worker.skills.AverageOfRelevantSkillsFor(worker.CurJob.workGiverDef.workType);
+            List<Thing> modifiedProducts = new();
+
+            foreach (Thing product in __result)
             {
-                float pawnsAvgSkillLevel = worker.skills.AverageOfRelevantSkillsFor(worker.CurJob.workGiverDef.workType);
-                List<Thing> modifiedProducts = new();
+                bool productModified = false;
 
-                foreach (Thing product in __result)
+                if (rpEx.randomProductChance is > 0f && Rand.Chance(rpEx.randomProductChance.Value))
                 {
-                    if (rpEx.randomProductChance.HasValue && rpEx.randomProductChance.Value > 0f && Rand.Chance(rpEx.randomProductChance.Value));
+                    if (!rpEx.randomProducts.NullOrEmpty())
                     {
-                        if (!rpEx.randomProducts.NullOrEmpty())
+                        float totalWeight = rpEx.randomProducts.Sum(productData => productData.randomProductWeight);
+                        float randomValue = Rand.Range(0f, totalWeight);
+                        float accumulatedWeight = 0f;
+
+                        foreach (RCRandomProductData productData in rpEx.randomProducts)
                         {
-                            float totalWeight = 0f;
-                            foreach (RCRandomProductData productData in rpEx.randomProducts)
+                            accumulatedWeight += productData.randomProductWeight;
+
+                            if (!(randomValue <= accumulatedWeight)) continue;
+                            ThingDef selectedDef = DefDatabase<ThingDef>.GetNamed(productData.randomProduct.defName, errorOnFail: false);
+
+                            if (selectedDef == null) continue;
+                            // Cooking (bonus meals produced)
+                            if (recipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
                             {
-                                totalWeight += productData.randomProductWeight;
-                            }
-
-                            float randomValue = Rand.Range(0f, totalWeight);
-                            float accumulatedWeight = 0f;
-
-                            foreach (RCRandomProductData productData in rpEx.randomProducts)
-                            {
-                                accumulatedWeight += productData.randomProductWeight;
-
-                                if (!(randomValue <= accumulatedWeight)) continue;
-                            
-                                ThingDef selectedDef = DefDatabase<ThingDef>.GetNamed(productData.randomProduct.defName, errorOnFail: false);
-                                if (selectedDef != null)
+                                SimpleCurve bonusSpawnCurve = new()
                                 {
-                                    if (recipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
-                                    {
-                                        foreach (RCRandomProductData rP in rpEx.randomProducts)
-                                        {
-                                            if (product.def != rP.randomProduct) continue;
-                                            product.def = rP.randomProduct;
-                                            SimpleCurve bonusSpawnCurve = new()
-                                            {
-                                                { 0, 0 },
-                                                { 5, 0 },
-                                                { 8, RCDefOf.RC_ConfigMisc.cookingBonusRangeOne.RandomInRange },
-                                                { 14, RCDefOf.RC_ConfigMisc.cookingBonusRangeTwo.RandomInRange },
-                                                { 18, RCDefOf.RC_ConfigMisc.cookingBonusRangeThree.RandomInRange },
-                                                { 20, RCDefOf.RC_ConfigMisc.cookingBonusRangeFour.RandomInRange }
-                                            };
+                                    { 0, 0 },
+                                    { 5, 0 },
+                                    { 8, RCDefOf.RC_ConfigMisc.cookingBonusRangeOne.RandomInRange },
+                                    { 14, RCDefOf.RC_ConfigMisc.cookingBonusRangeTwo.RandomInRange },
+                                    { 18, RCDefOf.RC_ConfigMisc.cookingBonusRangeThree.RandomInRange },
+                                    { 20, RCDefOf.RC_ConfigMisc.cookingBonusRangeFour.RandomInRange }
+                                };
 
-                                            int bonusSpawnCount = (int)bonusSpawnCurve.Evaluate(pawnsAvgSkillLevel);
-                                            int finalSpawnCount = product.stackCount + bonusSpawnCount;
-                                            product.stackCount = finalSpawnCount;
+                                int bonusSpawnCount = (int)bonusSpawnCurve.Evaluate(pawnsAvgSkillLevel);
+                                product.stackCount += bonusSpawnCount;
 
-                                            if (bonusSpawnCount > 0 && RCSettings.AllowMessages)
-                                            {
-                                                Messages.Message("RC_BonusMealProduct".Translate(worker.Named("PAWN"),
-                                                    product.Label), worker, MessageTypeDefOf.PositiveEvent);
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        product.def = selectedDef;
-                                        FloatRange initialSpawnCountRange = productData.randomProductAmountRange;
-
-                                        int skillBasedSpawnCount = Mathf.RoundToInt(pawnsAvgSkillLevel * RCDefOf.RC_ConfigMisc.randomProductSkillsFactor);
-
-                                        FloatRange newMinSpawnCountRange = new(initialSpawnCountRange.min, initialSpawnCountRange.min * skillBasedSpawnCount);
-                                        FloatRange newMaxSpawnCountRange = new(initialSpawnCountRange.max, initialSpawnCountRange.max * skillBasedSpawnCount);
-
-                                        int newMinSpawnCount = Rand.RangeInclusive((int)newMinSpawnCountRange.min, (int)newMinSpawnCountRange.max);
-                                        int newMaxSpawnCount = Rand.RangeInclusive((int)newMaxSpawnCountRange.min, (int)newMaxSpawnCountRange.max);
-
-                                        product.stackCount = Rand.RangeInclusive(newMinSpawnCount, newMaxSpawnCount);
-
-                                        if (RCSettings.AllowMessages)
-                                        {
-                                            Messages.Message("RC_RandomStoneCuttingProduct".Translate(worker.Named("PAWN"),
-                                                dominantIngredient.Label, product.Label), worker, MessageTypeDefOf.PositiveEvent);
-                                        }
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            if (recipeDef == RCDefOf.ButcherCorpseFlesh && Rand.Chance(RCSettings.BonusButcherProductChance))
-                            {
-                                Thing butcheredCorpse = worker.CurJob.GetTarget(TargetIndex.B).Thing;
-                        
-                                if (butcheredCorpse is Corpse corpse)
+                                if (bonusSpawnCount > 0 && RCSettings.AllowMessages)
                                 {
-                                    if (corpse.InnerPawn.RaceProps.predator)
-                                    {
-                                        if (Rand.Chance(RCDefOf.RC_ConfigCurves.butcherBonusProductsCurve.Evaluate(pawnsAvgSkillLevel)))
-                                        {
-                                            float butcheredCorpseBodySizeFactor = (corpse.InnerPawn.RaceProps.baseBodySize / 1.15f);
-                                            butcheredCorpseBodySizeFactor = Mathf.Max(butcheredCorpseBodySizeFactor, 1f);
-
-                                            ThingDef meatDef = RCFoodUtil.GetRandomMeatFromOtherPawn();
-                                            Thing additionalMeat = ThingMaker.MakeThing(meatDef);
-                                            additionalMeat.stackCount = RCDefOf.RC_ConfigMisc.additionalMeatStackCount.RandomInRange * Mathf.RoundToInt(butcheredCorpseBodySizeFactor);
-
-                                            if (RCSettings.AllowMessages)
-                                            {
-                                                Messages.Message("RC_PredatorButcheryBonusProduct".Translate(worker.Named("PAWN"),
-                                                    additionalMeat.Label, dominantIngredient.Label), worker, MessageTypeDefOf.PositiveEvent);
-                                            }
-
-                                            modifiedProducts.Add(additionalMeat);
-                                        }
-                                    }
+                                    Messages.Message("RC_BonusMealProduct".Translate(worker.Named("PAWN"),
+                                        product.Label), worker, MessageTypeDefOf.PositiveEvent);
                                 }
+                                productModified = true;
                             }
+                            else
+                            {
+                                // Stone cutting
+                                Thing randomProduct = ThingMaker.MakeThing(selectedDef);
+                                FloatRange initialSpawnCountRange = productData.randomProductAmountRange;
+
+                                int skillBasedSpawnCount = Mathf.RoundToInt(pawnsAvgSkillLevel * RCDefOf.RC_ConfigMisc.randomProductSkillsFactor);
+
+                                FloatRange newMinSpawnCountRange = new(initialSpawnCountRange.min, initialSpawnCountRange.min * skillBasedSpawnCount);
+                                FloatRange newMaxSpawnCountRange = new(initialSpawnCountRange.max, initialSpawnCountRange.max * skillBasedSpawnCount);
+
+                                int newMinSpawnCount = Rand.RangeInclusive((int)newMinSpawnCountRange.min, (int)newMinSpawnCountRange.max);
+                                int newMaxSpawnCount = Rand.RangeInclusive((int)newMaxSpawnCountRange.min, (int)newMaxSpawnCountRange.max);
+
+                                randomProduct.stackCount = Rand.RangeInclusive(newMinSpawnCount, newMaxSpawnCount);
+
+                                if (RCSettings.AllowMessages)
+                                {
+                                    Messages.Message("RC_RandomStoneCuttingProduct".Translate(worker.Named("PAWN"),
+                                        dominantIngredient.Label, randomProduct.Label), worker, MessageTypeDefOf.PositiveEvent);
+                                }
+                                modifiedProducts.Add(randomProduct);
+                                productModified = true;
+                            }
+                            break;
                         }
                     }
+                }
+                // Add the original product if it wasn't modified or if it was a cooking product
+                if (!productModified || recipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
                     modifiedProducts.Add(product);
                 }
-                __result = modifiedProducts;
             }
-        }
+    
+            // Additional check for butchering bonus products
+            if (recipeDef == RCDefOf.ButcherCorpseFlesh && Rand.Chance(RCSettings.BonusButcherProductChance))
+            {
+                Thing butcheredCorpse = worker.CurJob.GetTarget(TargetIndex.B).Thing;
 
+                if (butcheredCorpse is Corpse corpse)
+                {
+                    if (corpse.InnerPawn.RaceProps.predator)
+                    {
+                        if (Rand.Chance(RCDefOf.RC_ConfigCurves.butcherBonusProductsCurve.Evaluate(pawnsAvgSkillLevel)))
+                        {
+                            float butcheredCorpseBodySizeFactor = (corpse.InnerPawn.RaceProps.baseBodySize / 1.15f);
+                            butcheredCorpseBodySizeFactor = Mathf.Max(butcheredCorpseBodySizeFactor, 1f);
+
+                            ThingDef meatDef = RCFoodUtil.GetRandomMeatFromOtherPawn();
+                            Thing additionalMeat = ThingMaker.MakeThing(meatDef);
+                            additionalMeat.stackCount = RCDefOf.RC_ConfigMisc.additionalMeatStackCount.RandomInRange * Mathf.RoundToInt(butcheredCorpseBodySizeFactor);
+
+                            if (RCSettings.AllowMessages)
+                            {
+                                Messages.Message("RC_PredatorButcheryBonusProduct".Translate(worker.Named("PAWN"),
+                                    additionalMeat.Label, dominantIngredient.Label), worker, MessageTypeDefOf.PositiveEvent);
+                            }
+
+                            modifiedProducts.Add(additionalMeat);
+                        }
+                    }
+                }
+            }
+            __result = modifiedProducts;
+        }
+        
         public static void FixBrokenDownBuildingMakeNewToilsPostfix(ref IEnumerable<Toil> __result, JobDriver_FixBrokenDownBuilding __instance)
         {
             List<Toil> newToils = new(__result);
@@ -340,10 +336,7 @@ namespace RandomChance
                     
                     MapComponent_CollectThings thingCollections = map.GetComponent<MapComponent_CollectThings>();
                     float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
-
-                    if (thingCollections == null) return;
-                    
-                    ThingDef chosenEggDef = thingCollections.possibleEggs.RandomElement();
+                    ThingDef chosenEggDef = thingCollections?.possibleEggs.RandomElement();
 
                     if (chosenEggDef?.GetCompProperties<CompProperties_Hatcher>() == null) return;
                     if (Rand.Chance(RCSettings.PlantHarvestingFindEggsChance) && Rand.Chance(RCDefOf.RC_ConfigCurves.plantWorkDiscoveryCurve.Evaluate(pawnsAvgSkillLevel)))
@@ -398,20 +391,28 @@ namespace RandomChance
             {
                 initAction = delegate
                 {
+                    if (__instance.pawn == null || __instance.job == null || __instance.pawn.skills == null) return;
                     if (__instance.pawn.IsColonyMech || RCDefOf.RC_ConfigCurves == null) return;
-                    
+
                     DamageDef damageInflicted = DamageDefOf.Cut;
                     SimpleCurve injuryCurve = RCDefOf.RC_ConfigCurves.powerArmorInjuryCurve;
-                    float pawnsSkillLevel = __instance.pawn.skills.GetSkill(SkillDefOf.Intellectual).Level; // check if the Pawn is dumb as shit lol
-                    float qualityFactor = RCQualityUtil.GetQualityValue(__instance.job.GetTarget(TargetIndex.A).Thing.TryGetComp<CompQuality>().Quality, injuryCurve);
-                    List<BodyPartRecord> digits = __instance.pawn.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbDigit);
-                    ThingDef apparelPiece = __instance.job.GetTarget(TargetIndex.A).Thing.def;
+                    if (injuryCurve == null) return;
 
+                    float pawnsSkillLevel = __instance.pawn.skills.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
+                    if (pawnsSkillLevel == 0) return;
+
+                    Thing targetThing = __instance.job.GetTarget(TargetIndex.A).Thing;
+                    CompQuality compQuality = targetThing?.TryGetComp<CompQuality>();
+                    if (compQuality == null) return;
+
+                    float qualityFactor = RCQualityUtil.GetQualityValue(compQuality.Quality, injuryCurve);
+                    List<BodyPartRecord> digits = __instance.pawn.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbDigit);
+                    ThingDef apparelPiece = targetThing.def;
+                    if (digits == null || digits.Count == 0) return;
                     if (!Rand.Chance(RCSettings.InjuredByApparelChance) ||
                         !Rand.Chance(injuryCurve.Evaluate(pawnsSkillLevel))) return;
-                    
-                    float damageAmount = Rand.Range(0.1f, pawnsSkillLevel) * qualityFactor;
 
+                    float damageAmount = Rand.Range(0.1f, pawnsSkillLevel) * qualityFactor;
                     if (apparelPiece == RCDefOf.Apparel_PowerArmor) // body
                     {
                         DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f, -1f, null, digits.RandomElement());
@@ -419,7 +420,10 @@ namespace RandomChance
                     }
                     else if (apparelPiece == RCDefOf.Apparel_PowerArmorHelmet) // head
                     {
-                        DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f, -1f, null, __instance.pawn.RaceProps.body.GetPartsWithDef(BodyPartDefOf.Head).RandomElement());
+                        BodyPartRecord headPart = __instance.pawn.RaceProps.body.GetPartsWithDef(BodyPartDefOf.Head).RandomElement();
+                        if (headPart == null) return;
+
+                        DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f, -1f, null, headPart);
                         __instance.pawn.TakeDamage(damageInfo);
                     }
 
@@ -442,7 +446,6 @@ namespace RandomChance
         {
             if (DebugSettings.godMode || Prefs.DevMode) return;
             if (map == null || __instance?.def?.building == null) return;
-            //RCLog.Message($"TrySpawnYieldPostfix called for job on: {__instance.def.label}");
 
             FieldInfo yieldPctField = AccessTools.Field(typeof(Mineable), "yieldPct");
             float yieldPct = (float)yieldPctField.GetValue(__instance);
@@ -507,7 +510,6 @@ namespace RandomChance
                         thingToSpawn.stackCount = Rand.RangeInclusive(newMinSpawnCount, newMaxSpawnCount);
                         GenPlace.TryPlaceThing(thingToSpawn, __instance.Position, map, ThingPlaceMode.Near);
                     }
-
                     break; // Exit the loop after selecting one item.
                 }
             }

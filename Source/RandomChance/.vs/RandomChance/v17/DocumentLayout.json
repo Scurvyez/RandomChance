@@ -7,7 +7,7 @@
       "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\harmony\\toilsrecipedorecipework_transpiler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|s:\\games\\steam\\steamapps\\common\\rimworld\\mods\\randomchance\\source\\randomchance\\randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{92623AA6-C2BD-4C94-A911-F423AC8C0F92}|RandomChance\\RandomChance.csproj|solutionrelative:randomchance\\harmony\\harmonypatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -44,7 +44,7 @@
               "RelativeDocumentMoniker": "RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
               "ToolTip": "S:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\RandomChance\\Source\\RandomChance\\RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
               "RelativeToolTip": "RandomChance\\Harmony\\ToilsRecipeDoRecipeWork_Transpiler.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "ViewState": "AQIAABAAAAAAAAAAAAAgwB8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-09T23:43:55.073Z",
               "EditorCaption": ""
@@ -83,8 +83,7 @@
               "RelativeToolTip": "RandomChance\\Harmony\\HarmonyPatches.cs",
               "ViewState": "AQIAAAYAAAAAAAAAAAAAABYAAABnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-15T03:08:27.856Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-15T03:08:27.856Z"
             },
             {
               "$type": "Document",

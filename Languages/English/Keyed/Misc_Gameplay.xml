@@ -26,45 +26,71 @@
 
     <!-- Cooking -->
     <RC_ModName>Random Chance</RC_ModName>
-    <RC_CookingFailureChance>Failure chance: {0}</RC_CookingFailureChance>
+    <RC_CookingHeader>Cooking</RC_CookingHeader>
+    <RC_CookingFailureChance>Failure chance</RC_CookingFailureChance>
     <RC_CookingFailureChanceDesc>Adjusting this slider alters the chance of a pawn utterly failing to cook a meal at a stove. (Percent chance before pawns' average relevant skills are accounted for.)</RC_CookingFailureChanceDesc>
-    <RC_FailedCookingFireSize>Failure fire size: {0}</RC_FailedCookingFireSize>
+    <RC_FailedCookingFireSize>Failure fire size</RC_FailedCookingFireSize>
     <RC_FailedCookingFireSizeDesc>Adjusting this slider alters the size of a fire if a pawn fails while cooking and sets the kitchen ablaze.</RC_FailedCookingFireSizeDesc>
-    <RC_CookingBetterMealChance>Better meal chance: {0}</RC_CookingBetterMealChance>
+    <RC_CookingBetterMealChance>Better meal chance</RC_CookingBetterMealChance>
     <RC_CookingBetterMealChanceDesc>Adjusting this slider alters the chance for a pawn to cook a meal of a higher quality. (Percent chance before pawns' average relevant skills are accounted for.)</RC_CookingBetterMealChanceDesc>
 
     <!-- Butchering -->
-    <RC_ButcheringFailureChance>Failure chance: {0}</RC_ButcheringFailureChance>
+    <RC_ButcheringHeader>Butchering</RC_ButcheringHeader>
+    <RC_ButcheringFailureChance>Failure chance</RC_ButcheringFailureChance>
     <RC_ButcheringFailureChanceDesc>Adjusting this slider alters the chance of a pawn causing an absolute mess while butchering a carcass. (Percent chance before pawns' average relevant skills are accounted for.)</RC_ButcheringFailureChanceDesc>
-    <RC_ButcherMessRadius>Mess radius: {0}</RC_ButcherMessRadius>
+    <RC_ButcherMessRadius>Mess radius</RC_ButcherMessRadius>
     <RC_ButcherMessRadiusDesc>Adjusting this slider alters the radius at which blood will be thrown if a pawn really sucks at butchering.</RC_ButcherMessRadiusDesc>
-    <RC_BonusButcherProductChance>Bonus product chance: {0}</RC_BonusButcherProductChance>
+    <RC_BonusButcherProductChance>Bonus product chance</RC_BonusButcherProductChance>
     <RC_BonusButcherProductChanceDesc>Adjusting this slider alters the chance of finding additional meat from other pawns while butchering a predatory animal. (Percent chance before pawns' average relevant skills are accounted for.)</RC_BonusButcherProductChanceDesc>
 
     <!-- Cremating -->
-    <RC_CrematingInjuryChance>Injury chance: {0}</RC_CrematingInjuryChance>
+    <RC_CrematingHeader>Cremating</RC_CrematingHeader>
+    <RC_CrematingInjuryChance>Injury chance</RC_CrematingInjuryChance>
     <RC_CrematingInjuryChanceDesc>Adjusting this slider alters the chance of a pawn injuring themselves while using a crematorium. (Percent chance before pawns' average relevant skills are accounted for.)</RC_CrematingInjuryChanceDesc>
 
     <!-- Repairing -->
-    <RC_ElectricalRepairFailureChance>Failure chance: {0}</RC_ElectricalRepairFailureChance>
+    <RC_RepairingHeader>Repairing</RC_RepairingHeader>
+    <RC_ElectricalRepairFailureChance>Failure chance</RC_ElectricalRepairFailureChance>
     <RC_ElectricalRepairFailureChanceDesc>Adjusting this slider alters the chance for a pawn to get electrocuted while repairing electrical equipment with components. There... may even be a secondary explosion is fate demands it so. (Percent chance before pawns' average relevant skills are accounted for.)</RC_ElectricalRepairFailureChanceDesc>
-    <RC_ElectricalRepairFireChance>Failed repairs fire chance: {0}</RC_ElectricalRepairFireChance>
+    <RC_ElectricalRepairFireChance>Failed repairs fire chance</RC_ElectricalRepairFireChance>
     <RC_ElectricalRepairFireChanceDesc>Adjusting this slider alters the chance for a fire to start at the place of ongoing electrical repairs.</RC_ElectricalRepairFireChanceDesc>
-    <RC_ElectricalRepairShortCircuitChance>Failed repairs short circuit chance: {0}</RC_ElectricalRepairShortCircuitChance>
+    <RC_ElectricalRepairShortCircuitChance>Failed repairs short circuit chance</RC_ElectricalRepairShortCircuitChance>
     <RC_ElectricalRepairShortCircuitChanceDesc>Adjusting this slider alters the chance for a larger short circuit event as a result of failed electrical repairs.</RC_ElectricalRepairShortCircuitChanceDesc>
 
     <!-- Plant work -->
-    <RC_PlantHarvestingFindEggsChance>Bonus egg chance: {0}</RC_PlantHarvestingFindEggsChance>
+    <RC_PlantWorkHeader>Plant work</RC_PlantWorkHeader>
+    <RC_PlantHarvestingFindEggsChance>Bonus egg chance</RC_PlantHarvestingFindEggsChance>
     <RC_PlantHarvestingFindEggsChanceDesc>Adjusting this slider alters the chance for a pawn to get lucky and find animal eggs while foraging for raw plant resources. Only eggs from animals allowed to spawn in the current biome can be found. (Percent chance before pawns' average relevant skills are accounted for.)</RC_PlantHarvestingFindEggsChanceDesc>
 
     <!-- Animal work -->
-    <RC_HurtByFarmAnimalChance>Injury chance: {0}</RC_HurtByFarmAnimalChance>
+    <RC_AnimalWorkHeader>Animal work</RC_AnimalWorkHeader>
+    <RC_HurtByFarmAnimalChance>Injury chance</RC_HurtByFarmAnimalChance>
     <RC_HurtByFarmAnimalChanceDesc>Adjusting this slider alters the chance for a pawn to get injured by farm animals while collecting resources. (Percent chance before pawns' average relevant skills are accounted for.)</RC_HurtByFarmAnimalChanceDesc>
 
     <!-- Misc. Stuff -->
-    <RC_InjuredByApparelChance>Apparel injury chance: {0}</RC_InjuredByApparelChance>
+    <RC_MiscStuffHeader>Misc stuff</RC_MiscStuffHeader>
+    <RC_InjuredByApparelChance>Apparel injury chance</RC_InjuredByApparelChance>
     <RC_InjuredByApparelChanceDesc>Adjusting this slider alters the chance for a pawn to get injured by... apparel.</RC_InjuredByApparelChanceDesc>
-    <RC_SwitchFlickingSpreeChance>Switch flicking spree chance: {0}</RC_SwitchFlickingSpreeChance>
+    <RC_SwitchFlickingSpreeChance>Switch flicking spree chance</RC_SwitchFlickingSpreeChance>
     <RC_SwitchFlickingSpreeChanceDesc>Adjusting this slider alters the chance for a pawn to go on a spree of flicking switches.</RC_SwitchFlickingSpreeChanceDesc>
-    
+
+    <!-- Filthy room config -->
+    <RC_FilthyRoomConfigHeader>Filthy room config</RC_FilthyRoomConfigHeader>
+
+    <RC_AllowFilthyRoomEvent>Allow filthy room logic.</RC_AllowFilthyRoomEvent>
+    <RC_AllowFilthyRoomEventDesc>Enable / disable to allow the filthy room event.\n\nIf enabled, after a certain number of successive checks with enough filth in any one room, rats will spawn in that room. Disable if you prefer not to use this.</RC_AllowFilthyRoomEventDesc>
+
+    <RC_FilthyRoomCooldownTicks>Cooldown time</RC_FilthyRoomCooldownTicks>
+    <RC_FilthyRoomCooldownTicksDesc>Adjusting this slider alters how long (in ticks, 60 ticks = 1 second) the cooldown from one filthy room animal spawning event to the next is.\n\nThis is to help with balancing. Default value is 420,000 or 7 days in-game.</RC_FilthyRoomCooldownTicksDesc>
+    <RC_FilthyRoomSampleInterval>Sample interval</RC_FilthyRoomSampleInterval>
+    <RC_FilthyRoomSampleIntervalDesc>Adjusting this slider alters the length of time between each check to see if any room in the colony is filthy enough to spawn pests.\n\nKeep this above 30,000 for good performance. You really don't want to be checking everything more than that. 45,000 ticks is the default for 3/4 of a day.</RC_FilthyRoomSampleIntervalDesc>
+    <RC_FilthyRoomSampleChecks>Sample checks</RC_FilthyRoomSampleChecks>
+    <RC_FilthyRoomSampleChecksDesc>Adjusting this slider alters the number of successive and successful filthy room checks required for pests to spawn in any room. For example, if set to 4, then the first check and 3 consecutive checks need to all pass (meaning a room has been overly dirty 4 times in a row). If any one check fails, the counter is reset to 0 and we once again need 4 consecutive checks to see if a room is filthy enough to spawn pests.</RC_FilthyRoomSampleChecksDesc>
+    <RC_FilthyRoomSpawnThreshold>Filth threshold</RC_FilthyRoomSpawnThreshold>
+    <RC_FilthyRoomSpawnThresholdDesc>Adjusting this slider alters the number of pieces of actual filth required to be present in any one room for pests to spawn if enough filthy room checks have succeeded.</RC_FilthyRoomSpawnThresholdDesc>
+    <RC_FilthyRoomSpawnMHChance>Pest man-hunter chance</RC_FilthyRoomSpawnMHChance>
+    <RC_FilthyRoomSpawnMHChanceDesc>Adjusting this slider alters the chance for any one pest spawned to become a man-hunter immediately.</RC_FilthyRoomSpawnMHChanceDesc>
+    <RC_FilthyRoomPestSpawnRange>Pest animal spawn count</RC_FilthyRoomPestSpawnRange>
+    <RC_FilthyRoomPestSpawnRangeDesc>Set a minimum and maximum number for the possible number of pest animals to spawn if any should spawn because of uncleaned filth.\n\nMaximum value is capped at 10.</RC_FilthyRoomPestSpawnRangeDesc>
+
 </LanguageData>
