@@ -39,20 +39,21 @@ namespace RandomChance
         {
             return "RC_ModName".Translate();
         }
-
+        
         private void LeftSideScrollViewHandler(Rect inRect)
         {
             Listing_Standard list1 = new();
+            list1.Gap(200f);
             Rect viewRect1 = new(inRect.x, inRect.y, inRect.width, inRect.height - 40);
             Rect vROffset1 = new(0, 0, inRect.width - 20, inRect.height - 100); // Adjust height as more settings are added
             
             Widgets.BeginScrollView(viewRect1, ref leftScrollPos, vROffset1);
             list1.Begin(vROffset1);
             list1.Gap(_newSectionGap);
-
+            
             list1.CheckboxLabeled("RC_AllowMessages".Translate(), ref settings._allowMessages, "RC_AllowMessagesDesc".Translate());
             list1.Gap(_newSectionGap);
-            
+
             list1.Label("RC_FilthyRoomConfigHeader".Translate().Colorize(_headerTextColor));
             list1.Gap(_headerTextGap);
             

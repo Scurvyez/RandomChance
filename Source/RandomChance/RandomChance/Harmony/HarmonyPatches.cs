@@ -323,7 +323,7 @@ namespace RandomChance
         
         public static void PlantWorkMakeNewToilsPostfix(ref IEnumerable<Toil> __result, JobDriver_PlantWork __instance)
         {
-            List<Toil> newToils = new(__result);
+            List<Toil> newToils = new (__result);
             int numToils = newToils.Count;
 
             Toil customToil = new Toil
@@ -341,7 +341,7 @@ namespace RandomChance
                     if (chosenEggDef?.GetCompProperties<CompProperties_Hatcher>() == null) return;
                     if (Rand.Chance(RCSettings.PlantHarvestingFindEggsChance) && Rand.Chance(RCDefOf.RC_ConfigCurves.plantWorkDiscoveryCurve.Evaluate(pawnsAvgSkillLevel)))
                     {
-                        Thing eggs = ThingMaker.MakeThing(chosenEggDef, null);
+                        Thing eggs = ThingMaker.MakeThing(chosenEggDef);
                         eggs.stackCount = RCDefOf.RC_ConfigMisc.plantWorkEggDiscoveryCount.RandomInRange;
                         GenPlace.TryPlaceThing(eggs, __instance.pawn.Position, map, ThingPlaceMode.Near);
 
@@ -350,27 +350,24 @@ namespace RandomChance
                             Messages.Message("RC_PlantWorkFoundEggs".Translate(__instance.pawn.Named("PAWN"),
                                 eggs.Label), __instance.pawn, MessageTypeDefOf.PositiveEvent);
                         }
-                    }
+                        
+                        Thing targetThing = __instance.job.GetTarget(TargetIndex.A).Thing;
 
-                    Thing targetThing = __instance.job.GetTarget(TargetIndex.A).Thing;
+                        if (!Rand.Chance(RCDefOf.RC_ConfigCurves.agitatedWildAnimalCurve.Evaluate(pawnsAvgSkillLevel))) return;
+                        PawnKindDef agitatedAnimalKind = chosenEggDef.GetCompProperties<CompProperties_Hatcher>().hatcherPawn;
 
-                    if (!Rand.Chance(RCDefOf.RC_ConfigCurves.agitatedWildAnimalCurve.Evaluate(pawnsAvgSkillLevel))) return;
-                    
-                    PawnKindDef agitatedAnimalKind = chosenEggDef.GetCompProperties<CompProperties_Hatcher>().hatcherPawn;
+                        if (targetThing.def.plant.sowTags.Contains("Hydroponic") && targetThing.Position.Roofed(map)) return;
+                        IntVec3 spawnCell = CellFinder.RandomClosewalkCellNear(__instance.pawn.Position, map, 1);
+                        Pawn agitatedAnimal = PawnGenerator.GeneratePawn(agitatedAnimalKind, null);
+                        agitatedAnimal.gender = Gender.Female;
+                        GenSpawn.Spawn(agitatedAnimal, spawnCell, map);
+                        agitatedAnimal.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Manhunter);
 
-                    if (targetThing.def.plant.sowTags.Contains("Hydroponic") &&
-                        targetThing.Position.Roofed(map)) return;
-                    
-                    IntVec3 spawnCell = CellFinder.RandomClosewalkCellNear(__instance.pawn.Position, map, 1);
-                    Pawn agitatedAnimal = PawnGenerator.GeneratePawn(agitatedAnimalKind, null);
-                    agitatedAnimal.gender = Gender.Female;
-                    GenSpawn.Spawn(agitatedAnimal, spawnCell, map);
-                    agitatedAnimal.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Manhunter);
-
-                    if (RCSettings.AllowMessages)
-                    {
-                        Messages.Message("RC_PlantWorkAngryMomma".Translate(__instance.pawn.Named("PAWN"),
-                            agitatedAnimal.Label), __instance.pawn, MessageTypeDefOf.NegativeEvent);
+                        if (RCSettings.AllowMessages)
+                        {
+                            Messages.Message("RC_PlantWorkAngryMomma".Translate(__instance.pawn.Named("PAWN"),
+                                agitatedAnimal.Label), __instance.pawn, MessageTypeDefOf.NegativeEvent);
+                        }
                     }
                 }
             };
