@@ -44,7 +44,7 @@ namespace RandomChance
 
         public static void TryGiveRandomFailure(Pawn actor, Job curJob, JobDriver_DoBill jobDriver, Building_WorkTable building)
         {
-            if (actor.IsColonyMech || RCDefOf.RC_ConfigCurves == null) return;
+            if (actor.IsColonyMech || RCDefOf.RC_ConfigCurves == null || actor.RaceProps.Animal) return;
             bool startFire = false;
             bool giveInjury = false;
 

@@ -91,7 +91,7 @@ namespace RandomChance
             // Reset the counters for rooms that need it
             foreach (Room room in roomsToReset)
             {
-                RCSpawningUtil.SpawnFilthyRats(room, RCSettings.FilthyRoomPestSpawnRange.RandomInRange, map, RCSettings.FilthyRoomSpawnMHChance);
+                RCSpawningUtil.SpawnFilthyRats(room, RCSettings.FilthyRoomPestSpawnRange.RandomInRange, map);
                 _roomFilthCounters[room] = 0;
 
                 if (RCSettings.AllowMessages)

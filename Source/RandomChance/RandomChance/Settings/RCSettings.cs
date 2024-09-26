@@ -22,6 +22,7 @@ namespace RandomChance
         public static float ElectricalRepairFireChance => _instance._electricalRepairFireChance;
         public static float ElectricalRepairShortCircuitChance => _instance._electricalRepairShortCircuitChance;
         public static float PlantHarvestingFindEggsChance => _instance._plantHarvestingFindEggsChance;
+        public static float PlantHarvestAgitatedWildAnimalChance => _instance._plantHarvestAgitatedWildAnimalChance;
         public static float HurtByFarmAnimalChance => _instance._hurtByFarmAnimalChance;
         public static float InjuredByApparelChance => _instance._injuredByApparelChance;
         public static bool AllowMessages => _instance._allowMessages;
@@ -30,7 +31,6 @@ namespace RandomChance
         public static int FilthyRoomSampleInterval => _instance._filthyRoomSampleInterval;
         public static int FilthyRoomSampleChecks => _instance._filthyRoomSampleChecks;
         public static int FilthyRoomSpawnThreshold => _instance._filthyRoomSpawnThreshold;
-        public static float FilthyRoomSpawnMHChance => _instance._filthyRoomSpawnMHChance;
         public static IntRange FilthyRoomPestSpawnRange => _instance._filthyRoomPestSpawnRange;
         
         public float _cookingFailureChance = 0.05f;
@@ -44,6 +44,7 @@ namespace RandomChance
         public float _electricalRepairFireChance = 0.05f;
         public float _electricalRepairShortCircuitChance = 0.05f;
         public float _plantHarvestingFindEggsChance = 0.05f;
+        public float _plantHarvestAgitatedWildAnimalChance = 0.05f;
         public float _hurtByFarmAnimalChance = 0.05f;
         public float _injuredByApparelChance = 0.05f;
         public bool _allowMessages = true;
@@ -52,7 +53,6 @@ namespace RandomChance
         public int _filthyRoomSampleInterval = 45000;
         public int _filthyRoomSampleChecks = 2;
         public int _filthyRoomSpawnThreshold = 12;
-        public float _filthyRoomSpawnMHChance = 0.2f;
         public IntRange _filthyRoomPestSpawnRange = new (1, 10);
                 
         public override void ExposeData()
@@ -69,6 +69,7 @@ namespace RandomChance
             Scribe_Values.Look(ref _electricalRepairFireChance, "electricalRepairFireChance", 0.05f);
             Scribe_Values.Look(ref _electricalRepairShortCircuitChance, "_electricalRepairShortCircuitChance", 0.05f);
             Scribe_Values.Look(ref _plantHarvestingFindEggsChance, "plantHarvestingFindEggsChance", 0.05f);
+            Scribe_Values.Look(ref _plantHarvestAgitatedWildAnimalChance, "plantHarvestAgitatedWildAnimalChance", 0.05f);
             Scribe_Values.Look(ref _hurtByFarmAnimalChance, "hurtByFarmAnimalChance", 0.05f);
             Scribe_Values.Look(ref _injuredByApparelChance, "injuredByApparelChance", 0.05f);
             Scribe_Values.Look(ref _allowMessages, "allowMessages", true);
@@ -77,7 +78,6 @@ namespace RandomChance
             Scribe_Values.Look(ref _filthyRoomSampleInterval, "filthyRoomSampleInterval", 45000);
             Scribe_Values.Look(ref _filthyRoomSampleChecks, "filthyRoomSampleChecks", 2);
             Scribe_Values.Look(ref _filthyRoomSpawnThreshold, "filthyRoomSpawnThreshold", 12);
-            Scribe_Values.Look(ref _filthyRoomSpawnMHChance, "filthyRoomSpawnMHChance", 0.2f);
             Scribe_Values.Look(ref _filthyRoomPestSpawnRange, "filthyRoomPestSpawnRange", new IntRange(1, 10));
         }
     }

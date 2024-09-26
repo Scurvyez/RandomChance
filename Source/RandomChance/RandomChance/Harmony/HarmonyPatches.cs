@@ -44,7 +44,7 @@ namespace RandomChance
         
         public static void MakeRecipeProductsPrefix(ref RecipeDef recipeDef, Pawn worker, IBillGiver billGiver)
         {
-            if (worker.IsColonyMech || RCDefOf.RC_ConfigCurves == null) return;
+            if (worker.IsColonyMech || worker.RaceProps.Animal || RCDefOf.RC_ConfigCurves == null) return;
             
             int pawnsAvgSkillLevel = (int)worker.skills.AverageOfRelevantSkillsFor(billGiver.GetWorkgiver().workType);
 
@@ -63,7 +63,7 @@ namespace RandomChance
 
         public static void MakeRecipeProductsPostfix(ref IEnumerable<Thing> __result, RecipeDef recipeDef, Pawn worker, Thing dominantIngredient)
         {
-            if (worker.IsColonyMech || recipeDef == null) return;
+            if (worker.IsColonyMech || worker.RaceProps.Animal || recipeDef == null) return;
             RandomProductExtension rpEx = recipeDef.GetModExtension<RandomProductExtension>();
 
             if (rpEx == null) return;
@@ -190,7 +190,7 @@ namespace RandomChance
             {
                 initAction = delegate
                 {
-                    if (__instance.pawn.IsColonyMech || RCDefOf.RC_ConfigCurves == null) return;
+                    if (__instance.pawn.IsColonyMech || __instance.pawn.RaceProps.Animal || RCDefOf.RC_ConfigCurves == null) return;
                     
                     float averageSkills = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
                     Building building = __instance.job.GetTarget(TargetIndex.A).Thing as Building;
@@ -279,7 +279,7 @@ namespace RandomChance
             {
                 initAction = delegate
                 {
-                    if (__instance.pawn.IsColonyMech || RCDefOf.RC_ConfigCurves == null) return;
+                    if (__instance.pawn.IsColonyMech || __instance.pawn.RaceProps.Animal || RCDefOf.RC_ConfigCurves == null) return;
                     
                     float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
 
@@ -332,42 +332,42 @@ namespace RandomChance
                 {
                     Map map = __instance.job.GetTarget(TargetIndex.A).Thing.Map;
 
-                    if (RCDefOf.RC_ConfigCurves == null || map == null || __instance.pawn.IsColonyMech) return;
+                    if (RCDefOf.RC_ConfigCurves == null || map == null || 
+                        __instance.pawn.IsColonyMech || __instance.pawn.RaceProps.Animal) return;
                     
                     MapComponent_CollectThings thingCollections = map.GetComponent<MapComponent_CollectThings>();
                     float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
                     ThingDef chosenEggDef = thingCollections?.possibleEggs.RandomElement();
 
                     if (chosenEggDef?.GetCompProperties<CompProperties_Hatcher>() == null) return;
-                    if (Rand.Chance(RCSettings.PlantHarvestingFindEggsChance) && Rand.Chance(RCDefOf.RC_ConfigCurves.plantWorkDiscoveryCurve.Evaluate(pawnsAvgSkillLevel)))
+                    if (!Rand.Chance(RCSettings.PlantHarvestingFindEggsChance) ||
+                        !Rand.Chance(RCDefOf.RC_ConfigCurves.plantWorkDiscoveryCurve.Evaluate(pawnsAvgSkillLevel))) return;
+                    Thing eggs = ThingMaker.MakeThing(chosenEggDef);
+                    eggs.stackCount = RCDefOf.RC_ConfigMisc.plantWorkEggDiscoveryCount.RandomInRange;
+                    GenPlace.TryPlaceThing(eggs, __instance.pawn.Position, map, ThingPlaceMode.Near);
+
+                    if (RCSettings.AllowMessages)
                     {
-                        Thing eggs = ThingMaker.MakeThing(chosenEggDef);
-                        eggs.stackCount = RCDefOf.RC_ConfigMisc.plantWorkEggDiscoveryCount.RandomInRange;
-                        GenPlace.TryPlaceThing(eggs, __instance.pawn.Position, map, ThingPlaceMode.Near);
+                        Messages.Message("RC_PlantWorkFoundEggs".Translate(__instance.pawn.Named("PAWN"),
+                            eggs.Label), __instance.pawn, MessageTypeDefOf.PositiveEvent);
+                    }
+                    Thing targetThing = __instance.job.GetTarget(TargetIndex.A).Thing;
 
-                        if (RCSettings.AllowMessages)
-                        {
-                            Messages.Message("RC_PlantWorkFoundEggs".Translate(__instance.pawn.Named("PAWN"),
-                                eggs.Label), __instance.pawn, MessageTypeDefOf.PositiveEvent);
-                        }
-                        
-                        Thing targetThing = __instance.job.GetTarget(TargetIndex.A).Thing;
+                    if (!Rand.Chance(RCSettings.PlantHarvestAgitatedWildAnimalChance) && 
+                        !Rand.Chance(RCDefOf.RC_ConfigCurves.agitatedWildAnimalCurve.Evaluate(pawnsAvgSkillLevel))) return;
+                    PawnKindDef agitatedAnimalKind = chosenEggDef.GetCompProperties<CompProperties_Hatcher>().hatcherPawn;
 
-                        if (!Rand.Chance(RCDefOf.RC_ConfigCurves.agitatedWildAnimalCurve.Evaluate(pawnsAvgSkillLevel))) return;
-                        PawnKindDef agitatedAnimalKind = chosenEggDef.GetCompProperties<CompProperties_Hatcher>().hatcherPawn;
+                    if (targetThing.def.plant.sowTags.Contains("Hydroponic") && targetThing.Position.Roofed(map)) return;
+                    IntVec3 spawnCell = CellFinder.RandomClosewalkCellNear(__instance.pawn.Position, map, 1);
+                    Pawn agitatedAnimal = PawnGenerator.GeneratePawn(agitatedAnimalKind, null);
+                    agitatedAnimal.gender = Gender.Female;
+                    GenSpawn.Spawn(agitatedAnimal, spawnCell, map);
+                    agitatedAnimal.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Manhunter);
 
-                        if (targetThing.def.plant.sowTags.Contains("Hydroponic") && targetThing.Position.Roofed(map)) return;
-                        IntVec3 spawnCell = CellFinder.RandomClosewalkCellNear(__instance.pawn.Position, map, 1);
-                        Pawn agitatedAnimal = PawnGenerator.GeneratePawn(agitatedAnimalKind, null);
-                        agitatedAnimal.gender = Gender.Female;
-                        GenSpawn.Spawn(agitatedAnimal, spawnCell, map);
-                        agitatedAnimal.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Manhunter);
-
-                        if (RCSettings.AllowMessages)
-                        {
-                            Messages.Message("RC_PlantWorkAngryMomma".Translate(__instance.pawn.Named("PAWN"),
-                                agitatedAnimal.Label), __instance.pawn, MessageTypeDefOf.NegativeEvent);
-                        }
+                    if (RCSettings.AllowMessages)
+                    {
+                        Messages.Message("RC_PlantWorkAngryMomma".Translate(__instance.pawn.Named("PAWN"),
+                            agitatedAnimal.Label), __instance.pawn, MessageTypeDefOf.NegativeEvent);
                     }
                 }
             };
@@ -389,7 +389,7 @@ namespace RandomChance
                 initAction = delegate
                 {
                     if (__instance.pawn == null || __instance.job == null || __instance.pawn.skills == null) return;
-                    if (__instance.pawn.IsColonyMech || RCDefOf.RC_ConfigCurves == null) return;
+                    if (__instance.pawn.IsColonyMech || __instance.pawn.RaceProps.Animal || RCDefOf.RC_ConfigCurves == null) return;
 
                     DamageDef damageInflicted = DamageDefOf.Cut;
                     SimpleCurve injuryCurve = RCDefOf.RC_ConfigCurves.powerArmorInjuryCurve;

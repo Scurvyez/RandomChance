@@ -72,9 +72,6 @@ namespace RandomChance
             DrawSettingWithSliderAndTextField(vROffset1, list1, "RC_FilthyRoomSpawnThreshold".Translate(), 
                 "RC_FilthyRoomSpawnThresholdDesc".Translate(), ref settings._filthyRoomSpawnThreshold, 
                 1, 25);
-            DrawSettingWithSliderAndTextField(vROffset1, list1, "RC_FilthyRoomSpawnMHChance".Translate(), 
-                "RC_FilthyRoomSpawnMHChanceDesc".Translate(), ref settings._filthyRoomSpawnMHChance, 
-                0f, 1f);
             DrawSettingWithIntRangeAndText(vROffset1, list1, "RC_FilthyRoomPestSpawnRange".Translate(), 
                 "RC_FilthyRoomPestSpawnRangeDesc".Translate(), ref settings._filthyRoomPestSpawnRange, 
                 1, 10);
@@ -149,6 +146,11 @@ namespace RandomChance
             
             DrawSettingWithSliderAndTextField(vROffset2, list2, "RC_PlantHarvestingFindEggsChance".Translate(), 
                 "RC_PlantHarvestingFindEggsChanceDesc".Translate(), ref settings._plantHarvestingFindEggsChance, 
+                0f, 1f);
+            list2.Gap(_newSectionGap);
+            
+            DrawSettingWithSliderAndTextField(vROffset2, list2, "RC_PlantHarvestAgitatedWildAnimalChance".Translate(), 
+                "RC_PlantHarvestAgitatedWildAnimalChanceDesc".Translate(), ref settings._plantHarvestAgitatedWildAnimalChance, 
                 0f, 1f);
             list2.Gap(_newSectionGap);
 

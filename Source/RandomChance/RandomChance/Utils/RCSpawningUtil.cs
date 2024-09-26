@@ -5,7 +5,7 @@ namespace RandomChance
 {
     public static class RCSpawningUtil
     {
-        public static void SpawnFilthyRats(Room room, int numToSpawn, Map map, float manhuntChance)
+        public static void SpawnFilthyRats(Room room, int numToSpawn, Map map)
         {
             PawnKindDef animalKindDef = RCDefOf.Rat;
             IntVec3 spawnCell = room.Cells.RandomElement();
@@ -14,11 +14,6 @@ namespace RandomChance
             {
                 Pawn animalToSpawn = PawnGenerator.GeneratePawn(animalKindDef, null);
                 GenSpawn.Spawn(animalToSpawn, spawnCell, map);
-
-                if (Rand.Value < manhuntChance)
-                {
-                    animalToSpawn.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.ManhunterPermanent);
-                }
             }
         }
     }
