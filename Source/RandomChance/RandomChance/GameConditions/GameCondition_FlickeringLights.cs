@@ -28,7 +28,7 @@ namespace RandomChance
             if (flickeringLightsExtension == null) return;
             foreach (Pawn pawn in map.mapPawns.FreeColonistsAndPrisonersSpawned)
             {
-                if (!pawn.SpawnedOrAnyParentSpawned || PawnUtility.IsBiologicallyOrArtificiallyBlind(pawn) || !pawn.Awake()) continue;
+                if (pawn.IsColonyMech || !pawn.SpawnedOrAnyParentSpawned || PawnUtility.IsBiologicallyOrArtificiallyBlind(pawn) || !pawn.Awake()) continue;
                 pawn.needs.mood.thoughts.memories.TryGainMemory(RCDefOf.RC_ExperiencedFlickeringLights);
             }
         }

@@ -85,7 +85,7 @@ namespace RandomChance
         {
             Listing_Standard list2 = new ();
             Rect viewRect2 = new(inRect.x, inRect.y, inRect.width, inRect.height - 40);
-            Rect vROffset2 = new(0, 0, inRect.width - 20, inRect.height + 375); // Adjust height as more settings are added
+            Rect vROffset2 = new(0, 0, inRect.width - 20, inRect.height + 475); // Adjust height as more settings are added
             
             Widgets.BeginScrollView(viewRect2, ref rightScrollPos, vROffset2);
             list2.Begin(vROffset2);

@@ -17,7 +17,7 @@ namespace RandomChance
             this.randomProductWeight = randomProductWeight;
             this.randomProductAmountRange = randomProductAmountRange;
         }
-
+        
         public void LoadDataFromXmlCustom(XmlNode xmlRoot)
         {
             DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "randomProduct", xmlRoot.Name);

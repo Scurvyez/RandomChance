@@ -44,7 +44,10 @@ namespace RandomChance
         
         public static void MakeRecipeProductsPrefix(ref RecipeDef recipeDef, Pawn worker, IBillGiver billGiver)
         {
+            // because MO is busted as fuck -_-
+            if (ModsConfig.IsActive("dankpyon.medieval.overhaul")) return;
             if (worker.IsColonyMech || worker.RaceProps.Animal || RCDefOf.RC_ConfigCurves == null) return;
+            if (billGiver.GetWorkgiver() == null) return;
             
             int pawnsAvgSkillLevel = (int)worker.skills.AverageOfRelevantSkillsFor(billGiver.GetWorkgiver().workType);
 
@@ -67,6 +70,7 @@ namespace RandomChance
             RandomProductExtension rpEx = recipeDef.GetModExtension<RandomProductExtension>();
 
             if (rpEx == null) return;
+            if (worker.CurJob?.workGiverDef == null) return;
 
             float pawnsAvgSkillLevel = worker.skills.AverageOfRelevantSkillsFor(worker.CurJob.workGiverDef.workType);
             List<Thing> modifiedProducts = new();
@@ -191,6 +195,7 @@ namespace RandomChance
                 initAction = delegate
                 {
                     if (__instance.pawn.IsColonyMech || __instance.pawn.RaceProps.Animal || RCDefOf.RC_ConfigCurves == null) return;
+                    if (__instance.job?.workGiverDef == null) return;
                     
                     float averageSkills = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
                     Building building = __instance.job.GetTarget(TargetIndex.A).Thing as Building;
@@ -280,22 +285,18 @@ namespace RandomChance
                 initAction = delegate
                 {
                     if (__instance.pawn.IsColonyMech || __instance.pawn.RaceProps.Animal || RCDefOf.RC_ConfigCurves == null) return;
-                    
+                    if (__instance.job?.workGiverDef == null) return;
                     float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
 
                     if (!Rand.Chance(RCSettings.HurtByFarmAnimalChance) ||
                         !Rand.Chance(RCDefOf.RC_ConfigCurves.hurtByFarmAnimalCurve.Evaluate(pawnsAvgSkillLevel))) return;
                     if (__instance.job.GetTarget(TargetIndex.A).Thing is not Pawn animal) return;
-                    if (animal == null) return;
-                    
                     List<Tool> tools = animal.Tools;
 
-                    if (tools == null || tools.Count <= 0) return;
-                    
+                    if (tools is not { Count: > 0 }) return;
                     Tool selectedTool = tools.RandomElement();
 
-                    if (!Rand.Chance(selectedTool.chanceFactor) || selectedTool == null) return;
-                    
+                    if (!Rand.Chance(selectedTool.chanceFactor)) return;
                     float damageAmount = Rand.Range(selectedTool.power / 2f, selectedTool.power);
                     DamageDef damageInflicted = selectedTool.Maneuvers.RandomElement().verb.meleeDamageDef;
                     DamageInfo damageInfo = new(damageInflicted, damageAmount, 1f);
@@ -333,7 +334,8 @@ namespace RandomChance
                     Map map = __instance.job.GetTarget(TargetIndex.A).Thing.Map;
 
                     if (RCDefOf.RC_ConfigCurves == null || map == null || 
-                        __instance.pawn.IsColonyMech || __instance.pawn.RaceProps.Animal) return;
+                        __instance.pawn.IsColonyMech || __instance.pawn.RaceProps.Animal || __instance.pawn.IsWildMan()) return;
+                    if (__instance.job?.workGiverDef == null) return;
                     
                     MapComponent_CollectThings thingCollections = map.GetComponent<MapComponent_CollectThings>();
                     float pawnsAvgSkillLevel = __instance.pawn.skills.AverageOfRelevantSkillsFor(__instance.job.workGiverDef.workType);
@@ -461,6 +463,7 @@ namespace RandomChance
             }
 
             if (pawn.IsColonyMech || RCDefOf.RC_ConfigCurves == null) return;
+            if (pawn.CurJob?.workGiverDef == null) return;
             
             RandomProductExtension rpEx = __instance.def.GetModExtension<RandomProductExtension>();
             int pawnsAvgSkillLevel = (int)pawn.skills.AverageOfRelevantSkillsFor(pawn.CurJob.workGiverDef.workType);
