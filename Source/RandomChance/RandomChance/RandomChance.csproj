@@ -67,13 +67,14 @@
   <ItemGroup>
     <Compile Include="DefModExtensions\FlickeringLightsExtension.cs" />
     <Compile Include="GameConditions\GameCondition_FlickeringLights.cs" />
+    <Compile Include="Harmony\HarmonyPatchesUtil.cs" />
     <Compile Include="Incidents\IncidentWorker_FlickeringLights.cs" />
     <Compile Include="MapComps\MapComponent_CheckFilthyRooms.cs" />
     <Compile Include="MapComps\MapComponent_FlickerLightSources.cs" />
+    <Compile Include="MapComps\MapComponent_TimeKeeping.cs" />
     <Compile Include="RCMain.cs" />
     <Compile Include="DefOfs\RCDefOf.cs" />
     <Compile Include="Harmony\ToilsRecipeDoRecipeWork_Transpiler.cs" />
-    <Compile Include="JobGivers\JobGiver_SwitchFlickingSpree.cs" />
     <Compile Include="MapComps\MapComponent_CollectThings.cs" />
     <Compile Include="MapComps\MapComponent_CollectAnimals.cs" />
     <Compile Include="Settings\RCMod.cs" />

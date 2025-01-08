@@ -17,7 +17,7 @@ namespace RandomChance
     {
         static HarmonyPatches()
         {
-            Harmony harmony = new Harmony(id: "rimworld.scurvyez.randomchance");
+            Harmony harmony = new (id: "rimworld.scurvyez.randomchance");
 
             harmony.Patch(original: AccessTools.Method(typeof(GenRecipe), nameof(GenRecipe.MakeRecipeProducts)),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(MakeRecipeProductsPrefix)),
@@ -40,6 +40,9 @@ namespace RandomChance
 
             harmony.Patch(original: AccessTools.Method(typeof(JobDriver_ViewArt), "WaitTickAction"),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(ViewArtWaitTickActionPrefix)));
+
+            harmony.Patch(original: AccessTools.Method(typeof(JobDriver_RemoveBuilding), "MakeNewToils"),
+                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(RemoveBuildingMakeNewToilsPostFix)));
         }
         
         public static void MakeRecipeProductsPrefix(ref RecipeDef recipeDef, Pawn worker, IBillGiver billGiver)
@@ -213,7 +216,7 @@ namespace RandomChance
                         IntVec3 explosionCenter = building.Position;
                         Map explosionMap = building.Map;
                         int exRadius = RCDefOf.RC_ConfigMisc.repairFailureExplosionRadius.RandomInRange;
-                        int exDamage = RCDefOf.RC_ConfigMisc.repairFailureExpolsionDamageAmount.RandomInRange;
+                        int exDamage = RCDefOf.RC_ConfigMisc.repairFailureExplosionDamageAmount.RandomInRange;
                         GenExplosion.DoExplosion(explosionCenter, explosionMap, exRadius, DamageDefOf.EMP, null, exDamage);
                         
                         if (Rand.Chance(RCSettings.ElectricalRepairFireChance))
@@ -549,6 +552,48 @@ namespace RandomChance
                         pawn.needs.mood.thoughts.memories.TryGainMemory(RCDefOf.RC_ViewedLegendaryArtWork);
                     break;
             }
+        }
+        
+        public static void RemoveBuildingMakeNewToilsPostFix(ref IEnumerable<Toil> __result, JobDriver_RemoveBuilding __instance)
+        {
+            Map map = __instance.pawn?.Map;
+            MapComponent_TimeKeeping timeKeeper = map?.GetComponent<MapComponent_TimeKeeping>();
+            
+            if (timeKeeper == null) return;
+            if (timeKeeper.LastSilverFindTick < timeKeeper.SilverFindThreshold) return;
+            timeKeeper.LastSilverFindTick = 0;
+            
+            List<Toil> newToils = new(__result);
+            
+            Toil customToil = new Toil
+            {
+                initAction = delegate
+                {
+                    if (RCDefOf.RC_ConfigMisc == null || RCDefOf.RC_ConfigCurves == null) return;
+                    if (__instance.pawn == null || __instance.job == null) return;
+                    Thing building = __instance.job.targetA.Thing;
+                    
+                    if (building?.Map == null) return;
+                    if (__instance.pawn == null || __instance.job == null) return;
+                    
+                    if (!Rand.Chance(RCDefOf.RC_ConfigMisc.buildingRemovalSilverFindChance))
+                    {
+                        Thing thingToSpawn = ThingMaker.MakeThing(ThingDefOf.Silver);
+                        thingToSpawn.stackCount = RCDefOf.RC_ConfigMisc.buildingRemovalSilverFindCount.RandomInRange;
+                        GenPlace.TryPlaceThing(thingToSpawn, building.Position, building.Map, ThingPlaceMode.Near);
+                    }
+                    else
+                    {
+                        ThingDef filth = HarmonyPatchesUtil.FilthOptionsCache.RandomElement();
+                        FilthMaker.TryMakeFilth(building.Position, building.Map, filth);
+                    }
+                }
+            };
+            
+            int insertIndex = newToils.Count - 1;
+            newToils.Insert(insertIndex, customToil);
+
+            __result = newToils;
         }
     }
 }

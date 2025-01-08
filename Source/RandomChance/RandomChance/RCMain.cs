@@ -11,7 +11,7 @@ namespace RandomChance
         {
             RCLog.Message("1.5 Update | Older versions will no longer be maintained.");
 
-            Harmony harmonyTInstance = new Harmony("com.randomchance");
+            Harmony harmonyTInstance = new ("com.randomchance");
             harmonyTInstance.PatchAll(Assembly.GetExecutingAssembly());
         }
     }

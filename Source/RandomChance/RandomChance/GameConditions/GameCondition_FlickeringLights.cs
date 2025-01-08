@@ -42,5 +42,7 @@ namespace RandomChance
         {
             return new SkyTarget(_glow, _skyColors, 1f, 1f);
         }
+        
+        
     }
 }

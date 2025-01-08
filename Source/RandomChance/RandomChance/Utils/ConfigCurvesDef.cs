@@ -17,7 +17,7 @@ namespace RandomChance
         public SimpleCurve crematingInjuryCurve;
         public SimpleCurve butcherBonusProductsCurve;
         public SimpleCurve switchFlickingSpreeCurve;
-
+        
         public override IEnumerable<string> ConfigErrors()
         {
             if (powerArmorInjuryCurve == null)

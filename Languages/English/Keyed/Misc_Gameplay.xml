@@ -8,7 +8,7 @@
     <RC_FireInKitchen>{0}'s poor cooking skills have led to a fire in the kitchen!</RC_FireInKitchen>
     <RC_InjuryInKitchen>{0} has injured {0_possessive}self in the kitchen!</RC_InjuryInKitchen>
     <RC_InjuryWhileCremating>{0} burned {0_possessive}self while operating the crematorium.</RC_InjuryWhileCremating>
-    <RC_BetterMealProduced>{0}'s passion for her job in the kitchen has led to a glorious culinary upgrade!</RC_BetterMealProduced>
+    <RC_BetterMealProduced>{0}'s passion for {0_possessive} job in the kitchen has led to a glorious culinary upgrade!</RC_BetterMealProduced>
     <RC_HorriblyUncleanKitchen>{0} has made an absolute mess while butchering an animal.</RC_HorriblyUncleanKitchen>
     <RC_PredatorButcheryBonusProduct>{0} has discovered {1} while carefully butchering a {2}.</RC_PredatorButcheryBonusProduct>
     <RC_ElectricalRepairFailure>{0} has botched some electrical repairs!</RC_ElectricalRepairFailure>

@@ -170,12 +170,14 @@
         <cookingBonusRangeFour>1~4</cookingBonusRangeFour>
         <additionalMeatStackCount>1~15</additionalMeatStackCount>
         <repairFailureExplosionRadius>1~5</repairFailureExplosionRadius>
-        <repairFailureExpolsionDamageAmount>1~5</repairFailureExpolsionDamageAmount>
+        <repairFailureExplosionDamageAmount>1~5</repairFailureExplosionDamageAmount>
         <repairFailureStunDuration>180</repairFailureStunDuration>
         <repairFailureFireSize>1~3</repairFailureFireSize>
         <farmAnimalInjuryStunDuration>60</farmAnimalInjuryStunDuration>
         <plantWorkEggDiscoveryCount>1~3</plantWorkEggDiscoveryCount>
         <miningExtraProductSkillsFactor>0.2</miningExtraProductSkillsFactor>
+        <buildingRemovalSilverFindCount>1~25</buildingRemovalSilverFindCount>
+        <buildingRemovalSilverFindChance>0.5</buildingRemovalSilverFindChance>
 
         <shockFleckRChannel>0~0.2</shockFleckRChannel>
         <shockFleckGChannel>0~0.4</shockFleckGChannel>
