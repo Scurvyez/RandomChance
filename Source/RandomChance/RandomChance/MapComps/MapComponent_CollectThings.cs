@@ -7,22 +7,23 @@ namespace RandomChance.MapComps
 {
     public class MapComponent_CollectThings : MapComponent
     {
-        public List<ThingDef> possibleEggs = new();
-        public List<Thing> availableLightSources = new(5);
-
+        public readonly List<ThingDef> PossibleEggs = [];
+        public readonly List<Thing> AvailableLightSources = new(5);
+        
         private int _lastUpdate;
-        private FlickeringLightsExtension flickeringLightsExtension;
+        private FlickeringLightsExtension _flickeringLightsExt;
         
         public MapComponent_CollectThings(Map map) : base(map) { }
 
         public override void FinalizeInit()
         {
             base.FinalizeInit();
-            flickeringLightsExtension = RCDefOf.RC_FlickeringLights.GetModExtension<FlickeringLightsExtension>();
+            _flickeringLightsExt = RCDefOf.RC_FlickeringLights
+                .GetModExtension<FlickeringLightsExtension>();
             
             CollectNativeWildAnimalEggs();
 
-            if (flickeringLightsExtension == null) return;
+            if (_flickeringLightsExt == null) return;
             CollectAvailableLightSources();
         }
         
@@ -30,33 +31,28 @@ namespace RandomChance.MapComps
         {
             base.MapComponentTick();
 
-            if (flickeringLightsExtension == null) return;
-            if (map == null || _lastUpdate + flickeringLightsExtension.lightSourceSampleInterval >
+            if (_flickeringLightsExt == null) return;
+            if (map == null || _lastUpdate + _flickeringLightsExt.lightSourceSampleInterval >
                 Find.TickManager.TicksAbs) return;
             
-            availableLightSources.Clear();
+            AvailableLightSources.Clear();
             CollectAvailableLightSources();
-        }
-        
-        public override void ExposeData()
-        {
-            base.ExposeData();
-            Scribe_Values.Look(ref _lastUpdate, "lastUpdate");
         }
 
         private void CollectNativeWildAnimalEggs()
         {
-            MapComponent_AnimalCollections animalCollection = map.GetComponent<MapComponent_AnimalCollections>();
+            MapComponent_AnimalCollections animalCollection = 
+                map.GetComponent<MapComponent_AnimalCollections>();
 
-            if (animalCollection.eggLayingAnimals.NullOrEmpty()) return;
-            for (int i = 0; i < animalCollection.eggLayingAnimals.Count; i++)
+            if (animalCollection.EggLayingAnimals.NullOrEmpty()) return;
+            for (int i = 0; i < animalCollection.EggLayingAnimals.Count; i++)
             {
-                PawnKindDef kindDef = animalCollection.eggLayingAnimals[i];
+                PawnKindDef kindDef = animalCollection.EggLayingAnimals[i];
                 Pawn pawn = PawnGenerator.GeneratePawn(kindDef, null);
                 CompEggLayer compEggLayer = pawn.TryGetComp<CompEggLayer>();
                 if (compEggLayer != null)
                 {
-                    possibleEggs.Add(compEggLayer.Props.eggFertilizedDef);
+                    PossibleEggs.Add(compEggLayer.Props.eggFertilizedDef);
                 }
             }
         }
@@ -65,14 +61,21 @@ namespace RandomChance.MapComps
         {
             if (map == null) return;
             
-            List<Building> lightSources = map.listerBuildings.allBuildingsColonist.Where(RCMapUtil.IsColonyLightSource).ToList();
-            lightSources = lightSources.OrderBy(x => Rand.Value).ToList(); // Shuffle the list randomly
+            List<Building> lightSources = map.listerBuildings.allBuildingsColonist
+                .Where(RCMapUtil.IsColonyLightSource).ToList();
+            lightSources = lightSources.OrderBy(x => Rand.Value).ToList();
 
-            for (int i = 0; i < flickeringLightsExtension.maxLightSources && i < lightSources.Count; i++)
+            for (int i = 0; i < _flickeringLightsExt.maxLightSources && i < lightSources.Count; i++)
             {
-                availableLightSources.Add(lightSources[i]);
+                AvailableLightSources.Add(lightSources[i]);
             }
             _lastUpdate = Find.TickManager.TicksAbs;
+        }
+        
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref _lastUpdate, "lastUpdate");
         }
     }
 }

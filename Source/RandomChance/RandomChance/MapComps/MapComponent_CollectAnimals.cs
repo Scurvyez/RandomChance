@@ -8,34 +8,39 @@ namespace RandomChance
 {
     public class MapComponent_AnimalCollections : MapComponent
     {
-        public List<PawnKindDef> eggLayingAnimals = new ();
-        public List<PawnKindDef> nonEggLayingAnimals = new ();
-
-        public MapComponent_AnimalCollections(Map map) : base(map) { }
-
+        public readonly List<PawnKindDef> EggLayingAnimals = [];
+        public readonly List<PawnKindDef> NonEggLayingAnimals = [];
+        
+        private List<BiomeAnimalRecord> _biomeAnimals { get; }
+        
+        public MapComponent_AnimalCollections(Map map) : base(map)
+        {
+            FieldInfo wildAnimalsField = AccessTools.Field(typeof(BiomeDef), "wildAnimals");
+            _biomeAnimals = wildAnimalsField.GetValue(map.Biome) as List<BiomeAnimalRecord>;
+        }
+        
         public override void FinalizeInit()
         {
             base.FinalizeInit();
+            
+            if (_biomeAnimals is not { Count: >= 0 }) return;
             CollectNativeEggLayingWildAnimals();
             CollectNativeNonEggLayingWildAnimals();
         }
-
+        
         private void CollectNativeEggLayingWildAnimals()
         {
             if (map.Biome == null) return;
-            FieldInfo wildAnimalsField = AccessTools.Field(typeof(BiomeDef), "wildAnimals");
-
-            if (wildAnimalsField.GetValue(map.Biome) is not List<BiomeAnimalRecord> biomeSpecificAnimals ||
-                biomeSpecificAnimals.NullOrEmpty()) return;
+            if (_biomeAnimals.NullOrEmpty()) return;
             
-            foreach (BiomeAnimalRecord animalRecord in biomeSpecificAnimals)
+            foreach (BiomeAnimalRecord animalRecord in _biomeAnimals)
             {
                 PawnKindDef kindDef = animalRecord.animal;
-                if (kindDef?.race.GetCompProperties<CompProperties_EggLayer>() != null
-                    && kindDef.race.race.baseBodySize <= 1f
-                    && kindDef.combatPower <= 69f)
+                if (kindDef?.race.GetCompProperties<CompProperties_EggLayer>() != null && 
+                    kindDef.race.race.baseBodySize <= 1f && 
+                    kindDef.combatPower <= 69f)
                 {
-                    eggLayingAnimals.Add(kindDef);
+                    EggLayingAnimals.Add(kindDef);
                 }
             }
         }
@@ -43,17 +48,15 @@ namespace RandomChance
         private void CollectNativeNonEggLayingWildAnimals()
         {
             if (map.Biome == null) return;
-            FieldInfo wildAnimalsField = AccessTools.Field(typeof(BiomeDef), "wildAnimals");
-
-            if (wildAnimalsField.GetValue(map.Biome) is not List<BiomeAnimalRecord> biomeSpecificAnimals ||
-                biomeSpecificAnimals.NullOrEmpty()) return;
+            if (_biomeAnimals.NullOrEmpty()) return;
             
-            foreach (BiomeAnimalRecord animalRecord in biomeSpecificAnimals)
+            foreach (BiomeAnimalRecord animalRecord in _biomeAnimals)
             {
                 PawnKindDef kindDef = animalRecord.animal;
-                if (kindDef?.race.race.baseBodySize <= 1f && kindDef.combatPower <= 69f)
+                if (kindDef?.race.race.baseBodySize <= 1f && 
+                    kindDef.combatPower <= 69f)
                 {
-                    nonEggLayingAnimals.Add(kindDef);
+                    NonEggLayingAnimals.Add(kindDef);
                 }
             }
         }

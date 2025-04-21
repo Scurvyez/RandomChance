@@ -49,7 +49,7 @@ namespace RandomChance
             MapComponent_CollectThings mapComp = map?.GetComponent<MapComponent_CollectThings>();
             if (mapComp == null) return;
 
-            foreach (Thing thing in mapComp.availableLightSources)
+            foreach (Thing thing in mapComp.AvailableLightSources)
             {
                 CompPowerTrader comp = thing.TryGetComp<CompPowerTrader>();
                 if (comp != null && Rand.Chance(flickeringLightsExtension.flickerChance) && thing.IsHashIntervalTick(60))

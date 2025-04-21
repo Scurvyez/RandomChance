@@ -6,7 +6,7 @@ namespace RandomChance
 {
     public static class HarmonyPatchesUtil
     {
-        public static List<ThingDef> FilthOptionsCache =
+        public static readonly List<ThingDef> FilthOptionsCache =
         [
             ThingDefOf.Filth_Dirt,
             ThingDefOf.Filth_Floordrawing,
@@ -16,5 +16,7 @@ namespace RandomChance
             ThingDefOf.Filth_MachineBits,
             ThingDefOf.Filth_ScatteredDocuments
         ];
+        
+        
     }
 }

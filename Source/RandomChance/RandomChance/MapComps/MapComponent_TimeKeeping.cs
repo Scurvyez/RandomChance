@@ -7,10 +7,7 @@ namespace RandomChance
         public int LastSilverFindTick = 600000;
         public int SilverFindThreshold = 600000;
         
-        public MapComponent_TimeKeeping(Map map) : base(map)
-        {
-            
-        }
+        public MapComponent_TimeKeeping(Map map) : base(map) { }
         
         public override void MapComponentTick()
         {

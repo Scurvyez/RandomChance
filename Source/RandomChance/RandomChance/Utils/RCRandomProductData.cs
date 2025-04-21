@@ -29,6 +29,7 @@ namespace RandomChance
 
             string spawnRangeStr = xmlRoot.InnerText.Trim();
             string[] rangeValues = spawnRangeStr.Split('~');
+            
             if (rangeValues.Length == 2)
             {
                 float min = ParseHelper.FromString<float>(rangeValues[0]);

@@ -9,7 +9,6 @@ namespace RandomChance
         public static int CalculateRoomDirtiness(Room room, Map map)
         {
             int dirtinessLevel = 0;
-
             foreach (IntVec3 cell in room.Cells)
             {
                 List<Thing> things = cell.GetThingList(map);
@@ -23,7 +22,7 @@ namespace RandomChance
             }
             return dirtinessLevel;
         }
-
+        
         public static bool IsColonyLightSource(Building building)
         {
             return building.HasComp<CompPowerTrader>() && building.HasComp<CompGlower>();

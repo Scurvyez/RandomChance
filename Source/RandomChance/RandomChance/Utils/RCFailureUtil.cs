@@ -11,7 +11,9 @@ namespace RandomChance
         {
             if (RCSettings.AllowMessages)
             {
-                Messages.Message("RC_FireInKitchen".Translate(actor.Named("PAWN")), actor, MessageTypeDefOf.NegativeEvent);
+                Messages.Message("RC_FireInKitchen"
+                    .Translate(actor.Named("PAWN")),
+                    actor, MessageTypeDefOf.NegativeEvent);
             }
 
             Thing ingredients = curJob.GetTarget(TargetIndex.B).Thing;
@@ -32,7 +34,8 @@ namespace RandomChance
         
         public static void GiveInjuryHandler(Pawn actor, Job curJob, Building_WorkTable building)
         {
-            int pawnsAvgSkillLevel = (int)actor.skills.AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
+            int pawnsAvgSkillLevel = (int)actor.skills
+                .AverageOfRelevantSkillsFor(actor.CurJob.workGiverDef.workType);
             IntVec3 buildingPos = building.Position;
             Map map = building.Map;
             HediffDef burnHediffDef = RCDefOf.Burn;
@@ -47,10 +50,11 @@ namespace RandomChance
                 <= 20 => 0f,
                 _ => 0f,
             };
-
+            
             if (curJob.RecipeDef.defName.IndexOf("Cook", StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                BodyPartRecord fingersPart = actor.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbDigit).RandomElement();
+                BodyPartRecord fingersPart = actor.RaceProps.body
+                    .GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbDigit).RandomElement();
 
                 if (fingersPart == null) return;
                 if (Rand.Bool)
@@ -61,7 +65,8 @@ namespace RandomChance
 
                     if (RCSettings.AllowMessages)
                     {
-                        Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")),
+                        Messages.Message("RC_InjuryInKitchen"
+                                .Translate(actor.Named("PAWN")),
                             actor, MessageTypeDefOf.NegativeEvent);
                     }
                 }
@@ -73,7 +78,8 @@ namespace RandomChance
 
                     if (RCSettings.AllowMessages)
                     {
-                        Messages.Message("RC_InjuryInKitchen".Translate(actor.Named("PAWN")),
+                        Messages.Message("RC_InjuryInKitchen"
+                                .Translate(actor.Named("PAWN")),
                             actor, MessageTypeDefOf.NegativeEvent);
                     }
 
@@ -83,7 +89,8 @@ namespace RandomChance
             }
             else if (curJob.RecipeDef == RCDefOf.CremateCorpse)
             {
-                BodyPartRecord bodyPart = actor.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbSegment).RandomElement();
+                BodyPartRecord bodyPart = actor.RaceProps.body
+                    .GetPartsWithTag(BodyPartTagDefOf.ManipulationLimbSegment).RandomElement();
 
                 if (bodyPart == null) return;
                 Hediff hediff = HediffMaker.MakeHediff(burnHediffDef, actor, bodyPart);
@@ -92,7 +99,8 @@ namespace RandomChance
 
                 if (RCSettings.AllowMessages)
                 {
-                    Messages.Message("RC_InjuryWhileCremating".Translate(actor.Named("PAWN")),
+                    Messages.Message("RC_InjuryWhileCremating"
+                            .Translate(actor.Named("PAWN")),
                         actor, MessageTypeDefOf.NegativeEvent);
                 }
             }
@@ -100,20 +108,22 @@ namespace RandomChance
         
         public static void CauseMessHandler(Pawn actor, Job curJob, Building_WorkTable building)
         {
-            if (curJob.GetTarget(TargetIndex.B).Thing is not Corpse animalCorpse) return;
+            if (curJob.GetTarget(TargetIndex.B).Thing is not Corpse animalCorpse ||
+                building == null ||
+                actor == null) return;
             
             IntVec3 pawnPos = actor.Position;
             Map map = building.Map;
-            int radius = RCSettings.ButcherMessRadius; // make a mod setting
+            int radius = RCSettings.ButcherMessRadius;
             IntVec3 centerCell = pawnPos + GenAdj.CardinalDirections.RandomElement();
             Pawn animalPawn = animalCorpse.InnerPawn;
-
             Region region = centerCell.GetRegion(map);
+            
             if (region != null)
             {
                 foreach (IntVec3 cell in GenRadial.RadialCellsAround(centerCell, radius, true))
                 {
-                    if (cell.GetRegion(map) == region)
+                    if (Equals(cell.GetRegion(map), region))
                     {
                         FilthMaker.TryMakeFilth(cell, map, animalPawn.def.race.BloodDef);
                     }
@@ -126,7 +136,8 @@ namespace RandomChance
 
             if (RCSettings.AllowMessages)
             {
-                Messages.Message("RC_HorriblyUncleanKitchen".Translate(actor.Named("PAWN")),
+                Messages.Message("RC_HorriblyUncleanKitchen"
+                        .Translate(actor.Named("PAWN")),
                     actor, MessageTypeDefOf.NegativeEvent);
             }
         }

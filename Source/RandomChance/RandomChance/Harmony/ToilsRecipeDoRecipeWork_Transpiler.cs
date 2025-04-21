@@ -10,21 +10,25 @@ using Verse.AI;
 
 namespace RandomChance
 {
-    [HarmonyPatch]
+    /*[HarmonyPatch]
     public static class ToilsRecipeDoRecipeWork_Transpiler
     {
         public static IEnumerable<MethodBase> TargetMethods()
         {
-            MethodInfo targetMethod = typeof(Toils_Recipe).GetNestedTypes(AccessTools.all).SelectMany(innerType => AccessTools.GetDeclaredMethods(innerType))
-                    .FirstOrDefault(method => method.Name.Contains("<DoRecipeWork>b__1") && method.ReturnType == typeof(void));
+            MethodInfo targetMethod = typeof(Toils_Recipe)
+                .GetNestedTypes(AccessTools.all)
+                .SelectMany(AccessTools.GetDeclaredMethods)
+                    .FirstOrDefault(method => method.Name.Contains("<DoRecipeWork>b__1") && 
+                                              method.ReturnType == typeof(void));
             yield return targetMethod;
         }
-
+        
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             MethodInfo target = AccessTools.Method(typeof(IBillGiverWithTickAction), "UsedThisTick");
-            MethodBase addition = AccessTools.Method(typeof(ToilsRecipeDoRecipeWork_Transpiler), nameof(TryGiveRandomFailure));
+            MethodBase addition = AccessTools.Method(typeof(ToilsRecipeDoRecipeWork_Transpiler), 
+                nameof(TryGiveRandomFailure));
 
             foreach (CodeInstruction instruction in instructions)
             {
@@ -37,11 +41,10 @@ namespace RandomChance
                     yield return new CodeInstruction(OpCodes.Ldloc_2); // Load 'jobDriver' onto the stack
                     yield return new CodeInstruction(OpCodes.Ldloc_S, 7); // Load 'building' onto the stack
                     yield return new CodeInstruction(OpCodes.Call, addition); // Call the TryGiveRandomFailure method
-                    continue;
                 }
             }
         }
-
+        
         public static void TryGiveRandomFailure(Pawn actor, Job curJob, JobDriver_DoBill jobDriver, Building_WorkTable building)
         {
             if (actor.IsColonyMech || RCDefOf.RC_ConfigCurves == null || actor.RaceProps.Animal) return;
@@ -99,5 +102,5 @@ namespace RandomChance
                 }
             }
         }
-    }
+    }*/
 }

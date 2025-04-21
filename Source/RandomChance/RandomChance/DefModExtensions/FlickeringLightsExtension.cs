@@ -1,7 +1,9 @@
+using JetBrains.Annotations;
 using Verse;
 
 namespace RandomChance
 {
+    [UsedImplicitly]
     public class FlickeringLightsExtension : DefModExtension
     {
         public int flickerDuration = 2000;

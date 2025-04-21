@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using Verse;
 
 namespace RandomChance
 {
+    [UsedImplicitly]
     public class ConfigCurvesDef : Def
     {
         public SimpleCurve powerArmorInjuryCurve;

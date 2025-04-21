@@ -15,10 +15,10 @@ namespace RandomChance
         private bool _onCooldown;
         private int _cooldownTicks;
         private int _lastUpdate;
-        private Dictionary<Room, int> _roomFilthCounters = new();
-
+        private readonly Dictionary<Room, int> _roomFilthCounters = new();
+        
         public MapComponent_CheckFilthyRooms(Map map) : base(map) { }
-
+        
         public override void MapComponentTick()
         {
             base.MapComponentTick();
@@ -38,34 +38,30 @@ namespace RandomChance
                 AnimalSpawnerTick();
             }
         }
-
-        public override void ExposeData()
-        {
-            base.ExposeData();
-            Scribe_Values.Look(ref _cooldownTicks, "cooldownTicks");
-            Scribe_Values.Look(ref _onCooldown, "onCooldown");
-            Scribe_Values.Look(ref _lastUpdate, "lastUpdate");
-        }
-
+        
         private void AnimalSpawnerTick()
         {
             // Create a list to track rooms that need their counters reset
             // We do this to avoid updating our dictionary while iterating through it
             // Otherwise... kablooy
-            List<Room> roomsToReset = new();
+            List<Room> roomsToReset = [];
 
             // Iterate through each SEPARATE room in the home area
-            foreach (Room room in map.areaManager.Home.ActiveCells.Select(cell => cell.GetRoom(map)).Distinct())
+            foreach (Room room in map.areaManager.Home.ActiveCells
+                         .Select(cell => cell.GetRoom(map)).Distinct())
             {
-                if (room == null || room.CellCount <= 0 || !room.ProperRoom || room.OpenRoofCount != 0) continue;
+                if (room is not { CellCount: > 0 } || 
+                    !room.ProperRoom || 
+                    room.OpenRoofCount != 0) continue;
+                
                 // Get the filth counter for this room, initialize it if it doesn't exist yet
                 if (!_roomFilthCounters.TryGetValue(room, out int roomFilthCounter))
                 {
                     roomFilthCounter = 0;
                 }
-
+                
                 int totalFilthInRoom = RCMapUtil.CalculateRoomDirtiness(room, map);
-
+                
                 // Check if the room is dirty enough
                 if (totalFilthInRoom > RCSettings.FilthyRoomSpawnThreshold)
                 {
@@ -77,7 +73,7 @@ namespace RandomChance
                     // Decrement the filth counter for this room (with a lower limit of 0) if it isn't
                     roomFilthCounter = Mathf.Max(0, roomFilthCounter - 1);
                 }
-
+                
                 // Update the filth counter for this room
                 _roomFilthCounters[room] = roomFilthCounter;
 
@@ -87,19 +83,20 @@ namespace RandomChance
                     roomsToReset.Add(room);
                 }
             }
-
+            
             // Reset the counters for rooms that need it
             foreach (Room room in roomsToReset)
             {
                 RCSpawningUtil.SpawnFilthyRats(room, RCSettings.FilthyRoomPestSpawnRange.RandomInRange, map);
                 _roomFilthCounters[room] = 0;
-
+                
                 if (RCSettings.AllowMessages)
                 {
-                    Messages.Message("RC_DirtyRoomsAndFilthyRats".Translate(), null, MessageTypeDefOf.NeutralEvent);
+                    Messages.Message("RC_DirtyRoomsAndFilthyRats"
+                        .Translate(), null, MessageTypeDefOf.NeutralEvent);
                 }
             }
-
+            
             if (roomsToReset.Any())
             {
                 _onCooldown = true;
@@ -107,6 +104,14 @@ namespace RandomChance
             }
             
             _lastUpdate = Find.TickManager.TicksAbs;
+        }
+        
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref _cooldownTicks, "cooldownTicks");
+            Scribe_Values.Look(ref _onCooldown, "onCooldown");
+            Scribe_Values.Look(ref _lastUpdate, "lastUpdate");
         }
     }
 }
